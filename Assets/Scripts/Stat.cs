@@ -6,9 +6,14 @@ using UnityEngine.UI;
 public class Stat : MonoBehaviour
 {
     /// <summary>
-    /// Reference to the image component in editor
+    /// Reference to the (mana, health bar ) image component in editor
     /// </summary>
     private Image content;
+
+    /// <summary>
+    /// Reference to the text component under image object
+    /// </summary>
+    [SerializeField] private Text statValue;
 
     /// <summary>
     /// Variable to hold the fill amount
@@ -41,20 +46,27 @@ public class Stat : MonoBehaviour
         }
         set
         {
+            // Makes sure that max stat value is never exceded
             if(value > MMaxValue)
             {
                 currentValue = MMaxValue;
             }
+            // Makes sure that stat does not drop below 0
             else if (value < 0)
             {
                 currentValue = 0;
             }
+            // makes sure that stat is within 0 and max
             else
             {
                 currentValue = value;
             }
 
+            // calculate currentFill for lerping
             currentFill = currentValue / MMaxValue;
+
+            // handles text display
+            statValue.text = currentValue + " / " + MMaxValue;
         }
     }
 

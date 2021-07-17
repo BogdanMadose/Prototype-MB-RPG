@@ -14,49 +14,82 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     protected Vector2 direction;
 
+    private Rigidbody2D rb;
+
     /// <summary>
     /// Variable to hold the animator component of each character
     /// </summary>
-    private Animator animator;
+    private Animator mAnimator;
+
+    /// <summary>
+    /// Returns 0 if character is not, 1 if character moves
+    /// </summary>
+    public bool IsMoving
+    {
+        get
+        {
+            return direction.x != 0 || direction.y != 0;
+        }
+    }
 
     protected virtual void Start()
     {
-        animator = GetComponent<Animator>(); 
+        rb = GetComponent<Rigidbody2D>();
+        mAnimator = GetComponent<Animator>(); 
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        HandleLayers();
+    }
+
+    private void FixedUpdate()
+    {
         Move();
     }
 
     /// <summary>
-    /// Handles all character's movements and animations
+    /// Handles all character's movements
     /// </summary>
     public void Move()
     {
-        transform.Translate(direction.normalized * speed * Time.deltaTime);
-        if (direction.x != 0 || direction.y != 0)
+        rb.velocity = direction.normalized * speed;
+    }
+
+    /// <summary>
+    /// Handles animation transitions
+    /// </summary>
+    public void HandleLayers()
+    {
+        if (IsMoving)
         {
-            AnimateMovement(direction);
+            // activate walking animation layer
+            ActivateLayer("WalkLayer");
+
+            mAnimator.SetFloat("X", direction.x);
+            mAnimator.SetFloat("Y", direction.y);
         }
         else
         {
             // if character is not moving set the walking layer back to 0 (off)
-            animator.SetLayerWeight(1, 0);
+            ActivateLayer("IdleLayer");
         }
     }
 
     /// <summary>
-    /// Controls the animation transitions for characters on given Vector2 direction 
+    /// Handles animation state layers 
     /// </summary>
-    /// <param name="direction"> x - horizontal, y - vertical </param>
-    public void AnimateMovement(Vector2 direction)
+    /// <param name="layerName">layer that needs to be activated</param>
+    public void ActivateLayer(string layerName)
     {
-        // activate walking animation layer
-        animator.SetLayerWeight(1, 1);
+        // loops through all current layers and sets them all to 0
+        for (int i = 0; i < mAnimator.layerCount; i++)
+        {
+            mAnimator.SetLayerWeight(i, 0);
+        }
 
-        animator.SetFloat("X", direction.x);
-        animator.SetFloat("Y", direction.y);
+        // sets desired layer to active
+        mAnimator.SetLayerWeight(mAnimator.GetLayerIndex(layerName), 1);
     }
 }

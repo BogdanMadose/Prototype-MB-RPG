@@ -21,6 +21,11 @@ public class Player : Character
     /// </summary>
     [SerializeField] private float initMana;
 
+    /// <summary>
+    /// Array that will hold spawned prefabs for projectile spells
+    /// </summary>
+    [SerializeField] private GameObject[] spellPrefab;
+
     protected override void Start()
     {
         // Initializing health and mana to values assigned in Editor
@@ -89,7 +94,10 @@ public class Player : Character
         // attack / cast
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            attackRoutine = StartCoroutine(Attack());
+            if (!isAttacking && !IsMoving) //check if able to attack
+            {
+                attackRoutine = StartCoroutine(Attack());
+            }
         }
     }
 
@@ -99,14 +107,20 @@ public class Player : Character
     /// <returns>After x seconds stops attack coroutine</returns>
     private IEnumerator Attack()
     {
-        if (!isAttacking && !IsMoving)
-        {
-            isAttacking = true;
-            mAnimator.SetBool("attack", isAttacking);
+        isAttacking = true;
+        mAnimator.SetBool("attack", isAttacking);
 
-            yield return new WaitForSeconds(5); // DEBUGGING
-            Debug.Log("attacked");
-            StopAttack();          
-        }
+        yield return new WaitForSeconds(1); // DEBUGGING
+        CastSpell();
+
+        StopAttack();    // end attack 
+    }
+
+    /// <summary>
+    /// Cast Spell
+    /// </summary>
+    public void CastSpell()
+    {
+        Instantiate(spellPrefab[0], transform.position, Quaternion.identity);
     }
 }

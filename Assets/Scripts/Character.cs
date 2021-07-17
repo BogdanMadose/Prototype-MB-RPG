@@ -19,10 +19,20 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Variable to hold the animator component of each character
     /// </summary>
-    private Animator mAnimator;
+    protected Animator mAnimator;
 
     /// <summary>
-    /// Returns 0 if character is not, 1 if character moves
+    /// Says if a character is attacking or not // Default = false;
+    /// </summary>
+    protected bool isAttacking = false;
+
+    /// <summary>
+    /// Reference to attack coroutine
+    /// </summary>
+    protected Coroutine attackRoutine;
+
+    /// <summary>
+    /// Returns 0 if character is not moving, 1 if character moves
     /// </summary>
     public bool IsMoving
     {
@@ -69,6 +79,13 @@ public abstract class Character : MonoBehaviour
 
             mAnimator.SetFloat("X", direction.x);
             mAnimator.SetFloat("Y", direction.y);
+
+            StopAttack();
+        }
+        else if (isAttacking)
+        {
+            // activate attack animation layer
+            ActivateLayer("AttackLayer");
         }
         else
         {
@@ -91,5 +108,20 @@ public abstract class Character : MonoBehaviour
 
         // sets desired layer to active
         mAnimator.SetLayerWeight(mAnimator.GetLayerIndex(layerName), 1);
+    }
+
+    /// <summary>
+    /// Function to stop attacking.
+    /// 
+    /// Sets both animator bool and isAttacking to false and stops the attack coroutine
+    /// </summary>
+    public void StopAttack()
+    {
+        if(attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+            isAttacking = false;
+            mAnimator.SetBool("attack", isAttacking);
+        }
     }
 }

@@ -45,12 +45,14 @@ public class Player : Character
 
         // -----------DEBUGGING ---------------------
 
+        // decrease health and mana
         if (Input.GetKeyDown(KeyCode.I))
         {
             health.MCurrentValue -= 10;
             mana.MCurrentValue -= 10;
 
         }
+        // increase health and mana
         if (Input.GetKeyDown(KeyCode.O))
         {
             health.MCurrentValue += 10;
@@ -60,24 +62,51 @@ public class Player : Character
 
         // -----------------------------------------
 
+        // move up
         if (Input.GetKey(KeyCode.W))
         {
             direction += Vector2.up;
         }
 
+        // move left
         if (Input.GetKey(KeyCode.A))
         {
             direction += Vector2.left;
         }
 
+        // move down
         if (Input.GetKey(KeyCode.S))
         {
             direction += Vector2.down;
         }
 
+        // move right
         if (Input.GetKey(KeyCode.D))
         {
             direction += Vector2.right;
+        }
+
+        // attack / cast
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            attackRoutine = StartCoroutine(Attack());
+        }
+    }
+
+    /// <summary>
+    /// Starts an attack or cast event
+    /// </summary>
+    /// <returns>After x seconds stops attack coroutine</returns>
+    private IEnumerator Attack()
+    {
+        if (!isAttacking && !IsMoving)
+        {
+            isAttacking = true;
+            mAnimator.SetBool("attack", isAttacking);
+
+            yield return new WaitForSeconds(5); // DEBUGGING
+            Debug.Log("attacked");
+            StopAttack();          
         }
     }
 }

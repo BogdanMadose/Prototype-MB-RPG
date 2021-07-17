@@ -35,7 +35,7 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     public void Move()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        transform.Translate(direction.normalized * speed * Time.deltaTime);
         if (direction.x != 0 || direction.y != 0)
         {
             AnimateMovement(direction);

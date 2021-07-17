@@ -26,6 +26,16 @@ public class Player : Character
     /// </summary>
     [SerializeField] private GameObject[] spellPrefab;
 
+    /// <summary>
+    /// Array that holds the exact points from where casted spells start
+    /// </summary>
+    [SerializeField] private Transform[] exitPoints;
+
+    /// <summary>
+    /// exitPoints array index (Default = 2 ( facing down ))
+    /// </summary>
+    private int exitIndex = 2;
+
     protected override void Start()
     {
         // Initializing health and mana to values assigned in Editor
@@ -70,24 +80,28 @@ public class Player : Character
         // move up
         if (Input.GetKey(KeyCode.W))
         {
+            exitIndex = 0;
             direction += Vector2.up;
         }
 
         // move left
         if (Input.GetKey(KeyCode.A))
         {
+            exitIndex = 3;
             direction += Vector2.left;
         }
 
         // move down
         if (Input.GetKey(KeyCode.S))
         {
+            exitIndex = 2;
             direction += Vector2.down;
         }
 
         // move right
         if (Input.GetKey(KeyCode.D))
         {
+            exitIndex = 1;
             direction += Vector2.right;
         }
 
@@ -117,10 +131,10 @@ public class Player : Character
     }
 
     /// <summary>
-    /// Cast Spell
+    /// Cast Spell ( Instantiate spell projectile prefab )
     /// </summary>
     public void CastSpell()
     {
-        Instantiate(spellPrefab[0], transform.position, Quaternion.identity);
+        Instantiate(spellPrefab[0], exitPoints[exitIndex].position, Quaternion.identity);
     }
 }

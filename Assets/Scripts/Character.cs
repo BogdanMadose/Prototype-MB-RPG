@@ -36,7 +36,15 @@ public abstract class Character : MonoBehaviour
     public void Move()
     {
         transform.Translate(direction * speed * Time.deltaTime);
-        AnimateMovement(direction);
+        if (direction.x != 0 || direction.y != 0)
+        {
+            AnimateMovement(direction);
+        }
+        else
+        {
+            // if character is not moving set the walking layer back to 0 (off)
+            animator.SetLayerWeight(1, 0);
+        }
     }
 
     /// <summary>
@@ -45,6 +53,9 @@ public abstract class Character : MonoBehaviour
     /// <param name="direction"> x - horizontal, y - vertical </param>
     public void AnimateMovement(Vector2 direction)
     {
+        // activate walking animation layer
+        animator.SetLayerWeight(1, 1);
+
         animator.SetFloat("X", direction.x);
         animator.SetFloat("Y", direction.y);
     }

@@ -19,7 +19,7 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     private Animator animator;
 
-    private void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>(); 
     }

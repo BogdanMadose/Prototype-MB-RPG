@@ -53,7 +53,6 @@ public abstract class Character : MonoBehaviour
         mAnimator = GetComponent<Animator>(); 
     }
 
-    // Update is called once per frame
     protected virtual void Update()
     {
         HandleLayers();
@@ -80,7 +79,6 @@ public abstract class Character : MonoBehaviour
     {
         if (IsMoving)
         {
-            // activate walking animation layer
             ActivateLayer("WalkLayer");
 
             mAnimator.SetFloat("X", direction.x);
@@ -90,12 +88,10 @@ public abstract class Character : MonoBehaviour
         }
         else if (isAttacking)
         {
-            // activate attack animation layer
             ActivateLayer("AttackLayer");
         }
         else
         {
-            // if character is not moving set the walking layer back to 0 (off)
             ActivateLayer("IdleLayer");
         }
     }
@@ -106,13 +102,11 @@ public abstract class Character : MonoBehaviour
     /// <param name="layerName">layer that needs to be activated</param>
     public void ActivateLayer(string layerName)
     {
-        // loops through all current layers and sets them all to 0
         for (int i = 0; i < mAnimator.layerCount; i++)
         {
             mAnimator.SetLayerWeight(i, 0);
         }
 
-        // sets desired layer to active
         mAnimator.SetLayerWeight(mAnimator.GetLayerIndex(layerName), 1);
     } 
 

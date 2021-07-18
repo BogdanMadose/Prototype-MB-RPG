@@ -42,28 +42,22 @@ public class Player : Character
     private int exitIndex = 2; 
     #endregion
 
-    // TESTING DEBUGGING
-    private Transform target; 
+    /// <summary>
+    /// Reference to clickable target
+    /// </summary>
+    public Transform MTarget { get; set; }
 
     protected override void Start()
     {
-        // Initializing health and mana to values assigned in Editor
         health.Initialize(initHealth, initHealth);
         mana.Initialize(initMana, initMana);
-
-        target = GameObject.Find("Target").transform; 
 
         base.Start();
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         GetInput();
-
-        // Get "Block" actual true layer mask
-        // Debug.Log(LayerMask.GetMask("Block"));
-
         base.Update();
     }
 
@@ -124,10 +118,9 @@ public class Player : Character
         // attack / cast
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Raycast blockers will be activated oposite the player facing direction
             BlockView();
 
-            if (!isAttacking && !IsMoving && InLineOfSight()) //check if able to attack and in sight
+            if (MTarget != null && !isAttacking && !IsMoving && InLineOfSight())
             {
                 attackRoutine = StartCoroutine(Attack());
             }
@@ -144,10 +137,10 @@ public class Player : Character
         isAttacking = true;
         mAnimator.SetBool("attack", isAttacking);
 
-        yield return new WaitForSeconds(1); // Not final value, hardcoded value
-        CastSpell();      // cast spell
+        yield return new WaitForSeconds(1);
+        CastSpell();
 
-        StopAttack();    // end attack 
+        StopAttack();
     }
 
     /// <summary>
@@ -167,11 +160,8 @@ public class Player : Character
     /// </returns>
     private bool InLineOfSight()
     {
-        // Calculate direction towards target
-        Vector3 targetDirection = (target.transform.position - transform.position).normalized;
-
-        // Raycasting from player to targeted object only on world layer 256
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, target.transform.position), 256);
+        Vector3 targetDirection = (MTarget.transform.position - transform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, MTarget.transform.position), 256);
 
         if (hit.collider == null)
         {
@@ -191,7 +181,6 @@ public class Player : Character
             b.Deactivate();
         }
 
-        // activate 2 at a time based on cardinal directions from exitIndex
         blocks[exitIndex].Activate();
     } 
     #endregion

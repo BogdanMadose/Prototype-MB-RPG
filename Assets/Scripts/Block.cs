@@ -18,13 +18,12 @@ public class Block
     /// Invisible raycast blocker bottom
     /// </summary>
     [SerializeField] private GameObject second;
-
-    /// <summary>
-    /// Deactivate raycast blockers
-    /// </summary>
     #endregion
 
     #region Methods
+    /// <summary>
+    /// Deactivate raycast blockers
+    /// </summary>
     public void Deactivate()
     {
         first.SetActive(false);

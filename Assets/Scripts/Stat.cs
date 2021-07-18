@@ -49,38 +49,30 @@ public class Stat : MonoBehaviour
         }
         set
         {
-            // Makes sure that max stat value is never exceded
             if (value > MMaxValue)
             {
                 currentValue = MMaxValue;
             }
-            // Makes sure that stat does not drop below 0
             else if (value < 0)
             {
                 currentValue = 0;
             }
-            // makes sure that stat is within 0 and max
             else
             {
                 currentValue = value;
             }
 
-            // calculate currentFill for lerping
             currentFill = currentValue / MMaxValue;
-
-            // handles text display
             statValue.text = currentValue + " / " + MMaxValue;
         }
     } 
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         content = GetComponent<Image>();    
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Lerp functionality for smooth UI graphic transitions

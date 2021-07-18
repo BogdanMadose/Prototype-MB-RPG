@@ -22,11 +22,6 @@ public class Player : Character
     [SerializeField] private float initMana;
 
     /// <summary>
-    /// Array that will hold spawned prefabs for projectile spells
-    /// </summary>
-    [SerializeField] private GameObject[] spellPrefab;
-
-    /// <summary>
     /// Array that holds the exact points from where casted spells start
     /// </summary>
     [SerializeField] private Transform[] exitPoints;
@@ -39,7 +34,9 @@ public class Player : Character
     /// <summary>
     /// exitPoints array index (Default = 2 ( facing down [South])) (cardinal directions)
     /// </summary>
-    private int exitIndex = 2; 
+    private int exitIndex = 2;
+
+    private SpellBook spellBook;
     #endregion
 
     /// <summary>
@@ -49,6 +46,7 @@ public class Player : Character
 
     protected override void Start()
     {
+        spellBook = GetComponent<SpellBook>();
         health.Initialize(initHealth, initHealth);
         mana.Initialize(initMana, initMana);
 
@@ -124,11 +122,12 @@ public class Player : Character
     /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
     private IEnumerator Attack(int spellIndex)
     {
+        Spell newSpell = spellBook.CastSpell(spellIndex);
         isAttacking = true;
         mAnimator.SetBool("attack", isAttacking);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(newSpell.MCastTime);
 
-        Spell spell = Instantiate(spellPrefab[spellIndex], exitPoints[exitIndex].position, Quaternion.identity).GetComponent<Spell>();
+        SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
         spell.MTarget = MTarget;
         StopAttack();
     }
@@ -178,6 +177,12 @@ public class Player : Character
         }
 
         blocks[exitIndex].Activate();
-    } 
+    }
+
+    public override void StopAttack()
+    {
+        spellBook.StopCasting();
+        base.StopAttack();
+    }
     #endregion
 }

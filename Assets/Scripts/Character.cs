@@ -115,13 +115,14 @@ public abstract class Character : MonoBehaviour
     /// 
     /// <para>Sets both animator bool and isAttacking to false and stops the attack coroutine</para>
     /// </summary>
-    public void StopAttack()
+    public virtual void StopAttack()
     {
-        if(attackRoutine != null)
+        isAttacking = false;
+        mAnimator.SetBool("attack", isAttacking);
+
+        if (attackRoutine != null)
         {
             StopCoroutine(attackRoutine);
-            isAttacking = false;
-            mAnimator.SetBool("attack", isAttacking);
         }
     }
     #endregion

@@ -1,15 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Character
 {
+    #region Variables
     /// <summary>
     /// Component reference to player health
     /// </summary>
     [SerializeField] private Stat health;
     /// <summary>
-    /// component reference to player mana
+    /// Component reference to player mana
     /// </summary>
     [SerializeField] private Stat mana;
     /// <summary>
@@ -32,15 +32,27 @@ public class Player : Character
     [SerializeField] private Transform[] exitPoints;
 
     /// <summary>
-    /// exitPoints array index (Default = 2 ( facing down ))
+    /// Holds the physical invisible raycaster objects
     /// </summary>
-    private int exitIndex = 2;
+    [SerializeField] private Block[] blocks;
+
+    /// <summary>
+    /// exitPoints array index (Default = 2 ( facing down [South])) (cardinal directions)
+    /// </summary>
+    private int exitIndex = 2; 
+    #endregion
+
+    // TESTING DEBUGGING
+    private Transform target; 
 
     protected override void Start()
     {
         // Initializing health and mana to values assigned in Editor
         health.Initialize(initHealth, initHealth);
         mana.Initialize(initMana, initMana);
+
+        target = GameObject.Find("Target").transform; 
+
         base.Start();
     }
 
@@ -48,6 +60,10 @@ public class Player : Character
     protected override void Update()
     {
         GetInput();
+
+        // Get "Block" actual true layer mask
+        // Debug.Log(LayerMask.GetMask("Block"));
+
         base.Update();
     }
 
@@ -61,19 +77,19 @@ public class Player : Character
         // -----------DEBUGGING ---------------------
 
         // decrease health and mana
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            health.MCurrentValue -= 10;
-            mana.MCurrentValue -= 10;
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+        //    health.MCurrentValue -= 10;
+        //    mana.MCurrentValue -= 10;
 
-        }
+        //}
         // increase health and mana
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            health.MCurrentValue += 10;
-            mana.MCurrentValue += 10;
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    health.MCurrentValue += 10;
+        //    mana.MCurrentValue += 10;
 
-        }
+        //}
 
         // -----------------------------------------
 
@@ -108,24 +124,28 @@ public class Player : Character
         // attack / cast
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!isAttacking && !IsMoving) //check if able to attack
+            // Raycast blockers will be activated oposite the player facing direction
+            BlockView();
+
+            if (!isAttacking && !IsMoving && InLineOfSight()) //check if able to attack and in sight
             {
                 attackRoutine = StartCoroutine(Attack());
             }
         }
     }
 
+    #region Attack & Cast Spell Functionality
     /// <summary>
     /// Starts an attack or cast event
     /// </summary>
-    /// <returns>After x seconds stops attack coroutine</returns>
+    /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
     private IEnumerator Attack()
     {
         isAttacking = true;
         mAnimator.SetBool("attack", isAttacking);
 
-        yield return new WaitForSeconds(1); // DEBUGGING
-        CastSpell();
+        yield return new WaitForSeconds(1); // Not final value, hardcoded value
+        CastSpell();      // cast spell
 
         StopAttack();    // end attack 
     }
@@ -137,4 +157,42 @@ public class Player : Character
     {
         Instantiate(spellPrefab[0], exitPoints[exitIndex].position, Quaternion.identity);
     }
+
+    /// <summary>
+    /// Check if targeted object is visible to the player
+    /// </summary>
+    /// <returns>
+    /// <para>TRUE - if visible (raycast blockers are not in sight)</para>
+    /// <para>FALSE - if not visible (raycast blockers are in sight blocking the view)</para>
+    /// </returns>
+    private bool InLineOfSight()
+    {
+        // Calculate direction towards target
+        Vector3 targetDirection = (target.transform.position - transform.position).normalized;
+
+        // Raycasting from player to targeted object only on world layer 256
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, target.transform.position), 256);
+
+        if (hit.collider == null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Function which deactivates all raycast blockers, then activates them according to the direction the player is facing
+    /// </summary>
+    private void BlockView()
+    {
+        foreach (Block b in blocks)
+        {
+            b.Deactivate();
+        }
+
+        // activate 2 at a time based on cardinal directions from exitIndex
+        blocks[exitIndex].Activate();
+    } 
+    #endregion
 }

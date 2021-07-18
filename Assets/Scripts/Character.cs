@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    #region Variables
     /// <summary>
     /// Variable to hold the speed at which every character moves
     /// </summary>
@@ -14,6 +15,9 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     protected Vector2 direction;
 
+    /// <summary>
+    /// Character physics reference
+    /// </summary>
     private Rigidbody2D rb;
 
     /// <summary>
@@ -29,7 +33,8 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Reference to attack coroutine
     /// </summary>
-    protected Coroutine attackRoutine;
+    protected Coroutine attackRoutine; 
+    #endregion
 
     /// <summary>
     /// Returns 0 if character is not moving, 1 if character moves
@@ -67,6 +72,7 @@ public abstract class Character : MonoBehaviour
         rb.velocity = direction.normalized * speed;
     }
 
+    #region Animation Handlers
     /// <summary>
     /// Handles animation transitions
     /// </summary>
@@ -108,12 +114,12 @@ public abstract class Character : MonoBehaviour
 
         // sets desired layer to active
         mAnimator.SetLayerWeight(mAnimator.GetLayerIndex(layerName), 1);
-    }
+    } 
 
     /// <summary>
     /// Function to stop attacking.
     /// 
-    /// Sets both animator bool and isAttacking to false and stops the attack coroutine
+    /// <para>Sets both animator bool and isAttacking to false and stops the attack coroutine</para>
     /// </summary>
     public void StopAttack()
     {
@@ -124,4 +130,5 @@ public abstract class Character : MonoBehaviour
             mAnimator.SetBool("attack", isAttacking);
         }
     }
+    #endregion
 }

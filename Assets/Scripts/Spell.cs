@@ -16,12 +16,6 @@ public class Spell : MonoBehaviour
         target = GameObject.Find("Target").transform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         // Hardcoded debug purposes

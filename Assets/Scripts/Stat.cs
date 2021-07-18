@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Stat : MonoBehaviour
 {
+    #region Variables
     /// <summary>
     /// Reference to the (mana, health bar ) image component in editor
     /// </summary>
@@ -29,7 +30,9 @@ public class Stat : MonoBehaviour
     /// Lerp speed for display purposes, can be changed in editor
     /// </summary>
     [SerializeField] private float lerpSpeed;
+    #endregion
 
+    #region Properties
     /// <summary>
     /// Property to get and set the max allowed value (eg.: maxHealth, maxMana)
     /// </summary>
@@ -47,7 +50,7 @@ public class Stat : MonoBehaviour
         set
         {
             // Makes sure that max stat value is never exceded
-            if(value > MMaxValue)
+            if (value > MMaxValue)
             {
                 currentValue = MMaxValue;
             }
@@ -68,7 +71,8 @@ public class Stat : MonoBehaviour
             // handles text display
             statValue.text = currentValue + " / " + MMaxValue;
         }
-    }
+    } 
+    #endregion
 
     // Start is called before the first frame update
     void Start()

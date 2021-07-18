@@ -114,41 +114,36 @@ public class Player : Character
             exitIndex = 1;
             direction += Vector2.right;
         }
-
-        // attack / cast
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            BlockView();
-
-            if (MTarget != null && !isAttacking && !IsMoving && InLineOfSight())
-            {
-                attackRoutine = StartCoroutine(Attack());
-            }
-        }
     }
 
     #region Attack & Cast Spell Functionality
     /// <summary>
     /// Starts an attack or cast event
     /// </summary>
+    /// /// <param name="spellIndex">Number of the spell selected</param>
     /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
-    private IEnumerator Attack()
+    private IEnumerator Attack(int spellIndex)
     {
         isAttacking = true;
         mAnimator.SetBool("attack", isAttacking);
-
         yield return new WaitForSeconds(1);
-        CastSpell();
 
+        Instantiate(spellPrefab[spellIndex], exitPoints[exitIndex].position, Quaternion.identity);
         StopAttack();
     }
 
     /// <summary>
     /// Cast Spell ( Instantiate spell projectile prefab )
     /// </summary>
-    public void CastSpell()
+    /// /// <param name="spellIndex">Number of the spell selected</param>
+    public void CastSpell(int spellIndex)
     {
-        Instantiate(spellPrefab[0], exitPoints[exitIndex].position, Quaternion.identity);
+        BlockView();
+
+        if (MTarget != null && !isAttacking && !IsMoving && InLineOfSight())
+        {
+            attackRoutine = StartCoroutine(Attack(spellIndex));
+        }
     }
 
     /// <summary>

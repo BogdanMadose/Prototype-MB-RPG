@@ -128,7 +128,8 @@ public class Player : Character
         mAnimator.SetBool("attack", isAttacking);
         yield return new WaitForSeconds(1);
 
-        Instantiate(spellPrefab[spellIndex], exitPoints[exitIndex].position, Quaternion.identity);
+        Spell spell = Instantiate(spellPrefab[spellIndex], exitPoints[exitIndex].position, Quaternion.identity).GetComponent<Spell>();
+        spell.MTarget = MTarget;
         StopAttack();
     }
 

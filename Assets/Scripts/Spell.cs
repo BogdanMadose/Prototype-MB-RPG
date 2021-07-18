@@ -6,25 +6,36 @@ public class Spell : MonoBehaviour
 {
     private Rigidbody2D mRigidBody;
     [SerializeField] private float speed;
-    private Transform target;
+    public Transform MTarget { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
         mRigidBody = GetComponent<Rigidbody2D>();
-
-        // Hardcoded debug purposes
-        target = GameObject.Find("Target").transform;
     }
 
     private void FixedUpdate()
     {
-        // Hardcoded debug purposes
-        Vector2 direction = target.position - transform.position;
+        if (MTarget !=null)
+        {
+            // Hardcoded debug purposes
+            Vector2 direction = MTarget.position - transform.position;
 
-        mRigidBody.velocity = direction.normalized * speed;
+            mRigidBody.velocity = direction.normalized * speed;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "HitBox" && collision.transform == MTarget)
+        {
+            GetComponent<Animator>().SetTrigger("Impact");
+            mRigidBody.velocity = Vector2.zero;
+            MTarget = null;
+        }
     }
 }

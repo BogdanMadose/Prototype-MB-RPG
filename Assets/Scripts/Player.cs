@@ -122,13 +122,19 @@ public class Player : Character
     /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
     private IEnumerator Attack(int spellIndex)
     {
+        Transform currentTarget = MTarget;
+
         Spell newSpell = spellBook.CastSpell(spellIndex);
         isAttacking = true;
         mAnimator.SetBool("attack", isAttacking);
         yield return new WaitForSeconds(newSpell.MCastTime);
 
-        SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
-        spell.MTarget = MTarget;
+        if (currentTarget != null && InLineOfSight())
+        {
+            SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
+            spell.MTarget = currentTarget;
+        }
+
         StopAttack();
     }
 

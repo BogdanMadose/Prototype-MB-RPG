@@ -31,9 +31,12 @@ public class GameManager : MonoBehaviour
 
                 currentTarget = hit.collider.GetComponent<NPC>();
                 player.MTarget = currentTarget.Select();
+                UIManager.MInstance.ShowTargetFrame(currentTarget);
             }
             else
             {
+                UIManager.MInstance.HideTargetFrame();
+
                 if (currentTarget != null)
                 {
                     currentTarget.Deselect();

@@ -93,7 +93,12 @@ public class Stat : MonoBehaviour
     /// <param name="maxValue">Maximum value of x stat</param>
     public void Initialize(float currentValue, float maxValue)
     {
+        if (content == null)
+        {
+            content = GetComponent<Image>();
+        }
         MMaxValue = maxValue;
         MCurrentValue = currentValue;
+        content.fillAmount = MCurrentValue / MMaxValue;
     }
 }

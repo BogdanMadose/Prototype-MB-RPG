@@ -44,7 +44,7 @@ public abstract class Character : MonoBehaviour
 
     [SerializeField] protected Transform hitBox;
 
-    [SerializeField] protected Stat health;
+    [SerializeField] private Stat health;
     #endregion
 
     /// <summary>
@@ -58,9 +58,11 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    public Stat MHealth { get => health; }
+
     protected virtual void Start()
     {
-        health.Initialize(initHealth, initHealth);
+        MHealth.Initialize(initHealth, initHealth);
         rb = GetComponent<Rigidbody2D>();
         mAnimator = GetComponent<Animator>(); 
     }
@@ -141,9 +143,9 @@ public abstract class Character : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        health.MCurrentValue -= damage;
+        MHealth.MCurrentValue -= damage;
 
-        if (health.MCurrentValue <= 0)
+        if (MHealth.MCurrentValue <= 0)
         {
             mAnimator.SetTrigger("die");
         }

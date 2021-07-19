@@ -63,7 +63,11 @@ public class Stat : MonoBehaviour
             }
 
             currentFill = currentValue / MMaxValue;
-            statValue.text = currentValue + " / " + MMaxValue;
+
+            if (statValue != null)
+            {
+                statValue.text = currentValue + " / " + MMaxValue;
+            }        
         }
     } 
     #endregion

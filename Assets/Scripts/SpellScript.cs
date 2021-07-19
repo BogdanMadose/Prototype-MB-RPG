@@ -6,7 +6,8 @@ public class SpellScript : MonoBehaviour
 {
     private Rigidbody2D mRigidBody;
     [SerializeField] private float speed;
-    public Transform MTarget { get; set; }
+    private int damage;
+    public Transform MTarget { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +30,18 @@ public class SpellScript : MonoBehaviour
         }
     }
 
+    public void Initialize(Transform target, int damage)
+    {
+        this.MTarget = target;
+        this.damage = damage;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "HitBox" && collision.transform == MTarget)
         {
+            speed = 0;
+            collision.GetComponentInParent<Enemy>().TakeDamage(damage);
             GetComponent<Animator>().SetTrigger("Impact");
             mRigidBody.velocity = Vector2.zero;
             MTarget = null;

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public abstract class Character : MonoBehaviour
 {
     #region Variables
@@ -33,7 +35,16 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Reference to attack coroutine
     /// </summary>
-    protected Coroutine attackRoutine; 
+    protected Coroutine attackRoutine;
+
+    /// <summary>
+    /// Initial allowed player health
+    /// </summary>
+    [SerializeField] private float initHealth;
+
+    [SerializeField] protected Transform hitBox;
+
+    [SerializeField] protected Stat health;
     #endregion
 
     /// <summary>
@@ -49,6 +60,7 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start()
     {
+        health.Initialize(initHealth, initHealth);
         rb = GetComponent<Rigidbody2D>();
         mAnimator = GetComponent<Animator>(); 
     }
@@ -126,4 +138,14 @@ public abstract class Character : MonoBehaviour
         }
     }
     #endregion
+
+    public virtual void TakeDamage(float damage)
+    {
+        health.MCurrentValue -= damage;
+
+        if (health.MCurrentValue <= 0)
+        {
+            mAnimator.SetTrigger("die");
+        }
+    }
 }

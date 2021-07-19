@@ -5,17 +5,10 @@ public class Player : Character
 {
     #region Variables
     /// <summary>
-    /// Component reference to player health
-    /// </summary>
-    [SerializeField] private Stat health;
-    /// <summary>
     /// Component reference to player mana
     /// </summary>
     [SerializeField] private Stat mana;
-    /// <summary>
-    /// Initial allowed player health
-    /// </summary>
-    [SerializeField] private float initHealth;
+
     /// <summary>
     /// Initial allowed player mana
     /// </summary>
@@ -47,7 +40,6 @@ public class Player : Character
     protected override void Start()
     {
         spellBook = GetComponent<SpellBook>();
-        health.Initialize(initHealth, initHealth);
         mana.Initialize(initMana, initMana);
 
         base.Start();
@@ -132,7 +124,7 @@ public class Player : Character
         if (currentTarget != null && InLineOfSight())
         {
             SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
-            spell.MTarget = currentTarget;
+            spell.Initialize(currentTarget, newSpell.MDamage);
         }
 
         StopAttack();
@@ -161,14 +153,16 @@ public class Player : Character
     /// </returns>
     private bool InLineOfSight()
     {
-        Vector3 targetDirection = (MTarget.transform.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, MTarget.transform.position), 256);
-
-        if (hit.collider == null)
+        if (MTarget != null)
         {
-            return true;
-        }
+            Vector3 targetDirection = (MTarget.transform.position - transform.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, MTarget.transform.position), 256);
 
+            if (hit.collider == null)
+            {
+                return true;
+            }
+        }
         return false;
     }
 

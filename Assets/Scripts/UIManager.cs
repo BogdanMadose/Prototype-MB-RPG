@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    private static UIManager instance;
-    [SerializeField] private Button[] actionButtons;
-
-    private KeyCode action1, action2, action3;
-
     [SerializeField] private GameObject targetFrame;
-    private Stat healthStat;
+    [SerializeField] private Button[] actionButtons;
     [SerializeField] private Image portraitFrame;
+    private KeyCode action1, action2, action3;
+    private Stat healthStat;
 
+    /// <summary>
+    /// Singleton instance for UIManager
+    /// </summary>
+    private static UIManager instance;
     public static UIManager MInstance 
     {
         get
@@ -53,11 +54,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Invoke onClick event for each key pressed
+    /// </summary>
+    /// <param name="buttonIndex">Key number</param>
     private void ActionButtonOnClick(int buttonIndex)
     {
         actionButtons[buttonIndex].onClick.Invoke();
     }
 
+    /// <summary>
+    /// Shows portrait frame of target
+    /// </summary>
+    /// <param name="target">Selected NPC</param>
     public void ShowTargetFrame(NPC target)
     {
         targetFrame.SetActive(true);
@@ -67,11 +76,18 @@ public class UIManager : MonoBehaviour
         target.npcRemoved += new NPCRemoved(HideTargetFrame);
     }
 
+    /// <summary>
+    /// Hides portrait frame of target
+    /// </summary>
     public void HideTargetFrame()
     {
         targetFrame.SetActive(false);
     }
 
+    /// <summary>
+    /// Update portrait health text of target
+    /// </summary>
+    /// <param name="health">Health value</param>
     public void UpdateTargetFrame(float health)
     {
         healthStat.MCurrentValue = health;

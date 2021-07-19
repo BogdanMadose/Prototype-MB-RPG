@@ -10,17 +10,33 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Variable to hold the speed at which every character moves
     /// </summary>
+    [Tooltip("Character movement speed (float value)")]
     [SerializeField] private float speed;
 
     /// <summary>
-    /// Variable to hold the direction in which every character moves
+    /// Initial allowed character health
     /// </summary>
-    protected Vector2 direction;
+    [Tooltip("Character initial health (float value)")]
+    [SerializeField] private float initHealth;
+
+    /// <summary>
+    /// Character health stat reference
+    /// </summary>
+    [Tooltip("Character health stat script")]
+    [SerializeField] private Stat health;
 
     /// <summary>
     /// Character physics reference
     /// </summary>
     private Rigidbody2D rb;
+
+    [Tooltip("Character HitBox")]
+    [SerializeField] protected Transform hitBox;
+
+    /// <summary>
+    /// Variable to hold the direction in which every character moves
+    /// </summary>
+    protected Vector2 direction;
 
     /// <summary>
     /// Variable to hold the animator component of each character
@@ -36,15 +52,6 @@ public abstract class Character : MonoBehaviour
     /// Reference to attack coroutine
     /// </summary>
     protected Coroutine attackRoutine;
-
-    /// <summary>
-    /// Initial allowed player health
-    /// </summary>
-    [SerializeField] private float initHealth;
-
-    [SerializeField] protected Transform hitBox;
-
-    [SerializeField] private Stat health;
     #endregion
 
     /// <summary>
@@ -141,6 +148,10 @@ public abstract class Character : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Handles damaging characters
+    /// </summary>
+    /// <param name="damage">Damage amount value</param>
     public virtual void TakeDamage(float damage)
     {
         MHealth.MCurrentValue -= damage;

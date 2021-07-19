@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get object from click
+    /// Handles selecting and deselecting of gameObjects
     /// </summary>
     private void ClickTarget()
     {

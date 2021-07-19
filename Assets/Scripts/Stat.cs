@@ -7,14 +7,14 @@ public class Stat : MonoBehaviour
 {
     #region Variables
     /// <summary>
-    /// Reference to the (mana, health bar ) image component in editor
-    /// </summary>
-    private Image content;
-
-    /// <summary>
     /// Reference to the text component under image object
     /// </summary>
     [SerializeField] private Text statValue;
+
+    /// <summary>
+    /// Lerp speed for display purposes, can be changed in editor
+    /// </summary>
+    [SerializeField] private float lerpSpeed;
 
     /// <summary>
     /// Variable to hold the fill amount
@@ -27,9 +27,9 @@ public class Stat : MonoBehaviour
     private float currentValue;
 
     /// <summary>
-    /// Lerp speed for display purposes, can be changed in editor
+    /// Reference to the (mana, health bar ) image component in editor
     /// </summary>
-    [SerializeField] private float lerpSpeed;
+    private Image content;
     #endregion
 
     #region Properties
@@ -97,6 +97,7 @@ public class Stat : MonoBehaviour
         {
             content = GetComponent<Image>();
         }
+
         MMaxValue = maxValue;
         MCurrentValue = currentValue;
         content.fillAmount = MCurrentValue / MMaxValue;

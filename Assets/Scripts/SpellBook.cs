@@ -14,18 +14,11 @@ public class SpellBook : MonoBehaviour
     private Coroutine spellRoutine;
     private Coroutine fadeRoutine;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Handles casting of spells functionality
+    /// </summary>
+    /// <param name="spellIndex">Spell number</param>
+    /// <returns>Type of spell at given number</returns>
     public Spell CastSpell(int spellIndex)
     {
         spellName.text = spells[spellIndex].MName;
@@ -38,6 +31,11 @@ public class SpellBook : MonoBehaviour
         return spells[spellIndex];
     }
 
+    /// <summary>
+    /// Handles cast time bar fill amount progress
+    /// </summary>
+    /// <param name="spellIndex">Spell number</param>
+    /// <returns>null - instant</returns>
     private IEnumerator BarProgress(int spellIndex)
     {
         float timePassed = Time.deltaTime;
@@ -62,6 +60,10 @@ public class SpellBook : MonoBehaviour
         StopCasting();
     }
 
+    /// <summary>
+    /// Casting bar fade in function
+    /// </summary>
+    /// <returns>null - instant</returns>
     private IEnumerator FadeBar()
     {
         float rate = 1.0f / 0.25f;
@@ -75,6 +77,9 @@ public class SpellBook : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hides casting bar when finished casting, or interrupted
+    /// </summary>
     public void StopCasting()
     {
         if (fadeRoutine != null)

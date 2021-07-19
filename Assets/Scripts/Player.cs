@@ -7,6 +7,7 @@ public class Player : Character
     /// <summary>
     /// Component reference to player mana
     /// </summary>
+    [Tooltip("Player mana")]
     [SerializeField] private Stat mana;
 
     /// <summary>
@@ -106,7 +107,6 @@ public class Player : Character
         }
     }
 
-    #region Attack & Cast Spell Functionality
     /// <summary>
     /// Starts an attack or cast event
     /// </summary>
@@ -184,5 +184,4 @@ public class Player : Character
         spellBook.StopCasting();
         base.StopAttack();
     }
-    #endregion
 }

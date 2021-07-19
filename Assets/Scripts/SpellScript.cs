@@ -30,6 +30,11 @@ public class SpellScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set how much damage a target takes
+    /// </summary>
+    /// <param name="target">Selected target</param>
+    /// <param name="damage">Damage value</param>
     public void Initialize(Transform target, int damage)
     {
         this.MTarget = target;

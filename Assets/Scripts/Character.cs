@@ -11,7 +11,7 @@ public abstract class Character : MonoBehaviour
     /// Variable to hold the speed at which every character moves
     /// </summary>
     [Tooltip("Character movement speed (float value)")]
-    [SerializeField] private float speed;
+    [SerializeField] protected float speed;
 
     /// <summary>
     /// Initial allowed character health

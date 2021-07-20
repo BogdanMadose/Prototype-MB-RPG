@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
+[Obsolete("Not used anymore, now generating map via TileMap Unity System", true)]
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Texture2D[] mapData;

@@ -31,6 +31,7 @@ public class Player : Character
     private int exitIndex = 2;
 
     private SpellBook spellBook;
+    private Vector3 min, max;
     #endregion
 
     /// <summary>
@@ -49,6 +50,7 @@ public class Player : Character
     protected override void Update()
     {
         GetInput();
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, min.x, max.x), Mathf.Clamp(transform.position.y, min.y, max.y), transform.position.z);
         base.Update();
     }
 
@@ -105,6 +107,12 @@ public class Player : Character
             exitIndex = 1;
             direction += Vector2.right;
         }
+    }
+
+    public void SetPlayerLimits(Vector3 min, Vector3 max)
+    {
+        this.min = min;
+        this.max = max;
     }
 
     /// <summary>

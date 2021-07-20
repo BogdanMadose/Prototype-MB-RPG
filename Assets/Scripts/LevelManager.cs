@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class LevelManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private MapElement[] mapElements;
     [SerializeField] private Sprite defaultTile;
     [SerializeField] private Transform map;
+    [SerializeField] private SpriteAtlas waterAtlas;
+
     private Dictionary<Point, GameObject> waterTiles = new Dictionary<Point, GameObject>();
 
     private Vector3 WorldStartPosition
@@ -76,6 +79,103 @@ public class LevelManager : MonoBehaviour
         foreach (KeyValuePair<Point, GameObject> tile in waterTiles)
         {
             string composition = TileCheck(tile.Key);
+
+            if (composition[1] == 'E' && composition[3] == 'W' && composition[4] == 'E' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("0");
+            }
+            if (composition[1] == 'W' && composition[3] == 'W' && composition[4] == 'E' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("1");
+            }
+            if (composition[1] == 'W' && composition[3] == 'W' && composition[4] == 'E' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("2");
+            }
+            if (composition[1] == 'E' && composition[3] == 'W' && composition[4] == 'W' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("3");
+            }
+            if (composition[1] == 'W' && composition[3] == 'W' && composition[4] == 'W' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("4");
+            }
+            if (composition[1] == 'E' && composition[3] == 'E' && composition[4] == 'W' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("5");
+            }
+            if (composition[1] == 'W' && composition[4] == 'W' && composition[3] == 'E' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("6");
+            }
+            if (composition[1] == 'W' && composition[3] == 'E' && composition[4] == 'W' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("7");
+            }
+            if (composition[1] == 'W' && composition[3] == 'E' && composition[4] == 'E' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("8");
+            }
+            if (composition[1] == 'E' && composition[3] == 'E' && composition[4] == 'E' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("9");
+            }
+            if (composition[1] == 'W' && composition[3] == 'E' && composition[4] == 'E' && composition[6] == 'W')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("10");
+            }
+            if (composition[1] == 'E' && composition[3] == 'W' && composition[4] == 'W' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("11");
+            }
+            if (composition[1] == 'E' && composition[3] == 'E' && composition[4] == 'W' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("12");
+            }
+            if (composition[1] == 'E' && composition[3] == 'W' && composition[4] == 'E' && composition[6] == 'E')
+            {
+                tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("13");
+            }
+            if (composition[3] == 'W' && composition[5] == 'E' && composition[6] == 'W')
+            {
+                GameObject go = Instantiate(tile.Value, tile.Value.transform.position, Quaternion.identity, map);
+                go.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("14");
+                go.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            }
+            if (composition[1] == 'W' && composition[2] == 'E' && composition[4] == 'W')
+            {
+                GameObject go = Instantiate(tile.Value, tile.Value.transform.position, Quaternion.identity, map);
+                go.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("15");
+                go.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            }
+            if (composition[4] == 'W' && composition[6] == 'W' && composition[7] == 'E')
+            {
+                GameObject go = Instantiate(tile.Value, tile.Value.transform.position, Quaternion.identity, map);
+                go.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("16");
+                go.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            }
+            if (composition[0] == 'E' && composition[1] == 'W' && composition[3] == 'W')
+            {
+                GameObject go = Instantiate(tile.Value, tile.Value.transform.position, Quaternion.identity, map);
+                go.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("17");
+                go.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            }
+            if (composition[1] == 'W' && composition[3] == 'W' && composition[4] == 'W' && composition[6] == 'W')
+            {
+                int randomTile = UnityEngine.Random.Range(0, 100);
+                if (randomTile < 15)
+                {
+                    tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("19");
+                }
+            }
+            if (composition[1] == 'W' && composition[2] == 'W' && composition[3] == 'W' && composition[4] == 'W' && composition[5] == 'W' && composition[6] == 'W')
+            {
+                int randomTile = UnityEngine.Random.Range(0, 100);
+                if (randomTile < 10)
+                {
+                    tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("20");
+                }
+            }
         }       
     }
 
@@ -105,7 +205,6 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log(composition);
         return composition;
     }
 }

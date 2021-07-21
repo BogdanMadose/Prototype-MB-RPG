@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject targetFrame;
-    [SerializeField] private Button[] actionButtons;
+    [SerializeField] private ActionButton[] actionButtons;
     [SerializeField] private Image portraitFrame;
-    private KeyCode action1, action2, action3;
+    [SerializeField] private CanvasGroup KeyBindMenu;
+    private GameObject[] keyBindButtons;
     private Stat healthStat;
 
     /// <summary>
@@ -25,40 +27,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         healthStat = targetFrame.GetComponentInChildren<Stat>();
-
-        action1 = KeyCode.Alpha1;
-        action2 = KeyCode.Alpha2;
-        action3 = KeyCode.Alpha3;
+        SetUsable(actionButtons[0], SpellBook.MInstance.GetSpell("Fireball"));
+        SetUsable(actionButtons[1], SpellBook.MInstance.GetSpell("Frostbolt"));
+        SetUsable(actionButtons[2], SpellBook.MInstance.GetSpell("Lightningbolt"));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(action1))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ActionButtonOnClick(0);
+            OpenCloseMenu();
         }
-        if (Input.GetKeyDown(action2))
-        {
-            ActionButtonOnClick(1);
-        }
-        if (Input.GetKeyDown(action3))
-        {
-            ActionButtonOnClick(2);
-        }
-    }
-
-    /// <summary>
-    /// Invoke onClick event for each key pressed
-    /// </summary>
-    /// <param name="buttonIndex">Key number</param>
-    private void ActionButtonOnClick(int buttonIndex)
-    {
-        actionButtons[buttonIndex].onClick.Invoke();
     }
 
     /// <summary>
@@ -89,5 +78,30 @@ public class UIManager : MonoBehaviour
     public void UpdateTargetFrame(float health)
     {
         healthStat.MCurrentValue = health;
+    }
+
+    public void OpenCloseMenu()
+    {
+        KeyBindMenu.alpha = KeyBindMenu.alpha > 0 ? 0 : 1;
+        KeyBindMenu.blocksRaycasts = KeyBindMenu.blocksRaycasts == true ? false : true;
+        Time.timeScale = Time.timeScale > 0 ? 0 : 1;
+    }
+
+    public void UpdateKeyText(string key, KeyCode keyCode)
+    {
+        Text tmp = Array.Find(keyBindButtons, x => x.name == key).GetComponentInChildren<Text>();
+        tmp.text = keyCode.ToString();
+    }
+
+    public void UseActionButton(string buttonName)
+    {
+        Array.Find(actionButtons, x => x.gameObject.name == buttonName).MButton.onClick.Invoke();
+    }
+
+    public void SetUsable(ActionButton btn, IUsable usable)
+    {
+        btn.MButton.image.sprite = usable.MIcon;
+        btn.MButton.image.color = Color.white;
+        btn.MUsable = usable;
     }
 }

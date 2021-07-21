@@ -3,6 +3,19 @@ using UnityEngine;
 
 public class Player : Character
 {
+    private static Player instance;
+    public static Player MInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Player>();
+            }
+            return instance;
+        }
+    }
+
     #region Variables
     /// <summary>
     /// Component reference to player mana
@@ -76,28 +89,28 @@ public class Player : Character
         // -----------------------------------------
 
         // move up
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["UP"]))
         {
             exitIndex = 0;
             MDirection += Vector2.up;
         }
 
         // move left
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["LEFT"]))
         {
             exitIndex = 3;
             MDirection += Vector2.left;
         }
 
         // move down
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["DOWN"]))
         {
             exitIndex = 2;
             MDirection += Vector2.down;
         }
 
         // move right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["RIGHT"]))
         {
             exitIndex = 1;
             MDirection += Vector2.right;
@@ -106,6 +119,14 @@ public class Player : Character
         if (IsMoving)
         {
             StopAttack();
+        }
+
+        foreach (string action in KeyBindManager.MInstance.ActionBinds.Keys)
+        {
+            if (Input.GetKeyDown(KeyBindManager.MInstance.ActionBinds[action]))
+            {
+                UIManager.MInstance.UseActionButton(action);
+            }
         }
     }
 
@@ -123,13 +144,13 @@ public class Player : Character
     /// <summary>
     /// Starts an attack or cast event
     /// </summary>
-    /// /// <param name="spellIndex">Number of the spell selected</param>
+    /// /// <param name="spellName">Name of the spell selected</param>
     /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
-    private IEnumerator Attack(int spellIndex)
+    private IEnumerator Attack(string spellName)
     {
         Transform currentTarget = MTarget;
 
-        Spell newSpell = spellBook.CastSpell(spellIndex);
+        Spell newSpell = spellBook.CastSpell(spellName);
         IsAttacking = true;
         MAnimator.SetBool("attack", IsAttacking);
         yield return new WaitForSeconds(newSpell.MCastTime);
@@ -146,14 +167,14 @@ public class Player : Character
     /// <summary>
     /// Cast Spell ( Instantiate spell projectile prefab )
     /// </summary>
-    /// /// <param name="spellIndex">Number of the spell selected</param>
-    public void CastSpell(int spellIndex)
+    /// /// <param name="spellName">Name of the spell selected</param>
+    public void CastSpell(string spellName)
     {
         BlockView();
 
         if (MTarget != null && MTarget.GetComponentInParent<Character>().IsAlive && !IsAttacking && !IsMoving && InLineOfSight())
         {
-            attackRoutine = StartCoroutine(Attack(spellIndex));
+            attackRoutine = StartCoroutine(Attack(spellName));
         }
     }
 

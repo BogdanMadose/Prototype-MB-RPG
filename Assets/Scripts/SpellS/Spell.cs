@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Spell
+public class Spell : IUsable
 {
     [Tooltip("Spell name")]
     [SerializeField] private string name;
@@ -26,4 +26,9 @@ public class Spell
     public float MCastTime { get => castTime; }
     public GameObject MSpellPrefab { get => spellPrefab; }
     public Color MBarColor { get => barColor; }
+
+    public void Use()
+    {
+        Player.MInstance.CastSpell(MName);
+    }
 }

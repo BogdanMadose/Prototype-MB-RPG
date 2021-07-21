@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -45,6 +43,7 @@ public class WaterTile : Tile
     /// <param name="tileData">A reference to the actual object, that this tile belongs to</param>
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
+        base.GetTileData(position: location, tilemap, ref tileData);
         string composition = string.Empty;
 
         for (int x = -1; x <= 1; x++)

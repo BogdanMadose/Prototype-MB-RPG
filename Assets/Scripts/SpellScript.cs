@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellScript : MonoBehaviour
@@ -7,6 +5,7 @@ public class SpellScript : MonoBehaviour
     private Rigidbody2D mRigidBody;
     [SerializeField] private float speed;
     private int damage;
+    private Transform damageSource;
     public Transform MTarget { get; private set; }
 
     // Start is called before the first frame update
@@ -35,18 +34,21 @@ public class SpellScript : MonoBehaviour
     /// </summary>
     /// <param name="target">Selected target</param>
     /// <param name="damage">Damage value</param>
-    public void Initialize(Transform target, int damage)
+    /// <param name="damageSource">Object that deals damage</param>
+    public void Initialize(Transform target, int damage, Transform damageSource)
     {
         this.MTarget = target;
         this.damage = damage;
+        this.damageSource = damageSource;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "HitBox" && collision.transform == MTarget)
         {
+            Character c = collision.GetComponentInParent<Character>();
             speed = 0;
-            collision.GetComponentInParent<Enemy>().TakeDamage(damage);
+            c.TakeDamage(damage, damageSource);
             GetComponent<Animator>().SetTrigger("Impact");
             mRigidBody.velocity = Vector2.zero;
             MTarget = null;

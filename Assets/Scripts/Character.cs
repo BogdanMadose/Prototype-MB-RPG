@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -11,7 +9,7 @@ public abstract class Character : MonoBehaviour
     /// Variable to hold the speed at which every character moves
     /// </summary>
     [Tooltip("Character movement speed (float value)")]
-    [SerializeField] protected float speed;
+    [SerializeField] private float speed;
 
     /// <summary>
     /// Initial allowed character health
@@ -34,19 +32,9 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected Transform hitBox;
 
     /// <summary>
-    /// Variable to hold the direction in which every character moves
-    /// </summary>
-    protected Vector2 direction;
-
-    /// <summary>
     /// Variable to hold the animator component of each character
     /// </summary>
-    protected Animator mAnimator;
-
-    /// <summary>
-    /// Says if a character is attacking or not // Default = false;
-    /// </summary>
-    protected bool isAttacking = false;
+    private Animator animator;
 
     /// <summary>
     /// Reference to attack coroutine
@@ -61,17 +49,30 @@ public abstract class Character : MonoBehaviour
     {
         get
         {
-            return direction.x != 0 || direction.y != 0;
+            return MDirection.x != 0 || MDirection.y != 0;
         }
     }
 
+    public Transform MTarget { get; set; }
     public Stat MHealth { get => health; }
+    public Vector2 MDirection { get; set; }
+    public float MSpeed { get => speed; set => speed = value; }
+    public bool IsAttacking { get; set; }
+    public Animator MAnimator { get => animator; set => animator = value; }
+
+    public bool IsAlive
+    {
+        get
+        {
+            return health.MCurrentValue > 0;
+        }
+    }
 
     protected virtual void Start()
     {
         MHealth.Initialize(initHealth, initHealth);
         rb = GetComponent<Rigidbody2D>();
-        mAnimator = GetComponent<Animator>(); 
+        MAnimator = GetComponent<Animator>(); 
     }
 
     protected virtual void Update()
@@ -89,7 +90,10 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     public void Move()
     {
-        rb.velocity = direction.normalized * speed;
+        if (IsAlive)
+        {
+            rb.velocity = MDirection.normalized * MSpeed;
+        }
     }
 
     #region Animation Handlers
@@ -98,22 +102,27 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     public void HandleLayers()
     {
-        if (IsMoving)
+        if (IsAlive)
         {
-            ActivateLayer("WalkLayer");
+            if (IsMoving)
+            {
+                ActivateLayer("WalkLayer");
 
-            mAnimator.SetFloat("X", direction.x);
-            mAnimator.SetFloat("Y", direction.y);
-
-            StopAttack();
-        }
-        else if (isAttacking)
-        {
-            ActivateLayer("AttackLayer");
+                MAnimator.SetFloat("X", MDirection.x);
+                MAnimator.SetFloat("Y", MDirection.y);
+            }
+            else if (IsAttacking)
+            {
+                ActivateLayer("AttackLayer");
+            }
+            else
+            {
+                ActivateLayer("IdleLayer");
+            }
         }
         else
         {
-            ActivateLayer("IdleLayer");
+            ActivateLayer("DeathLayer");
         }
     }
 
@@ -123,42 +132,33 @@ public abstract class Character : MonoBehaviour
     /// <param name="layerName">layer that needs to be activated</param>
     public void ActivateLayer(string layerName)
     {
-        for (int i = 0; i < mAnimator.layerCount; i++)
+        for (int i = 0; i < MAnimator.layerCount; i++)
         {
-            mAnimator.SetLayerWeight(i, 0);
+            MAnimator.SetLayerWeight(i, 0);
         }
 
-        mAnimator.SetLayerWeight(mAnimator.GetLayerIndex(layerName), 1);
+        MAnimator.SetLayerWeight(MAnimator.GetLayerIndex(layerName), 1);
     } 
-
-    /// <summary>
-    /// Function to stop attacking.
-    /// 
-    /// <para>Sets both animator bool and isAttacking to false and stops the attack coroutine</para>
-    /// </summary>
-    public virtual void StopAttack()
-    {
-        isAttacking = false;
-        mAnimator.SetBool("attack", isAttacking);
-
-        if (attackRoutine != null)
-        {
-            StopCoroutine(attackRoutine);
-        }
-    }
     #endregion
 
     /// <summary>
     /// Handles damaging characters
     /// </summary>
     /// <param name="damage">Damage amount value</param>
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, Transform damageSource)
     {
+        if (MTarget == null)
+        {
+            MTarget = damageSource;
+        }
+
         MHealth.MCurrentValue -= damage;
 
         if (MHealth.MCurrentValue <= 0)
         {
-            mAnimator.SetTrigger("die");
+            MDirection = Vector2.zero;
+            rb.velocity = MDirection;
+            MAnimator.SetTrigger("die");
         }
     }
 }

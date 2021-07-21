@@ -1,17 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : NPC
 {
     [SerializeField] private CanvasGroup healthGroup;
-    private Transform target;
+    private IState currentState;
 
-    public Transform MTarget { get => target; set => target = value; }
+    public float MAttackRange { get; set; }
+    public float MAttackTime { get; set; }
+
+    protected void Awake()
+    {
+        MAttackRange = 1;
+        ChangeState(new IdleState());
+    }
 
     protected override void Update()
     {
-        FollowTarget();
+        if (IsAlive)
+        {
+            if (!IsAttacking)
+            {
+                MAttackTime += Time.deltaTime;
+            }
+
+            currentState.Update();
+        }
         base.Update();
     }
 
@@ -27,23 +40,21 @@ public class Enemy : NPC
         base.Deselect();
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, Transform damageSource)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, damageSource);
 
         OnHealthChanged(MHealth.MCurrentValue);
     }
 
-    private void FollowTarget()
+    public void ChangeState(IState newState)
     {
-        if(target != null)
+        if (currentState != null)
         {
-            direction = (target.transform.position - transform.position).normalized;
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            currentState.Exit();
         }
-        else
-        {
-            direction = Vector2.zero;
-        }
+
+        currentState = newState;
+        currentState.Enter(this);
     }
 }

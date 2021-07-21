@@ -34,11 +34,6 @@ public class Player : Character
     private Vector3 min, max;
     #endregion
 
-    /// <summary>
-    /// Reference to clickable target
-    /// </summary>
-    public Transform MTarget { get; set; }
-
     protected override void Start()
     {
         spellBook = GetComponent<SpellBook>();
@@ -59,7 +54,7 @@ public class Player : Character
     /// </summary>
     public void GetInput()
     {
-        direction = Vector2.zero;
+        MDirection = Vector2.zero;
 
         // -----------DEBUGGING ---------------------
 
@@ -84,28 +79,33 @@ public class Player : Character
         if (Input.GetKey(KeyCode.W))
         {
             exitIndex = 0;
-            direction += Vector2.up;
+            MDirection += Vector2.up;
         }
 
         // move left
         if (Input.GetKey(KeyCode.A))
         {
             exitIndex = 3;
-            direction += Vector2.left;
+            MDirection += Vector2.left;
         }
 
         // move down
         if (Input.GetKey(KeyCode.S))
         {
             exitIndex = 2;
-            direction += Vector2.down;
+            MDirection += Vector2.down;
         }
 
         // move right
         if (Input.GetKey(KeyCode.D))
         {
             exitIndex = 1;
-            direction += Vector2.right;
+            MDirection += Vector2.right;
+        }
+
+        if (IsMoving)
+        {
+            StopAttack();
         }
     }
 
@@ -125,14 +125,14 @@ public class Player : Character
         Transform currentTarget = MTarget;
 
         Spell newSpell = spellBook.CastSpell(spellIndex);
-        isAttacking = true;
-        mAnimator.SetBool("attack", isAttacking);
+        IsAttacking = true;
+        MAnimator.SetBool("attack", IsAttacking);
         yield return new WaitForSeconds(newSpell.MCastTime);
 
         if (currentTarget != null && InLineOfSight())
         {
             SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
-            spell.Initialize(currentTarget, newSpell.MDamage);
+            spell.Initialize(currentTarget, newSpell.MDamage, transform);
         }
 
         StopAttack();
@@ -146,7 +146,7 @@ public class Player : Character
     {
         BlockView();
 
-        if (MTarget != null && !isAttacking && !IsMoving && InLineOfSight())
+        if (MTarget != null && MTarget.GetComponentInParent<Character>().IsAlive && !IsAttacking && !IsMoving && InLineOfSight())
         {
             attackRoutine = StartCoroutine(Attack(spellIndex));
         }
@@ -187,9 +187,20 @@ public class Player : Character
         blocks[exitIndex].Activate();
     }
 
-    public override void StopAttack()
+    /// <summary>
+    /// Function to stop attacking.
+    /// 
+    /// <para>Sets both animator bool and isAttacking to false and stops the attack coroutine</para>
+    /// </summary>
+    public void StopAttack()
     {
         spellBook.StopCasting();
-        base.StopAttack();
+        IsAttacking = false;
+        MAnimator.SetBool("attack", IsAttacking);
+
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+        }
     }
 }

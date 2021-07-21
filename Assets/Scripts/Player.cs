@@ -109,6 +109,11 @@ public class Player : Character
         }
     }
 
+    /// <summary>
+    /// Set world boundries for player
+    /// </summary>
+    /// <param name="min">Lowest boundry value</param>
+    /// <param name="max">Highest boundry value</param>
     public void SetPlayerLimits(Vector3 min, Vector3 max)
     {
         this.min = min;

@@ -60,13 +60,7 @@ public abstract class Character : MonoBehaviour
     public bool IsAttacking { get; set; }
     public Animator MAnimator { get => animator; set => animator = value; }
 
-    public bool IsAlive
-    {
-        get
-        {
-            return health.MCurrentValue > 0;
-        }
-    }
+    public bool IsAlive => health.MCurrentValue > 0;
 
     protected virtual void Start()
     {
@@ -145,13 +139,9 @@ public abstract class Character : MonoBehaviour
     /// Handles damaging characters
     /// </summary>
     /// <param name="damage">Damage amount value</param>
+    /// <param name="damageSource">Object that deals damage</param>
     public virtual void TakeDamage(float damage, Transform damageSource)
     {
-        if (MTarget == null)
-        {
-            MTarget = damageSource;
-        }
-
         MHealth.MCurrentValue -= damage;
 
         if (MHealth.MCurrentValue <= 0)

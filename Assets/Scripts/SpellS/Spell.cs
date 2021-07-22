@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Spell : IUsable
+public class Spell : IUsable, IMovable
 {
     [Tooltip("Spell name")]
     [SerializeField] private string name;

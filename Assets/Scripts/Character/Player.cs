@@ -42,12 +42,16 @@ public class Player : Character
     /// exitPoints array index (Default = 2 ( facing down [South])) (cardinal directions)
     /// </summary>
     private int exitIndex = 2;
+
+    private SpellBook spellBook;
     private Vector3 min, max;
     #endregion
 
     protected override void Start()
     {
+        spellBook = GetComponent<SpellBook>();
         mana.Initialize(initMana, initMana);
+
         base.Start();
     }
 
@@ -146,7 +150,7 @@ public class Player : Character
     {
         Transform currentTarget = MTarget;
 
-        Spell newSpell = SpellBook.MInstance.CastSpell(spellName);
+        Spell newSpell = spellBook.CastSpell(spellName);
         IsAttacking = true;
         MAnimator.SetBool("attack", IsAttacking);
         yield return new WaitForSeconds(newSpell.MCastTime);
@@ -216,7 +220,7 @@ public class Player : Character
     /// </summary>
     public void StopAttack()
     {
-        SpellBook.MInstance.StopCasting();
+        spellBook.StopCasting();
         IsAttacking = false;
         MAnimator.SetBool("attack", IsAttacking);
 

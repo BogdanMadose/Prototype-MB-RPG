@@ -4,10 +4,7 @@ public class EvadeState : IState
 {
     private Enemy _parent;
 
-    public void Enter(Enemy parent)
-    {
-        this._parent = parent;
-    }
+    public void Enter(Enemy parent) => this._parent = parent;
 
     public void Exit()
     {

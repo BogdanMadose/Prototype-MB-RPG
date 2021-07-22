@@ -12,14 +12,7 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
         get => _bag;
         set
         {
-            if (value != null)
-            {
-                GetComponent<Image>().sprite = full;
-            }
-            else
-            {
-                GetComponent<Image>().sprite = empty;
-            }
+            GetComponent<Image>().sprite = value != null ? full : empty;
             _bag = value;
         }
     }

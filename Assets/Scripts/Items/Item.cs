@@ -1,12 +1,19 @@
 using UnityEngine;
 
-public abstract class Item : ScriptableObject
+public abstract class Item : ScriptableObject, IMovable
 {
     [SerializeField] private int stackSize;
     [SerializeField] private Sprite icon;
-    private SlotScript _slot;
 
-    public int StackSize { get => stackSize; }
-    public Sprite Icon { get => icon; }
-    protected SlotScript Slot { get => _slot; set => _slot = value; }
+    public int StackSize => stackSize;
+    public Sprite Icon => icon;
+    public SlotScript Slot { get; set; }
+
+    public void Remove()
+    {
+        if (Slot != null)
+        {
+            Slot.RemoveItemFromSlot(this);
+        }
+    }
 }

@@ -41,24 +41,10 @@ public class Stat : MonoBehaviour
     /// </summary>
     public float CurrentValue
     {
-        get
-        {
-            return _currentValue;
-        }
+        get => _currentValue;
         set
         {
-            if (value > MaxValue)
-            {
-                _currentValue = MaxValue;
-            }
-            else if (value < 0)
-            {
-                _currentValue = 0;
-            }
-            else
-            {
-                _currentValue = value;
-            }
+            _currentValue = value > MaxValue ? MaxValue : value < 0 ? 0 : value;
 
             _currentFill = _currentValue / MaxValue;
 
@@ -70,10 +56,7 @@ public class Stat : MonoBehaviour
     }
     #endregion
 
-    void Start()
-    {
-        _content = GetComponent<Image>();
-    }
+    void Start() => _content = GetComponent<Image>();
 
     void Update()
     {

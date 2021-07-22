@@ -19,8 +19,5 @@ class IdleState : IState
         }
     }
 
-    public void Exit()
-    {
-
-    }
+    public void Exit() { }
 }

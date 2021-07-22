@@ -7,15 +7,9 @@ class FollowState : IState
 {
     private Enemy _parent;
 
-    public void Enter(Enemy parent)
-    {
-        this._parent = parent;
-    }
+    public void Enter(Enemy parent) => this._parent = parent;
 
-    public void Exit()
-    {
-        _parent.Direction = Vector2.zero;
-    }
+    public void Exit() => _parent.Direction = Vector2.zero;
 
     public void Update()
     {

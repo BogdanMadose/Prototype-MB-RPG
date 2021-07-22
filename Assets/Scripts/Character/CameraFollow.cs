@@ -19,10 +19,7 @@ public class CameraFollow : MonoBehaviour
         _player.SetPlayerLimits(minTile, maxTile);
     }
 
-    private void LateUpdate()
-    {
-        transform.position = new Vector3(Mathf.Clamp(_target.position.x, _xMin, _xMax), Mathf.Clamp(_target.position.y, _yMin, _yMax), transform.position.z);
-    }
+    private void LateUpdate() => transform.position = new Vector3(Mathf.Clamp(_target.position.x, _xMin, _xMax), Mathf.Clamp(_target.position.y, _yMin, _yMax), transform.position.z);
 
     /// <summary>
     /// Calculate boundry limits for camera
@@ -35,9 +32,9 @@ public class CameraFollow : MonoBehaviour
         float height = 2f * camera.orthographicSize;
         float width = height * camera.aspect;
 
-        _xMin = minTile.x + width / 2;
-        _xMax = maxTile.x - width / 2;
-        _yMin = minTile.y + height / 2;
-        _yMax = maxTile.y - height / 2;
+        _xMin = minTile.x + (width / 2);
+        _xMax = maxTile.x - (width / 2);
+        _yMin = minTile.y + (height / 2);
+        _yMax = maxTile.y - (height / 2);
     }
 }

@@ -18,8 +18,21 @@ public class InventoryScript : MonoBehaviour
 
     [SerializeField] private BagButton[] bagButtons;
     private List<Bag> _bags = new List<Bag>();
+    private SlotScript _fromSlot;
 
     public bool IsFull => !(_bags.Count < 5);
+    public SlotScript FromSlot
+    {
+        get => _fromSlot;
+        set
+        {
+            _fromSlot = value;
+            if (value != null)
+            {
+                _fromSlot.Icon.color = Color.gray;
+            }
+        }
+    }
 
     //==============DEBUGGING=====================
     [SerializeField] private Item[] items;
@@ -39,12 +52,23 @@ public class InventoryScript : MonoBehaviour
             bag.Initialize(20);
             bag.Use();
         }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Bag bag = (Bag)Instantiate(items[0]);
+            bag.Initialize(20);
+            AddItemToInventory(bag);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            HealthPotion potion = (HealthPotion)Instantiate(items[1]);
+            AddItemToInventory(potion);
+        }
     }
     //============================================
 
     public void AddBag(Bag bag)
     {
-        foreach(BagButton bagButton in bagButtons)
+        foreach (BagButton bagButton in bagButtons)
         {
             if (bagButton.Bag == null)
             {
@@ -55,7 +79,45 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
-    public void OpenClose()
+    public void PlaceInEmptySlot(Item item)
+    {
+        foreach (Bag bag in _bags)
+        {
+            if (bag.BagScript.AddItemToBag(item))
+            {
+                return;
+            }
+        }
+    }
+
+    private bool PlaceInStack(Item item)
+    {
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript slot in bag.BagScript.Slots)
+            {
+                if (slot.StackItemInSlot(item))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void AddItemToInventory(Item item)
+    {
+        if (item.StackSize > 0)
+        {
+            if (PlaceInStack(item))
+            {
+                return;
+            }
+        }
+        PlaceInEmptySlot(item);
+    }
+
+    public void OpenCloseInventory()
     {
         bool closedBag = _bags.Find(x => !x.BagScript.IsOpen);
         foreach (Bag bag in _bags)

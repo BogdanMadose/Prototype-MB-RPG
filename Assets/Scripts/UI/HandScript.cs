@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class HandScript : MonoBehaviour
@@ -21,14 +22,12 @@ public class HandScript : MonoBehaviour
 
     public IMovable Movable { get; set; }
     // Start is called before the first frame update
-    void Start()
-    {
-        _icon = GetComponent<Image>();
-    }
+    void Start() => _icon = GetComponent<Image>();
 
     private void Update()
     {
         _icon.transform.position = Input.mousePosition + offset;
+        DeleteItem();
     }
 
     public void TakeMovable(IMovable movable)
@@ -38,11 +37,30 @@ public class HandScript : MonoBehaviour
         _icon.color = Color.white;
     }
 
-    public IMovable Put()
+    public IMovable PutItem()
     {
         IMovable tmp = Movable;
         Movable = null;
         _icon.color = new Color(0, 0, 0, 0);
         return tmp;
+    }
+
+    public void DropItem()
+    {
+        Movable = null;
+        _icon.color = new Color(0, 0, 0, 0);
+    }
+
+    private void DeleteItem()
+    {
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && Instance.Movable != null)
+        {
+            if (Movable is Item && InventoryScript.Instance.FromSlot != null)
+            {
+                (Movable as Item).Slot.TrashItem();
+            }
+            DropItem();
+            InventoryScript.Instance.FromSlot = null;
+        }
     }
 }

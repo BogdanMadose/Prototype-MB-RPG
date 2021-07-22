@@ -43,7 +43,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler
 
     public void UpdateVisual()
     {
-        Icon.sprite = HandScript.Instance.Put().Icon;
+        Icon.sprite = HandScript.Instance.PutItem().Icon;
         Icon.color = Color.white;
     }
 }

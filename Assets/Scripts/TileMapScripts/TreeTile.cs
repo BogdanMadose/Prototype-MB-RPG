@@ -22,7 +22,7 @@ public class TreeTile : Tile
         {
             return;
         }
-        AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TreeTile>(), path);
+        AssetDatabase.CreateAsset(CreateInstance<TreeTile>(), path);
     }
 #endif
 }

@@ -17,7 +17,7 @@ public class NPC : Character
 
     [SerializeField] private Sprite portrait;
 
-    public Sprite Portrait { get => portrait; }
+    public Sprite Portrait => portrait;
 
     /// <summary>
     /// Deselect targeted NPC
@@ -32,32 +32,20 @@ public class NPC : Character
     /// Select targeted NPC
     /// </summary>
     /// <returns>Hitbox of the targeted NPC</returns>
-    public virtual Transform Select()
-    {
-        return hitBox;
-    }
+    public virtual Transform Select() => hitBox;
 
     /// <summary>
     /// Event triggerer for when health value is being changed
     /// </summary>
     /// <param name="health">Health value</param>
-    public void OnHealthChanged(float health)
-    {
-        if (healthChanged != null)
-        {
-            healthChanged(health);
-        }
-    }
+    public void OnHealthChanged(float health) => healthChanged?.Invoke(health);
 
     /// <summary>
     /// Event triggerer for when NPC is deselected
     /// </summary>
     public void OnNPCRemoved()
     {
-        if (npcRemoved != null)
-        {
-            npcRemoved();
-        }
+        npcRemoved?.Invoke();
         Destroy(gameObject);
     }
 }

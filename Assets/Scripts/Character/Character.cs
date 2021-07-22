@@ -45,16 +45,10 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Returns 0 if character is not moving, 1 if character moves
     /// </summary>
-    public bool IsMoving
-    {
-        get
-        {
-            return Direction.x != 0 || Direction.y != 0;
-        }
-    }
+    public bool IsMoving => Direction.x != 0 || Direction.y != 0;
 
     public Transform Target { get; set; }
-    public Stat Health { get => health; }
+    public Stat Health => health;
     public Vector2 Direction { get; set; }
     public float Speed { get => speed; set => speed = value; }
     public bool IsAttacking { get; set; }
@@ -69,15 +63,9 @@ public abstract class Character : MonoBehaviour
         Animator = GetComponent<Animator>();
     }
 
-    protected virtual void Update()
-    {
-        HandleLayers();
-    }
+    protected virtual void Update() => HandleLayers();
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
+    private void FixedUpdate() => Move();
 
     /// <summary>
     /// Handles all character's movements

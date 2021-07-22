@@ -25,16 +25,10 @@ public class UIManager : MonoBehaviour
     private GameObject[] _keyBindButtons;
     private Stat _healthStat;
 
-    private void Awake()
-    {
-        _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
-    }
+    private void Awake() => _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
 
     // Start is called before the first frame update
-    void Start()
-    {
-        _healthStat = targetFrame.GetComponentInChildren<Stat>();
-    }
+    void Start() => _healthStat = targetFrame.GetComponentInChildren<Stat>();
 
     // Update is called once per frame
     void Update()
@@ -49,7 +43,7 @@ public class UIManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            InventoryScript.Instance.OpenClose();
+            InventoryScript.Instance.OpenCloseInventory();
         }
     }
 
@@ -69,19 +63,13 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Hides portrait frame of target
     /// </summary>
-    public void HideTargetFrame()
-    {
-        targetFrame.SetActive(false);
-    }
+    public void HideTargetFrame() => targetFrame.SetActive(false);
 
     /// <summary>
     /// Update portrait health text of target
     /// </summary>
     /// <param name="health">Health value</param>
-    public void UpdateTargetFrame(float health)
-    {
-        _healthStat.CurrentValue = health;
-    }
+    public void UpdateTargetFrame(float health) => _healthStat.CurrentValue = health;
 
     public void UpdateKeyText(string key, KeyCode keyCode)
     {
@@ -89,14 +77,31 @@ public class UIManager : MonoBehaviour
         tmp.text = keyCode.ToString();
     }
 
-    public void UseActionButton(string buttonName)
-    {
-        Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
-    }
+    public void UseActionButton(string buttonName) => Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
 
     public void OpenClose(CanvasGroup canvasGroup)
     {
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
-        canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts == true ? false : true;
+        canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts != true;
+    }
+
+    public void UpdateStackSize(IClickable clickable)
+    {
+        if (clickable.Count > 1)
+        {
+            clickable.StackText.text = clickable.Count.ToString();
+            clickable.StackText.color = Color.white;
+            clickable.Icon.color = Color.white;
+        }
+        else
+        {
+            clickable.StackText.color = new Color(0, 0, 0, 0);
+            clickable.Icon.color = Color.white;
+        }
+        if (clickable.Count == 0)
+        {
+            clickable.Icon.color = new Color(0, 0, 0, 0);
+            clickable.StackText.color = new Color(0, 0, 0, 0);
+        }
     }
 }

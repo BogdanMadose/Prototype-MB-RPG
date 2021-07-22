@@ -6,10 +6,7 @@ public class LayerSorter : MonoBehaviour
     private SpriteRenderer _parentRenderer;
     private List<Obstacle> _obstacles = new List<Obstacle>();
     // Start is called before the first frame update
-    void Start()
-    {
-        _parentRenderer = transform.parent.GetComponent<SpriteRenderer>();
-    }
+    void Start() => _parentRenderer = transform.parent.GetComponent<SpriteRenderer>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

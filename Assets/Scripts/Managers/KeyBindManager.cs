@@ -62,10 +62,7 @@ public class KeyBindManager : MonoBehaviour
         _bindName = string.Empty;
     }
 
-    public void KeyBindOnClick(string bindName)
-    {
-        this._bindName = bindName;
-    }
+    public void KeyBindOnClick(string bindName) => this._bindName = bindName;
 
     private void OnGUI()
     {

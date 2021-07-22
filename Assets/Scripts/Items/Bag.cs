@@ -7,17 +7,15 @@ public class Bag : Item, IUsable
     private int _slots;
 
     public BagScript BagScript { get; set; }
-    public int Slots { get => _slots; }
+    public int Slots => _slots;
 
-    public void Initialize(int slots)
-    {
-        this._slots = slots;
-    }
+    public void Initialize(int slots) => this._slots = slots;
 
     public void Use()
     {
         if (!InventoryScript.Instance.IsFull)
         {
+            Remove();
             BagScript = Instantiate(bagPrefab, InventoryScript.Instance.transform).GetComponent<BagScript>();
             BagScript.AddSlots(_slots);
             InventoryScript.Instance.AddBag(this);

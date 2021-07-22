@@ -68,19 +68,19 @@ public class Player : Character
         // -----------DEBUGGING ---------------------
 
         // decrease health and mana
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
-        //    health.MCurrentValue -= 10;
-        //    mana.MCurrentValue -= 10;
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Health.CurrentValue -= 10;
+            mana.CurrentValue -= 10;
 
-        //}
+        }
         // increase health and mana
-        //if (Input.GetKeyDown(KeyCode.O))
-        //{
-        //    health.MCurrentValue += 10;
-        //    mana.MCurrentValue += 10;
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Health.CurrentValue += 10;
+            mana.CurrentValue += 10;
 
-        //}
+        }
 
         // -----------------------------------------
 

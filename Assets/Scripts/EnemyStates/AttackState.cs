@@ -10,15 +10,9 @@ public class AttackState : IState
     private float _attackCooldown = 3;
     private float _extraRange = 0.1f;
 
-    public void Enter(Enemy parent)
-    {
-        this._parent = parent;
-    }
+    public void Enter(Enemy parent) => this._parent = parent;
 
-    public void Exit()
-    {
-
-    }
+    public void Exit() { }
 
     public void Update()
     {

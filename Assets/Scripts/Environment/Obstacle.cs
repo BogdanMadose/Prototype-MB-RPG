@@ -30,13 +30,7 @@ public class Obstacle : MonoBehaviour, IComparable<Obstacle>
         _fadedColor.a = 0.55f;
     }
 
-    public void FadeOut()
-    {
-        SpriteRenderer.color = _fadedColor;
-    }
+    public void FadeOut() => SpriteRenderer.color = _fadedColor;
 
-    public void FadeIn()
-    {
-        SpriteRenderer.color = _defaultColor;
-    }
+    public void FadeIn() => SpriteRenderer.color = _defaultColor;
 }

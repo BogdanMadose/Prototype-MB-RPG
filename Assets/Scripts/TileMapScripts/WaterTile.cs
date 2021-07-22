@@ -9,10 +9,7 @@ public class WaterTile : Tile
     [SerializeField]
     private Sprite preview;
 
-    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
-    {
-        return base.StartUp(position, tilemap, go);
-    }
+    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go) => base.StartUp(position, tilemap, go);
 
     /// <summary>
     /// Refreshes this tile when something changes

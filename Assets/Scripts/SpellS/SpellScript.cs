@@ -10,10 +10,7 @@ public class SpellScript : MonoBehaviour
     public Transform Target { get; private set; }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
+    void Start() => _rb = GetComponent<Rigidbody2D>();
 
     private void FixedUpdate()
     {

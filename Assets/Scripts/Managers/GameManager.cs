@@ -6,10 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player player;
     private NPC _currentTarget;
 
-    void Update()
-    {
-        ClickTarget();
-    }
+    void Update() => ClickTarget();
 
     /// <summary>
     /// Handles selecting and deselecting of gameObjects

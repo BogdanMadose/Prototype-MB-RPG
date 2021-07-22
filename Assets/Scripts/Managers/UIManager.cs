@@ -4,18 +4,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject targetFrame;
-    [SerializeField] private ActionButton[] actionButtons;
-    [SerializeField] private Image portraitFrame;
-    [SerializeField] private CanvasGroup KeyBindMenu;
-    private GameObject[] keyBindButtons;
-    private Stat healthStat;
-
-    /// <summary>
-    /// Singleton instance for UIManager
-    /// </summary>
     private static UIManager instance;
-    public static UIManager MInstance 
+    public static UIManager MInstance
     {
         get
         {
@@ -27,6 +17,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject targetFrame;
+    [SerializeField] private ActionButton[] actionButtons;
+    [SerializeField] private Image portraitFrame;
+    [SerializeField] private CanvasGroup keyBindMenu;
+    [SerializeField] private CanvasGroup spellBook;
+    private GameObject[] keyBindButtons;
+    private Stat healthStat;
+
     private void Awake()
     {
         keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
@@ -36,9 +34,6 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         healthStat = targetFrame.GetComponentInChildren<Stat>();
-        SetUsable(actionButtons[0], SpellBook.MInstance.GetSpell("Fireball"));
-        SetUsable(actionButtons[1], SpellBook.MInstance.GetSpell("Frostbolt"));
-        SetUsable(actionButtons[2], SpellBook.MInstance.GetSpell("Lightningbolt"));
     }
 
     // Update is called once per frame
@@ -46,7 +41,11 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OpenCloseMenu();
+            OpenClose(keyBindMenu);
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            OpenClose(spellBook);
         }
     }
 
@@ -80,13 +79,6 @@ public class UIManager : MonoBehaviour
         healthStat.MCurrentValue = health;
     }
 
-    public void OpenCloseMenu()
-    {
-        KeyBindMenu.alpha = KeyBindMenu.alpha > 0 ? 0 : 1;
-        KeyBindMenu.blocksRaycasts = KeyBindMenu.blocksRaycasts == true ? false : true;
-        Time.timeScale = Time.timeScale > 0 ? 0 : 1;
-    }
-
     public void UpdateKeyText(string key, KeyCode keyCode)
     {
         Text tmp = Array.Find(keyBindButtons, x => x.name == key).GetComponentInChildren<Text>();
@@ -98,10 +90,9 @@ public class UIManager : MonoBehaviour
         Array.Find(actionButtons, x => x.gameObject.name == buttonName).MButton.onClick.Invoke();
     }
 
-    public void SetUsable(ActionButton btn, IUsable usable)
+    public void OpenClose(CanvasGroup canvasGroup)
     {
-        btn.MButton.image.sprite = usable.MIcon;
-        btn.MButton.image.color = Color.white;
-        btn.MUsable = usable;
+        canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
+        canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts == true ? false : true;
     }
 }

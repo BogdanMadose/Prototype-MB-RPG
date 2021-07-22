@@ -27,9 +27,9 @@ public class WaterTile : Tile
             {
                 Vector3Int nPos = new Vector3Int(position.x + x, position.y + y, position.z);
 
-                if ( HasWater(tilemap, nPos)) 
+                if (HasWater(tilemap, nPos))
                 {
-                    tilemap.RefreshTile(nPos); 
+                    tilemap.RefreshTile(nPos);
                 }
             }
         }
@@ -54,7 +54,7 @@ public class WaterTile : Tile
                 {
                     if (HasWater(tilemap, new Vector3Int(location.x + x, location.y + y, location.z)))
                     {
-                        composition += 'W'; 
+                        composition += 'W';
                     }
                     else
                     {

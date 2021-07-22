@@ -5,34 +5,34 @@
 /// </summary>
 class FollowState : IState
 {
-    private Enemy parent;
+    private Enemy _parent;
 
     public void Enter(Enemy parent)
     {
-        this.parent = parent;
+        this._parent = parent;
     }
 
     public void Exit()
     {
-        parent.MDirection = Vector2.zero;
+        _parent.Direction = Vector2.zero;
     }
 
     public void Update()
     {
-        if(parent.MTarget != null)
+        if (_parent.Target != null)
         {
-            parent.MDirection = (parent.MTarget.transform.position - parent.transform.position).normalized;
-            parent.transform.position = Vector2.MoveTowards(parent.transform.position, parent.MTarget.position, parent.MSpeed * Time.deltaTime);
-            float distance = Vector2.Distance(parent.MTarget.position, parent.transform.position);
-            
-            if (distance <= parent.MAttackRange)
+            _parent.Direction = (_parent.Target.transform.position - _parent.transform.position).normalized;
+            _parent.transform.position = Vector2.MoveTowards(_parent.transform.position, _parent.Target.position, _parent.Speed * Time.deltaTime);
+            float distance = Vector2.Distance(_parent.Target.position, _parent.transform.position);
+
+            if (distance <= _parent.AttackRange)
             {
-                parent.ChangeState(new AttackState());
+                _parent.ChangeState(new AttackState());
             }
         }
-        if (!parent.InRange)
+        if (!_parent.InRange)
         {
-            parent.ChangeState(new EvadeState());
+            _parent.ChangeState(new EvadeState());
         }
     }
 }

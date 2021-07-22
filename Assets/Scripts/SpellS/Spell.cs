@@ -19,16 +19,16 @@ public class Spell : IUsable, IMovable
     [Tooltip("Casting bar color")]
     [SerializeField] private Color barColor;
 
-    public string MName { get => name; }
-    public int MDamage { get => damage; }
-    public Sprite MIcon { get => icon; }
-    public float MSpeed { get => speed; }
-    public float MCastTime { get => castTime; }
-    public GameObject MSpellPrefab { get => spellPrefab; }
-    public Color MBarColor { get => barColor; }
+    public string Name { get => name; }
+    public int Damage { get => damage; }
+    public Sprite Icon { get => icon; }
+    public float Speed { get => speed; }
+    public float CastTime { get => castTime; }
+    public GameObject SpellPrefab { get => spellPrefab; }
+    public Color BarColor { get => barColor; }
 
     public void Use()
     {
-        Player.MInstance.CastSpell(MName);
+        Player.Instance.CastSpell(Name);
     }
 }

@@ -3,45 +3,46 @@ using UnityEngine.UI;
 
 public class HandScript : MonoBehaviour
 {
-    private static HandScript instance;
-    public static HandScript MInstance
+    private static HandScript _instance;
+    public static HandScript Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<HandScript>();
+                _instance = FindObjectOfType<HandScript>();
             }
-            return instance;
+            return _instance;
         }
     }
 
-    private Image icon;
     [SerializeField] private Vector3 offset;
-    public IMovable MMovable { get; set; }
+    private Image _icon;
+
+    public IMovable Movable { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        icon = GetComponent<Image>();
+        _icon = GetComponent<Image>();
     }
 
     private void Update()
     {
-        icon.transform.position = Input.mousePosition + offset;
+        _icon.transform.position = Input.mousePosition + offset;
     }
 
     public void TakeMovable(IMovable movable)
     {
-        this.MMovable = movable;
-        icon.sprite = movable.MIcon;
-        icon.color = Color.white;
+        this.Movable = movable;
+        _icon.sprite = movable.Icon;
+        _icon.color = Color.white;
     }
 
     public IMovable Put()
     {
-        IMovable tmp = MMovable;
-        MMovable = null;
-        icon.color = new Color(0, 0, 0, 0);
+        IMovable tmp = Movable;
+        Movable = null;
+        _icon.color = new Color(0, 0, 0, 0);
         return tmp;
     }
 }

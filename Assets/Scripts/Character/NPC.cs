@@ -17,15 +17,15 @@ public class NPC : Character
 
     [SerializeField] private Sprite portrait;
 
-    public Sprite MPortrait { get => portrait; }
+    public Sprite Portrait { get => portrait; }
 
     /// <summary>
     /// Deselect targeted NPC
     /// </summary>
     public virtual void Deselect()
     {
-        healthChanged -= new HealthChanged(UIManager.MInstance.UpdateTargetFrame);
-        npcRemoved -= new NPCRemoved(UIManager.MInstance.HideTargetFrame);
+        healthChanged -= new HealthChanged(UIManager.Instance.UpdateTargetFrame);
+        npcRemoved -= new NPCRemoved(UIManager.Instance.HideTargetFrame);
     }
 
     /// <summary>

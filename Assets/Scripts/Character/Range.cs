@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class Range : MonoBehaviour
 {
-    private Enemy parent;
+    private Enemy _parent;
 
     private void Start()
     {
-        parent = GetComponentInParent<Enemy>();
+        _parent = GetComponentInParent<Enemy>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            parent.SetTarget(collision.transform);
+            _parent.SetTarget(collision.transform);
         }
     }
 }

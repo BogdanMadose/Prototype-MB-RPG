@@ -4,20 +4,20 @@ public class Enemy : NPC
 {
     [SerializeField] private CanvasGroup healthGroup;
     [SerializeField] private float initAggroRange;
-    private IState currentState;
+    private IState _currentState;
 
-    public float MAttackRange { get; set; }
-    public float MAttackTime { get; set; }
-    public float MAggroRange { get; set; }
-    public bool InRange => Vector2.Distance(transform.position, MTarget.position) < MAggroRange;
-    public Vector3 MStartPosition { get; set; }
+    public float AttackRange { get; set; }
+    public float AttackTime { get; set; }
+    public float AggroRange { get; set; }
+    public bool InRange => Vector2.Distance(transform.position, Target.position) < AggroRange;
+    public Vector3 StartPosition { get; set; }
 
 
     protected void Awake()
     {
-        MStartPosition = transform.position;
-        MAggroRange = initAggroRange;
-        MAttackRange = 1;
+        StartPosition = transform.position;
+        AggroRange = initAggroRange;
+        AttackRange = 1;
         ChangeState(new IdleState());
     }
 
@@ -27,9 +27,9 @@ public class Enemy : NPC
         {
             if (!IsAttacking)
             {
-                MAttackTime += Time.deltaTime;
+                AttackTime += Time.deltaTime;
             }
-            currentState.Update();
+            _currentState.Update();
         }
         base.Update();
     }
@@ -48,11 +48,11 @@ public class Enemy : NPC
 
     public override void TakeDamage(float damage, Transform damageSource)
     {
-        if (!(currentState is EvadeState))
+        if (!(_currentState is EvadeState))
         {
             SetTarget(damageSource);
             base.TakeDamage(damage, damageSource);
-            OnHealthChanged(MHealth.MCurrentValue);
+            OnHealthChanged(Health.CurrentValue);
         }
     }
 
@@ -62,13 +62,13 @@ public class Enemy : NPC
     /// <param name="newState">State to be transitioned into</param>
     public void ChangeState(IState newState)
     {
-        if (currentState != null)
+        if (_currentState != null)
         {
-            currentState.Exit();
+            _currentState.Exit();
         }
 
-        currentState = newState;
-        currentState.Enter(this);
+        _currentState = newState;
+        _currentState.Enter(this);
     }
 
     /// <summary>
@@ -77,20 +77,20 @@ public class Enemy : NPC
     /// <param name="target">Target which will take aggro</param>
     public void SetTarget(Transform target)
     {
-        if (MTarget == null && !(currentState is EvadeState))
+        if (Target == null && !(_currentState is EvadeState))
         {
             float distance = Vector2.Distance(transform.position, target.position);
-            MAggroRange = initAggroRange;
-            MAggroRange += distance;
-            MTarget = target;
+            AggroRange = initAggroRange;
+            AggroRange += distance;
+            Target = target;
         }
     }
 
     public void Reset()
     {
-        this.MTarget = null;
-        this.MAggroRange = initAggroRange;
-        this.MHealth.MCurrentValue = this.MHealth.MMaxValue;
-        OnHealthChanged(MHealth.MCurrentValue);
+        this.Target = null;
+        this.AggroRange = initAggroRange;
+        this.Health.CurrentValue = this.Health.MaxValue;
+        OnHealthChanged(Health.CurrentValue);
     }
 }

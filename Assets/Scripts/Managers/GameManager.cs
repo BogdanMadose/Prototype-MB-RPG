@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player player;
-    private NPC currentTarget;
+    private NPC _currentTarget;
 
     void Update()
     {
@@ -22,26 +22,26 @@ public class GameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if (currentTarget != null)
+                if (_currentTarget != null)
                 {
-                    currentTarget.Deselect();
+                    _currentTarget.Deselect();
                 }
 
-                currentTarget = hit.collider.GetComponent<NPC>();
-                player.MTarget = currentTarget.Select();
-                UIManager.MInstance.ShowTargetFrame(currentTarget);
+                _currentTarget = hit.collider.GetComponent<NPC>();
+                player.Target = _currentTarget.Select();
+                UIManager.Instance.ShowTargetFrame(_currentTarget);
             }
             else
             {
-                UIManager.MInstance.HideTargetFrame();
+                UIManager.Instance.HideTargetFrame();
 
-                if (currentTarget != null)
+                if (_currentTarget != null)
                 {
-                    currentTarget.Deselect();
+                    _currentTarget.Deselect();
                 }
 
-                currentTarget = null;
-                player.MTarget = null;
+                _currentTarget = null;
+                player.Target = null;
             }
         }
     }

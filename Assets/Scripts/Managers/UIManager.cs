@@ -4,16 +4,16 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    private static UIManager instance;
-    public static UIManager MInstance
+    private static UIManager _instance;
+    public static UIManager Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<UIManager>();
+                _instance = FindObjectOfType<UIManager>();
             }
-            return instance;
+            return _instance;
         }
     }
 
@@ -22,18 +22,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image portraitFrame;
     [SerializeField] private CanvasGroup keyBindMenu;
     [SerializeField] private CanvasGroup spellBook;
-    private GameObject[] keyBindButtons;
-    private Stat healthStat;
+    private GameObject[] _keyBindButtons;
+    private Stat _healthStat;
 
     private void Awake()
     {
-        keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
+        _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        healthStat = targetFrame.GetComponentInChildren<Stat>();
+        _healthStat = targetFrame.GetComponentInChildren<Stat>();
     }
 
     // Update is called once per frame
@@ -47,6 +47,10 @@ public class UIManager : MonoBehaviour
         {
             OpenClose(spellBook);
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            InventoryScript.Instance.OpenClose();
+        }
     }
 
     /// <summary>
@@ -56,8 +60,8 @@ public class UIManager : MonoBehaviour
     public void ShowTargetFrame(NPC target)
     {
         targetFrame.SetActive(true);
-        healthStat.Initialize(target.MHealth.MCurrentValue, target.MHealth.MMaxValue);
-        portraitFrame.sprite = target.MPortrait;
+        _healthStat.Initialize(target.Health.CurrentValue, target.Health.MaxValue);
+        portraitFrame.sprite = target.Portrait;
         target.healthChanged += new HealthChanged(UpdateTargetFrame);
         target.npcRemoved += new NPCRemoved(HideTargetFrame);
     }
@@ -76,18 +80,18 @@ public class UIManager : MonoBehaviour
     /// <param name="health">Health value</param>
     public void UpdateTargetFrame(float health)
     {
-        healthStat.MCurrentValue = health;
+        _healthStat.CurrentValue = health;
     }
 
     public void UpdateKeyText(string key, KeyCode keyCode)
     {
-        Text tmp = Array.Find(keyBindButtons, x => x.name == key).GetComponentInChildren<Text>();
+        Text tmp = Array.Find(_keyBindButtons, x => x.name == key).GetComponentInChildren<Text>();
         tmp.text = keyCode.ToString();
     }
 
     public void UseActionButton(string buttonName)
     {
-        Array.Find(actionButtons, x => x.gameObject.name == buttonName).MButton.onClick.Invoke();
+        Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
     }
 
     public void OpenClose(CanvasGroup canvasGroup)

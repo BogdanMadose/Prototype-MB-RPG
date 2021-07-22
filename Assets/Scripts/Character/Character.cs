@@ -26,7 +26,7 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Character physics reference
     /// </summary>
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
 
     [Tooltip("Character HitBox")]
     [SerializeField] protected Transform hitBox;
@@ -34,12 +34,12 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Variable to hold the animator component of each character
     /// </summary>
-    private Animator animator;
+    private Animator _animator;
 
     /// <summary>
     /// Reference to attack coroutine
     /// </summary>
-    protected Coroutine attackRoutine;
+    protected Coroutine _attackRoutine;
     #endregion
 
     /// <summary>
@@ -49,24 +49,24 @@ public abstract class Character : MonoBehaviour
     {
         get
         {
-            return MDirection.x != 0 || MDirection.y != 0;
+            return Direction.x != 0 || Direction.y != 0;
         }
     }
 
-    public Transform MTarget { get; set; }
-    public Stat MHealth { get => health; }
-    public Vector2 MDirection { get; set; }
-    public float MSpeed { get => speed; set => speed = value; }
+    public Transform Target { get; set; }
+    public Stat Health { get => health; }
+    public Vector2 Direction { get; set; }
+    public float Speed { get => speed; set => speed = value; }
     public bool IsAttacking { get; set; }
-    public Animator MAnimator { get => animator; set => animator = value; }
+    public Animator Animator { get => _animator; set => _animator = value; }
 
-    public bool IsAlive => health.MCurrentValue > 0;
+    public bool IsAlive => health.CurrentValue > 0;
 
     protected virtual void Start()
     {
-        MHealth.Initialize(initHealth, initHealth);
-        rb = GetComponent<Rigidbody2D>();
-        MAnimator = GetComponent<Animator>(); 
+        Health.Initialize(initHealth, initHealth);
+        _rb = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
     }
 
     protected virtual void Update()
@@ -86,7 +86,7 @@ public abstract class Character : MonoBehaviour
     {
         if (IsAlive)
         {
-            rb.velocity = MDirection.normalized * MSpeed;
+            _rb.velocity = Direction.normalized * Speed;
         }
     }
 
@@ -102,8 +102,8 @@ public abstract class Character : MonoBehaviour
             {
                 ActivateLayer("WalkLayer");
 
-                MAnimator.SetFloat("X", MDirection.x);
-                MAnimator.SetFloat("Y", MDirection.y);
+                Animator.SetFloat("X", Direction.x);
+                Animator.SetFloat("Y", Direction.y);
             }
             else if (IsAttacking)
             {
@@ -126,13 +126,13 @@ public abstract class Character : MonoBehaviour
     /// <param name="layerName">layer that needs to be activated</param>
     public void ActivateLayer(string layerName)
     {
-        for (int i = 0; i < MAnimator.layerCount; i++)
+        for (int i = 0; i < Animator.layerCount; i++)
         {
-            MAnimator.SetLayerWeight(i, 0);
+            Animator.SetLayerWeight(i, 0);
         }
 
-        MAnimator.SetLayerWeight(MAnimator.GetLayerIndex(layerName), 1);
-    } 
+        Animator.SetLayerWeight(Animator.GetLayerIndex(layerName), 1);
+    }
     #endregion
 
     /// <summary>
@@ -142,13 +142,13 @@ public abstract class Character : MonoBehaviour
     /// <param name="damageSource">Object that deals damage</param>
     public virtual void TakeDamage(float damage, Transform damageSource)
     {
-        MHealth.MCurrentValue -= damage;
+        Health.CurrentValue -= damage;
 
-        if (MHealth.MCurrentValue <= 0)
+        if (Health.CurrentValue <= 0)
         {
-            MDirection = Vector2.zero;
-            rb.velocity = MDirection;
-            MAnimator.SetTrigger("die");
+            Direction = Vector2.zero;
+            _rb.velocity = Direction;
+            Animator.SetTrigger("die");
         }
     }
 }

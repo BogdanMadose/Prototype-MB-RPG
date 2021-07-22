@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class LayerSorter : MonoBehaviour
 {
-    private SpriteRenderer parentRendere;
-    private List<Obstacle> obstacles = new List<Obstacle>();
+    private SpriteRenderer _parentRenderer;
+    private List<Obstacle> _obstacles = new List<Obstacle>();
     // Start is called before the first frame update
     void Start()
     {
-        parentRendere = transform.parent.GetComponent<SpriteRenderer>();
+        _parentRenderer = transform.parent.GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,11 +17,11 @@ public class LayerSorter : MonoBehaviour
         {
             Obstacle o = collision.GetComponent<Obstacle>();
             o.FadeOut();
-            if (obstacles.Count == 0 || o.MSpriteRenderer.sortingOrder - 1 < parentRendere.sortingOrder)
+            if (_obstacles.Count == 0 || o.SpriteRenderer.sortingOrder - 1 < _parentRenderer.sortingOrder)
             {
-                parentRendere.sortingOrder = o.MSpriteRenderer.sortingOrder - 1;
+                _parentRenderer.sortingOrder = o.SpriteRenderer.sortingOrder - 1;
             }
-            obstacles.Add(o);
+            _obstacles.Add(o);
         }
     }
 
@@ -31,15 +31,15 @@ public class LayerSorter : MonoBehaviour
         {
             Obstacle o = collision.GetComponent<Obstacle>();
             o.FadeIn();
-            obstacles.Remove(o);
-            if (obstacles.Count == 0)
+            _obstacles.Remove(o);
+            if (_obstacles.Count == 0)
             {
-                parentRendere.sortingOrder = 200;
+                _parentRenderer.sortingOrder = 200;
             }
             else
             {
-                obstacles.Sort();
-                parentRendere.sortingOrder = obstacles[0].MSpriteRenderer.sortingOrder - 1;
+                _obstacles.Sort();
+                _parentRenderer.sortingOrder = _obstacles[0].SpriteRenderer.sortingOrder - 1;
             }
         }
     }

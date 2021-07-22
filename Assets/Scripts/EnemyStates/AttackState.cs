@@ -6,13 +6,13 @@ using UnityEngine;
 /// </summary>
 public class AttackState : IState
 {
-    private Enemy parent;
-    private float attackCooldown = 3;
-    private float extraRange = 0.1f;
+    private Enemy _parent;
+    private float _attackCooldown = 3;
+    private float _extraRange = 0.1f;
 
     public void Enter(Enemy parent)
     {
-        this.parent = parent;
+        this._parent = parent;
     }
 
     public void Exit()
@@ -22,24 +22,24 @@ public class AttackState : IState
 
     public void Update()
     {
-        if (parent.MAttackTime >= attackCooldown && !parent.IsAttacking)
+        if (_parent.AttackTime >= _attackCooldown && !_parent.IsAttacking)
         {
-            parent.MAttackTime = 0;
-            parent.StartCoroutine(Attack());
+            _parent.AttackTime = 0;
+            _parent.StartCoroutine(Attack());
         }
 
-        if (parent.MTarget != null)
+        if (_parent.Target != null)
         {
-            float distance = Vector2.Distance(parent.MTarget.position, parent.transform.position);
+            float distance = Vector2.Distance(_parent.Target.position, _parent.transform.position);
 
-            if (distance >= parent.MAttackRange + extraRange && !parent.IsAttacking)
+            if (distance >= _parent.AttackRange + _extraRange && !_parent.IsAttacking)
             {
-                parent.ChangeState(new FollowState());
+                _parent.ChangeState(new FollowState());
             }
         }
         else
         {
-            parent.ChangeState(new IdleState());
+            _parent.ChangeState(new IdleState());
         }
     }
 
@@ -49,9 +49,9 @@ public class AttackState : IState
     /// <returns>Waits for current animation exit time then stops attack animation</returns>
     public IEnumerator Attack()
     {
-        parent.IsAttacking = true;
-        parent.MAnimator.SetTrigger("attack");
-        yield return new WaitForSeconds(parent.MAnimator.GetCurrentAnimatorStateInfo(2).length);
-        parent.IsAttacking = false;
+        _parent.IsAttacking = true;
+        _parent.Animator.SetTrigger("attack");
+        yield return new WaitForSeconds(_parent.Animator.GetCurrentAnimatorStateInfo(2).length);
+        _parent.IsAttacking = false;
     }
 }

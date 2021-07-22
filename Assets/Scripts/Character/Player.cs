@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class Player : Character
 {
-    private static Player instance;
-    public static Player MInstance
+    private static Player _instance;
+    public static Player Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<Player>();
+                _instance = FindObjectOfType<Player>();
             }
-            return instance;
+            return _instance;
         }
     }
 
@@ -41,8 +41,8 @@ public class Player : Character
     /// <summary>
     /// exitPoints array index (Default = 2 ( facing down [South])) (cardinal directions)
     /// </summary>
-    private int exitIndex = 2;
-    private Vector3 min, max;
+    private int _exitIndex = 2;
+    private Vector3 _min, _max;
     #endregion
 
     protected override void Start()
@@ -54,7 +54,7 @@ public class Player : Character
     protected override void Update()
     {
         GetInput();
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, min.x, max.x), Mathf.Clamp(transform.position.y, min.y, max.y), transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, _min.x, _max.x), Mathf.Clamp(transform.position.y, _min.y, _max.y), transform.position.z);
         base.Update();
     }
 
@@ -63,7 +63,7 @@ public class Player : Character
     /// </summary>
     public void GetInput()
     {
-        MDirection = Vector2.zero;
+        Direction = Vector2.zero;
 
         // -----------DEBUGGING ---------------------
 
@@ -85,31 +85,31 @@ public class Player : Character
         // -----------------------------------------
 
         // move up
-        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["UP"]))
+        if (Input.GetKey(KeyBindManager.Instance.Keybinds["UP"]))
         {
-            exitIndex = 0;
-            MDirection += Vector2.up;
+            _exitIndex = 0;
+            Direction += Vector2.up;
         }
 
         // move left
-        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["LEFT"]))
+        if (Input.GetKey(KeyBindManager.Instance.Keybinds["LEFT"]))
         {
-            exitIndex = 3;
-            MDirection += Vector2.left;
+            _exitIndex = 3;
+            Direction += Vector2.left;
         }
 
         // move down
-        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["DOWN"]))
+        if (Input.GetKey(KeyBindManager.Instance.Keybinds["DOWN"]))
         {
-            exitIndex = 2;
-            MDirection += Vector2.down;
+            _exitIndex = 2;
+            Direction += Vector2.down;
         }
 
         // move right
-        if (Input.GetKey(KeyBindManager.MInstance.Keybinds["RIGHT"]))
+        if (Input.GetKey(KeyBindManager.Instance.Keybinds["RIGHT"]))
         {
-            exitIndex = 1;
-            MDirection += Vector2.right;
+            _exitIndex = 1;
+            Direction += Vector2.right;
         }
 
         if (IsMoving)
@@ -117,11 +117,11 @@ public class Player : Character
             StopAttack();
         }
 
-        foreach (string action in KeyBindManager.MInstance.ActionBinds.Keys)
+        foreach (string action in KeyBindManager.Instance.ActionBinds.Keys)
         {
-            if (Input.GetKeyDown(KeyBindManager.MInstance.ActionBinds[action]))
+            if (Input.GetKeyDown(KeyBindManager.Instance.ActionBinds[action]))
             {
-                UIManager.MInstance.UseActionButton(action);
+                UIManager.Instance.UseActionButton(action);
             }
         }
     }
@@ -133,8 +133,8 @@ public class Player : Character
     /// <param name="max">Highest boundry value</param>
     public void SetPlayerLimits(Vector3 min, Vector3 max)
     {
-        this.min = min;
-        this.max = max;
+        this._min = min;
+        this._max = max;
     }
 
     /// <summary>
@@ -144,17 +144,17 @@ public class Player : Character
     /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
     private IEnumerator Attack(string spellName)
     {
-        Transform currentTarget = MTarget;
+        Transform currentTarget = Target;
 
-        Spell newSpell = SpellBook.MInstance.CastSpell(spellName);
+        Spell newSpell = SpellBook.Instance.CastSpell(spellName);
         IsAttacking = true;
-        MAnimator.SetBool("attack", IsAttacking);
-        yield return new WaitForSeconds(newSpell.MCastTime);
+        Animator.SetBool("attack", IsAttacking);
+        yield return new WaitForSeconds(newSpell.CastTime);
 
         if (currentTarget != null && InLineOfSight())
         {
-            SpellScript spell = Instantiate(newSpell.MSpellPrefab, exitPoints[exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
-            spell.Initialize(currentTarget, newSpell.MDamage, transform);
+            SpellScript spell = Instantiate(newSpell.SpellPrefab, exitPoints[_exitIndex].position, Quaternion.identity).GetComponent<SpellScript>();
+            spell.Initialize(currentTarget, newSpell.Damage, transform);
         }
 
         StopAttack();
@@ -168,9 +168,9 @@ public class Player : Character
     {
         BlockView();
 
-        if (MTarget != null && MTarget.GetComponentInParent<Character>().IsAlive && !IsAttacking && !IsMoving && InLineOfSight())
+        if (Target != null && Target.GetComponentInParent<Character>().IsAlive && !IsAttacking && !IsMoving && InLineOfSight())
         {
-            attackRoutine = StartCoroutine(Attack(spellName));
+            _attackRoutine = StartCoroutine(Attack(spellName));
         }
     }
 
@@ -183,10 +183,10 @@ public class Player : Character
     /// </returns>
     private bool InLineOfSight()
     {
-        if (MTarget != null)
+        if (Target != null)
         {
-            Vector3 targetDirection = (MTarget.transform.position - transform.position).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, MTarget.transform.position), 256);
+            Vector3 targetDirection = (Target.transform.position - transform.position).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, Target.transform.position), 256);
 
             if (hit.collider == null)
             {
@@ -206,7 +206,7 @@ public class Player : Character
             b.Deactivate();
         }
 
-        blocks[exitIndex].Activate();
+        blocks[_exitIndex].Activate();
     }
 
     /// <summary>
@@ -216,13 +216,13 @@ public class Player : Character
     /// </summary>
     public void StopAttack()
     {
-        SpellBook.MInstance.StopCasting();
+        SpellBook.Instance.StopCasting();
         IsAttacking = false;
-        MAnimator.SetBool("attack", IsAttacking);
+        Animator.SetBool("attack", IsAttacking);
 
-        if (attackRoutine != null)
+        if (_attackRoutine != null)
         {
-            StopCoroutine(attackRoutine);
+            StopCoroutine(_attackRoutine);
         }
     }
 }

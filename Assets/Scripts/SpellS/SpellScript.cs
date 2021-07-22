@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class SpellScript : MonoBehaviour
 {
-    private Rigidbody2D mRigidBody;
     [SerializeField] private float speed;
-    private int damage;
-    private Transform damageSource;
-    public Transform MTarget { get; private set; }
+    private Rigidbody2D _rb;
+    private int _damage;
+    private Transform _damageSource;
+
+    public Transform Target { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        mRigidBody = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        if (MTarget !=null)
+        if (Target != null)
         {
             // Hardcoded debug purposes
-            Vector2 direction = MTarget.position - transform.position;
+            Vector2 direction = Target.position - transform.position;
 
-            mRigidBody.velocity = direction.normalized * speed;
+            _rb.velocity = direction.normalized * speed;
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -37,21 +38,21 @@ public class SpellScript : MonoBehaviour
     /// <param name="damageSource">Object that deals damage</param>
     public void Initialize(Transform target, int damage, Transform damageSource)
     {
-        this.MTarget = target;
-        this.damage = damage;
-        this.damageSource = damageSource;
+        this.Target = target;
+        this._damage = damage;
+        this._damageSource = damageSource;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "HitBox" && collision.transform == MTarget)
+        if (collision.tag == "HitBox" && collision.transform == Target)
         {
             Character c = collision.GetComponentInParent<Character>();
             speed = 0;
-            c.TakeDamage(damage, damageSource);
+            c.TakeDamage(_damage, _damageSource);
             GetComponent<Animator>().SetTrigger("Impact");
-            mRigidBody.velocity = Vector2.zero;
-            MTarget = null;
+            _rb.velocity = Vector2.zero;
+            Target = null;
         }
     }
 }

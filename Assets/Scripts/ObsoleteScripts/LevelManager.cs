@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform map;
     [SerializeField] private SpriteAtlas waterAtlas;
 
-    private Dictionary<Point, GameObject> waterTiles = new Dictionary<Point, GameObject>();
+    private Dictionary<Point, GameObject> _waterTiles = new Dictionary<Point, GameObject>();
 
     private Vector3 WorldStartPosition
     {
@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         GenerateMap();
     }
 
@@ -55,7 +55,7 @@ public class LevelManager : MonoBehaviour
 
                         if (newElement.MTileTag == "Water")
                         {
-                            waterTiles.Add(new Point(x,y), go);
+                            _waterTiles.Add(new Point(x, y), go);
                         }
 
                         if (newElement.MTileTag == "Tree")
@@ -74,9 +74,9 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Check if the tile in the dict is a water tile
     /// </summary>
-    private void CheckWater ()
+    private void CheckWater()
     {
-        foreach (KeyValuePair<Point, GameObject> tile in waterTiles)
+        foreach (KeyValuePair<Point, GameObject> tile in _waterTiles)
         {
             string composition = TileCheck(tile.Key);
 
@@ -176,7 +176,7 @@ public class LevelManager : MonoBehaviour
                     tile.Value.GetComponent<SpriteRenderer>().sprite = waterAtlas.GetSprite("20");
                 }
             }
-        }       
+        }
     }
 
     /// <summary>
@@ -194,7 +194,7 @@ public class LevelManager : MonoBehaviour
             {
                 if (x != 0 || y != 0)
                 {
-                    if (waterTiles.ContainsKey(new Point(currentPoint.MX + x, currentPoint.MY + y)))
+                    if (_waterTiles.ContainsKey(new Point(currentPoint.MX + x, currentPoint.MY + y)))
                     {
                         composition += "W";
                     }

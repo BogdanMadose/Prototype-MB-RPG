@@ -2,30 +2,30 @@ using UnityEngine;
 
 public class EvadeState : IState
 {
-    private Enemy parent;
+    private Enemy _parent;
 
     public void Enter(Enemy parent)
     {
-        this.parent = parent;
+        this._parent = parent;
     }
 
     public void Exit()
     {
-        parent.MDirection = Vector2.zero;
-        parent.Reset();
+        _parent.Direction = Vector2.zero;
+        _parent.Reset();
     }
 
     public void Update()
     {
-        parent.MDirection = (parent.MStartPosition - parent.transform.position).normalized;
-        parent.transform.position = Vector2.MoveTowards(parent.transform.position, parent.MStartPosition, parent.MSpeed * Time.deltaTime);
-        float distance = Vector2.Distance(parent.MStartPosition, parent.transform.position);
+        _parent.Direction = (_parent.StartPosition - _parent.transform.position).normalized;
+        _parent.transform.position = Vector2.MoveTowards(_parent.transform.position, _parent.StartPosition, _parent.Speed * Time.deltaTime);
+        float distance = Vector2.Distance(_parent.StartPosition, _parent.transform.position);
 
         if (distance <= 0)
         {
-            parent.ChangeState(new IdleState());
+            _parent.ChangeState(new IdleState());
         }
-        
+
     }
 }
 

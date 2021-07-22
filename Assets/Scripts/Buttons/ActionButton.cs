@@ -5,45 +5,45 @@ using UnityEngine.UI;
 public class ActionButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;
-    public Button MButton { get; private set; }
-    public IUsable MUsable { get; set; }
-    public Image MIcon { get => icon; set => icon = value; }
+    public Button Button { get; private set; }
+    public IUsable Usable { get; set; }
+    public Image Icon { get => icon; set => icon = value; }
 
     // Start is called before the first frame update
     void Awake()
     {
-        MButton = GetComponent<Button>();
-        MButton.onClick.AddListener(OnClick);
+        Button = GetComponent<Button>();
+        Button.onClick.AddListener(OnClick);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            if (HandScript.MInstance.MMovable != null && HandScript.MInstance.MMovable is IUsable)
+            if (HandScript.Instance.Movable != null && HandScript.Instance.Movable is IUsable)
             {
-                SetUsable(HandScript.MInstance.MMovable as IUsable);
+                SetUsable(HandScript.Instance.Movable as IUsable);
             }
         }
     }
 
     public void OnClick()
     {
-        if (MUsable != null)
+        if (Usable != null)
         {
-            MUsable.Use();
+            Usable.Use();
         }
     }
 
     public void SetUsable(IUsable usable)
     {
-        this.MUsable = usable;
+        this.Usable = usable;
         UpdateVisual();
     }
 
     public void UpdateVisual()
     {
-        MIcon.sprite = HandScript.MInstance.Put().MIcon;
-        MIcon.color = Color.white;
+        Icon.sprite = HandScript.Instance.Put().Icon;
+        Icon.color = Color.white;
     }
 }

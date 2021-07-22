@@ -38,6 +38,6 @@ public class Block
 
         first.SetActive(true);
         second.SetActive(true);
-    } 
+    }
     #endregion
 }

@@ -17,70 +17,70 @@ public class Stat : MonoBehaviour
     /// <summary>
     /// Variable to hold the fill amount
     /// </summary>
-    private float currentFill;
+    private float _currentFill;
 
     /// <summary>
     /// Variable to hold the current value (eg.: health, mana)
     /// </summary>
-    private float currentValue;
+    private float _currentValue;
 
     /// <summary>
     /// Reference to the (mana, health bar ) image component in editor
     /// </summary>
-    private Image content;
+    private Image _content;
     #endregion
 
     #region Properties
     /// <summary>
     /// Property to get and set the max allowed value (eg.: maxHealth, maxMana)
     /// </summary>
-    public float MMaxValue { get; set; }
+    public float MaxValue { get; set; }
 
     /// <summary>
     /// Property to get and set the current vallue of both current and fill values accordingly
     /// </summary>
-    public float MCurrentValue
+    public float CurrentValue
     {
         get
         {
-            return currentValue;
+            return _currentValue;
         }
         set
         {
-            if (value > MMaxValue)
+            if (value > MaxValue)
             {
-                currentValue = MMaxValue;
+                _currentValue = MaxValue;
             }
             else if (value < 0)
             {
-                currentValue = 0;
+                _currentValue = 0;
             }
             else
             {
-                currentValue = value;
+                _currentValue = value;
             }
 
-            currentFill = currentValue / MMaxValue;
+            _currentFill = _currentValue / MaxValue;
 
             if (statValue != null)
             {
-                statValue.text = currentValue + " / " + MMaxValue;
-            }        
+                statValue.text = _currentValue + " / " + MaxValue;
+            }
         }
-    } 
+    }
     #endregion
 
     void Start()
     {
-        content = GetComponent<Image>();    
+        _content = GetComponent<Image>();
     }
 
     void Update()
     {
         // Lerp functionality for smooth UI graphic transitions
-        if (currentFill != content.fillAmount)
+        if (_currentFill != _content.fillAmount)
         {
-            content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill, Time.deltaTime * lerpSpeed);
+            _content.fillAmount = Mathf.Lerp(_content.fillAmount, _currentFill, Time.deltaTime * lerpSpeed);
         }
     }
 
@@ -91,13 +91,13 @@ public class Stat : MonoBehaviour
     /// <param name="maxValue">Maximum value of x stat</param>
     public void Initialize(float currentValue, float maxValue)
     {
-        if (content == null)
+        if (_content == null)
         {
-            content = GetComponent<Image>();
+            _content = GetComponent<Image>();
         }
 
-        MMaxValue = maxValue;
-        MCurrentValue = currentValue;
-        content.fillAmount = MCurrentValue / MMaxValue;
+        MaxValue = maxValue;
+        CurrentValue = currentValue;
+        _content.fillAmount = CurrentValue / MaxValue;
     }
 }

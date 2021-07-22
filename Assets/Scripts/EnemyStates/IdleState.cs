@@ -4,22 +4,22 @@
 /// </summary>
 class IdleState : IState
 {
-    private Enemy parent;
+    private Enemy _parent;
     public void Enter(Enemy parent)
     {
-        this.parent = parent;
-        this.parent.Reset();
+        this._parent = parent;
+        this._parent.Reset();
     }
 
     public void Update()
     {
-        if (parent.MTarget != null)
+        if (_parent.Target != null)
         {
-            parent.ChangeState(new FollowState());
+            _parent.ChangeState(new FollowState());
         }
-    } 
+    }
 
-   public void Exit()
+    public void Exit()
     {
 
     }

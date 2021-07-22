@@ -1,25 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class KeyBindManager : MonoBehaviour
 {
-    private static KeyBindManager instance;
+    private static KeyBindManager _instance;
 
-    public static KeyBindManager MInstance
+    public static KeyBindManager Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<KeyBindManager>();
+                _instance = FindObjectOfType<KeyBindManager>();
             }
-            return instance;
+            return _instance;
         }
     }
 
-    private string bindName;
+    private string _bindName;
 
     public Dictionary<string, KeyCode> Keybinds { get; private set; }
     public Dictionary<string, KeyCode> ActionBinds { get; private set; }
@@ -50,32 +49,32 @@ public class KeyBindManager : MonoBehaviour
         if (!currentDict.ContainsKey(key))
         {
             currentDict.Add(key, keyBind);
-            UIManager.MInstance.UpdateKeyText(key, keyBind);
+            UIManager.Instance.UpdateKeyText(key, keyBind);
         }
         else if (currentDict.ContainsValue(keyBind))
         {
             string newKey = currentDict.FirstOrDefault(x => x.Value == keyBind).Key;
             currentDict[newKey] = KeyCode.None;
-            UIManager.MInstance.UpdateKeyText(key, KeyCode.None);
+            UIManager.Instance.UpdateKeyText(key, KeyCode.None);
         }
         currentDict[key] = keyBind;
-        UIManager.MInstance.UpdateKeyText(key, keyBind);
-        bindName = string.Empty;
+        UIManager.Instance.UpdateKeyText(key, keyBind);
+        _bindName = string.Empty;
     }
 
     public void KeyBindOnClick(string bindName)
     {
-        this.bindName = bindName;
+        this._bindName = bindName;
     }
 
     private void OnGUI()
     {
-        if (bindName != string.Empty)
+        if (_bindName != string.Empty)
         {
             Event e = Event.current;
             if (e.isKey)
             {
-                BindKey(bindName, e.keyCode);
+                BindKey(_bindName, e.keyCode);
             }
         }
     }

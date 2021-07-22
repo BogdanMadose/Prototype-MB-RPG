@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour, IComparable<Obstacle>
 {
-    private Color defaultColor;
-    private Color fadedColor;
-    public SpriteRenderer MSpriteRenderer { get; set; }
+    private Color _defaultColor;
+    private Color _fadedColor;
+    public SpriteRenderer SpriteRenderer { get; set; }
 
     public int CompareTo(Obstacle other)
     {
-        if (MSpriteRenderer.sortingOrder > other.MSpriteRenderer.sortingOrder)
+        if (SpriteRenderer.sortingOrder > other.SpriteRenderer.sortingOrder)
         {
             return 1;
         }
-        else if (MSpriteRenderer.sortingOrder < other.MSpriteRenderer.sortingOrder)
+        else if (SpriteRenderer.sortingOrder < other.SpriteRenderer.sortingOrder)
         {
             return -1;
         }
@@ -24,19 +24,19 @@ public class Obstacle : MonoBehaviour, IComparable<Obstacle>
     // Start is called before the first frame update
     void Start()
     {
-        MSpriteRenderer = GetComponent<SpriteRenderer>();
-        defaultColor = MSpriteRenderer.color;
-        fadedColor = defaultColor;
-        fadedColor.a = 0.55f;
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultColor = SpriteRenderer.color;
+        _fadedColor = _defaultColor;
+        _fadedColor.a = 0.55f;
     }
 
     public void FadeOut()
     {
-        MSpriteRenderer.color = fadedColor;
+        SpriteRenderer.color = _fadedColor;
     }
 
     public void FadeIn()
     {
-        MSpriteRenderer.color = defaultColor;
+        SpriteRenderer.color = _defaultColor;
     }
 }

@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class SpellBook : MonoBehaviour
 {
-    private static SpellBook instance;
-    public static SpellBook MInstance
+    private static SpellBook _instance;
+    public static SpellBook Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<SpellBook>();
+                _instance = FindObjectOfType<SpellBook>();
             }
-            return instance;
+            return _instance;
         }
     }
 
@@ -24,8 +24,8 @@ public class SpellBook : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private Text castTime;
     [SerializeField] private CanvasGroup canvasGroup;
-    private Coroutine spellRoutine;
-    private Coroutine fadeRoutine;
+    private Coroutine _spellRoutine;
+    private Coroutine _fadeRoutine;
 
     /// <summary>
     /// Handles casting of spells functionality
@@ -34,13 +34,13 @@ public class SpellBook : MonoBehaviour
     /// <returns>Type of spell at given number</returns>
     public Spell CastSpell(string spellName)
     {
-        Spell spell = Array.Find(spells, x => x.MName == spellName);
-        currentSpell.text = spell.MName;
-        castingBar.color = spell.MBarColor;
+        Spell spell = Array.Find(spells, x => x.Name == spellName);
+        currentSpell.text = spell.Name;
+        castingBar.color = spell.BarColor;
         castingBar.fillAmount = 0;
-        icon.sprite = spell.MIcon;
-        spellRoutine = StartCoroutine(BarProgress(spell));
-        fadeRoutine = StartCoroutine(FadeBar());
+        icon.sprite = spell.Icon;
+        _spellRoutine = StartCoroutine(BarProgress(spell));
+        _fadeRoutine = StartCoroutine(FadeBar());
 
         return spell;
     }
@@ -53,7 +53,7 @@ public class SpellBook : MonoBehaviour
     private IEnumerator BarProgress(Spell spell)
     {
         float timePassed = Time.deltaTime;
-        float rate = 1.0f / spell.MCastTime;
+        float rate = 1.0f / spell.CastTime;
         float progress = 0.0f;
 
         while (progress <= 1.0f)
@@ -61,9 +61,9 @@ public class SpellBook : MonoBehaviour
             castingBar.fillAmount = Mathf.Lerp(0, 1, progress);
             progress += rate * Time.deltaTime;
             timePassed += Time.deltaTime;
-            castTime.text = (spell.MCastTime - timePassed).ToString("F2");
+            castTime.text = (spell.CastTime - timePassed).ToString("F2");
 
-            if (spell.MCastTime - timePassed < 0)
+            if (spell.CastTime - timePassed < 0)
             {
                 castTime.text = "0.00";
             }
@@ -96,22 +96,22 @@ public class SpellBook : MonoBehaviour
     /// </summary>
     public void StopCasting()
     {
-        if (fadeRoutine != null)
+        if (_fadeRoutine != null)
         {
             canvasGroup.alpha = 0;
-            StopCoroutine(fadeRoutine);
-            fadeRoutine = null;
+            StopCoroutine(_fadeRoutine);
+            _fadeRoutine = null;
         }
-        if (spellRoutine != null)
+        if (_spellRoutine != null)
         {
-            StopCoroutine(spellRoutine);
-            spellRoutine = null;
+            StopCoroutine(_spellRoutine);
+            _spellRoutine = null;
         }
     }
 
     public Spell GetSpell(string spellName)
     {
-        Spell spell = Array.Find(spells, x => x.MName == spellName);
+        Spell spell = Array.Find(spells, x => x.Name == spellName);
         return spell;
     }
 }

@@ -190,4 +190,23 @@ public class InventoryScript : MonoBehaviour
             }
         }
     }
+
+    public Stack<IUsable> GetUsables(IUsable type)
+    {
+        Stack<IUsable> usables = new Stack<IUsable>();
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript slot in bag.BagScript.Slots)
+            {
+                if (!slot.IsEmpty && slot.Item.GetType() == type.GetType())
+                {
+                    foreach (Item item in slot.Items)
+                    {
+                        usables.Push(item as IUsable);
+                    }
+                }
+            }
+        }
+        return usables;
+    }
 }

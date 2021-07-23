@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class ActionButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;
+    private Stack<IUsable> _usables;
+    private int _count;
     public Button Button { get; private set; }
     public IUsable Usable { get; set; }
     public Image Icon { get => icon; set => icon = value; }
@@ -29,15 +32,32 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler
 
     public void OnClick()
     {
-        if (Usable != null)
+        if (HandScript.Instance.Movable == null)
         {
-            Usable.Use();
+            if (Usable != null)
+            {
+                Usable.Use();
+            }
+            if (_usables != null && _usables.Count > 0)
+            {
+                _usables.Pop().Use();
+            }
         }
     }
 
     public void SetUsable(IUsable usable)
     {
-        this.Usable = usable;
+        if (usable is Item)
+        {
+            _usables = InventoryScript.Instance.GetUsables(usable);
+            _count = _usables.Count;
+            InventoryScript.Instance.FromSlot.Icon.color = Color.white;
+            InventoryScript.Instance.FromSlot = null;
+        }
+        else
+        {
+            this.Usable = usable;
+        }   
         UpdateVisual();
     }
 

@@ -16,6 +16,7 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    [SerializeField] private Item[] items;
     [SerializeField] private BagButton[] bagButtons;
     private List<Bag> _bags = new List<Bag>();
     private SlotScript _fromSlot;
@@ -32,11 +33,37 @@ public class InventoryScript : MonoBehaviour
                 _fromSlot.Icon.color = Color.gray;
             }
         }
+    } 
+
+    public int EmptySlotCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (Bag bag in _bags)
+            {
+                count += bag.BagScript.EmptyBagSlotCount;
+            }
+            return count;
+        }
     }
 
-    //==============DEBUGGING=====================
-    [SerializeField] private Item[] items;
+    public int TotalSlotCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (Bag bag in _bags)
+            {
+                count += bag.BagScript.Slots.Count;
+            }
+            return count;
+        }
+    }
 
+    public int FullSlotCount => TotalSlotCount - EmptySlotCount;
+
+    //==============DEBUGGING=====================
     private void Awake()
     {
         Bag bag = (Bag)Instantiate(items[0]);
@@ -66,7 +93,7 @@ public class InventoryScript : MonoBehaviour
     }
     //============================================
 
-    public void AddBag(Bag bag)
+    public void AddBagToBar(Bag bag)
     {
         foreach (BagButton bagButton in bagButtons)
         {
@@ -74,8 +101,43 @@ public class InventoryScript : MonoBehaviour
             {
                 bagButton.Bag = bag;
                 _bags.Add(bag);
+                bag.BagButton = bagButton;
                 break;
             }
+        }
+    }
+
+    public void AddBagToBar(Bag bag, BagButton bagButton)
+    {
+        _bags.Add(bag);
+        bagButton.Bag = bag;
+    }
+
+    public void RemoveBagFromBar(Bag bag)
+    {
+        _bags.Remove(bag);
+        Destroy(bag.BagScript.gameObject);
+    }
+
+    public void SwapBagsFromBar(Bag oldBag, Bag newBag)
+    {
+        int newSlotCount = (TotalSlotCount - oldBag.Slots) + newBag.Slots;
+        if (newSlotCount - FullSlotCount >= 0)
+        {
+            List<Item> bagItems = oldBag.BagScript.GetItems();
+            RemoveBagFromBar(oldBag);
+            newBag.BagButton = oldBag.BagButton;
+            newBag.Use();
+            foreach (Item item in bagItems)
+            {
+                if (item != newBag)
+                {
+                    AddItemToInventory(item);
+                }
+            }
+            AddItemToInventory(oldBag);
+            HandScript.Instance.DropItem();
+            Instance._fromSlot = null;
         }
     }
 

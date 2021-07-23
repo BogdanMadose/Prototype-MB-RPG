@@ -7,6 +7,7 @@ public class Bag : Item, IUsable
     private int _slots;
 
     public BagScript BagScript { get; set; }
+    public BagButton BagButton { get; set; }
     public int Slots => _slots;
 
     public void Initialize(int slots) => this._slots = slots;
@@ -18,7 +19,14 @@ public class Bag : Item, IUsable
             Remove();
             BagScript = Instantiate(bagPrefab, InventoryScript.Instance.transform).GetComponent<BagScript>();
             BagScript.AddSlots(_slots);
-            InventoryScript.Instance.AddBag(this);
+            if (BagButton == null)
+            {
+                InventoryScript.Instance.AddBagToBar(this);
+            }
+            else
+            {
+                InventoryScript.Instance.AddBagToBar(this, BagButton);
+            }
         }
     }
 }

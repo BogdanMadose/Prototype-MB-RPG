@@ -12,8 +12,8 @@ public delegate void HealthChanged(float health);
 public delegate void NPCRemoved();
 public class NPC : Character
 {
-    public event HealthChanged healthChanged;
-    public event NPCRemoved npcRemoved;
+    public event HealthChanged healthChangedEvent;
+    public event NPCRemoved npcRemovedEvent;
 
     [SerializeField] private Sprite portrait;
 
@@ -24,8 +24,8 @@ public class NPC : Character
     /// </summary>
     public virtual void Deselect()
     {
-        healthChanged -= new HealthChanged(UIManager.Instance.UpdateTargetFrame);
-        npcRemoved -= new NPCRemoved(UIManager.Instance.HideTargetFrame);
+        healthChangedEvent -= new HealthChanged(UIManager.Instance.UpdateTargetFrame);
+        npcRemovedEvent -= new NPCRemoved(UIManager.Instance.HideTargetFrame);
     }
 
     /// <summary>
@@ -38,14 +38,14 @@ public class NPC : Character
     /// Event triggerer for when health value is being changed
     /// </summary>
     /// <param name="health">Health value</param>
-    public void OnHealthChanged(float health) => healthChanged?.Invoke(health);
+    public void OnHealthChanged(float health) => healthChangedEvent?.Invoke(health);
 
     /// <summary>
     /// Event triggerer for when NPC is deselected
     /// </summary>
     public void OnNPCRemoved()
     {
-        npcRemoved?.Invoke();
+        npcRemovedEvent?.Invoke();
         Destroy(gameObject);
     }
 }

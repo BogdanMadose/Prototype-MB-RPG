@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Spell : IUsable, IMovable
+public class Spell : IUsable, IMovable, IDescribable
 {
     [Tooltip("Spell name")]
     [SerializeField] private string name;
@@ -18,6 +18,8 @@ public class Spell : IUsable, IMovable
     [SerializeField] private GameObject spellPrefab;
     [Tooltip("Casting bar color")]
     [SerializeField] private Color barColor;
+    [Tooltip("Spell description")]
+    [SerializeField] private string description;
 
     public string Name => name;
     public int Damage => damage;
@@ -26,6 +28,22 @@ public class Spell : IUsable, IMovable
     public float CastTime => castTime;
     public GameObject SpellPrefab => spellPrefab;
     public Color BarColor => barColor;
+
+    public string GetDescription()
+    {
+        Color color = barColor;
+        if (castTime == 1)
+        {
+            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>", 
+                name, castTime, description.Replace("#", Environment.NewLine), damage, ColorUtility.ToHtmlStringRGB(barColor));
+
+        }
+        else
+        {
+            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>", 
+                name, castTime, description.Replace("#", Environment.NewLine), damage, ColorUtility.ToHtmlStringRGB(barColor));
+        }
+    }
 
     public void Use() => Player.Instance.CastSpell(Name);
 }

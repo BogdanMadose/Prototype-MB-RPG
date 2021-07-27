@@ -22,10 +22,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image portraitFrame;
     [SerializeField] private CanvasGroup keyBindMenu;
     [SerializeField] private CanvasGroup spellBook;
+    [SerializeField] private GameObject toolTip;
+    private Text _toolTipText;
     private GameObject[] _keyBindButtons;
     private Stat _healthStat;
 
-    private void Awake() => _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
+    private void Awake()
+    {
+        _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
+        _toolTipText = toolTip.GetComponentInChildren<Text>();
+    }
 
     // Start is called before the first frame update
     void Start() => _healthStat = targetFrame.GetComponentInChildren<Stat>();
@@ -56,8 +62,8 @@ public class UIManager : MonoBehaviour
         targetFrame.SetActive(true);
         _healthStat.Initialize(target.Health.CurrentValue, target.Health.MaxValue);
         portraitFrame.sprite = target.Portrait;
-        target.healthChanged += new HealthChanged(UpdateTargetFrame);
-        target.npcRemoved += new NPCRemoved(HideTargetFrame);
+        target.healthChangedEvent += new HealthChanged(UpdateTargetFrame);
+        target.npcRemovedEvent += new NPCRemoved(HideTargetFrame);
     }
 
     /// <summary>
@@ -103,5 +109,17 @@ public class UIManager : MonoBehaviour
             clickable.Icon.color = new Color(0, 0, 0, 0);
             clickable.StackText.color = new Color(0, 0, 0, 0);
         }
+    }
+
+    public void ShowToolTip(Vector3 position, IDescribable description)
+    {
+        toolTip.SetActive(true);
+        toolTip.transform.position = position;
+        _toolTipText.text = description.GetDescription();
+    }
+
+    public void HideToolTip()
+    {
+        toolTip.SetActive(false);
     }
 }

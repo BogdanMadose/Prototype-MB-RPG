@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void ItemCountChanged(Item item);
+
 public class InventoryScript : MonoBehaviour
 {
+    public event ItemCountChanged itemCountChangedEvent;
     private static InventoryScript _instance;
     public static InventoryScript Instance
     {
@@ -33,7 +36,7 @@ public class InventoryScript : MonoBehaviour
                 _fromSlot.Icon.color = Color.gray;
             }
         }
-    } 
+    }
 
     public int EmptySlotCount
     {
@@ -147,6 +150,7 @@ public class InventoryScript : MonoBehaviour
         {
             if (bag.BagScript.AddItemToBag(item))
             {
+                OnItemCountChanged(item);
                 return;
             }
         }
@@ -160,6 +164,7 @@ public class InventoryScript : MonoBehaviour
             {
                 if (slot.StackItemInSlot(item))
                 {
+                    OnItemCountChanged(item);
                     return true;
                 }
             }
@@ -208,5 +213,13 @@ public class InventoryScript : MonoBehaviour
             }
         }
         return usables;
+    }
+
+    public void OnItemCountChanged(Item item)
+    {
+        if (itemCountChangedEvent != null)
+        {
+            itemCountChangedEvent.Invoke(item);
+        }
     }
 }

@@ -29,4 +29,10 @@ public class Bag : Item, IUsable
             }
         }
     }
+
+    public override string GetDescription()
+    {
+        return base.GetDescription() + 
+            string.Format("\n<color=#00ff00>Use to gain an extra {0} slot bag</color>", _slots);
+    }
 }

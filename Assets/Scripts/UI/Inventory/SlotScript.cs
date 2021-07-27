@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable
+public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image icon;
     [SerializeField] private Text stackText;
@@ -55,7 +55,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable
     {
         if (!IsEmpty)
         {
-            Items.Pop();
+            InventoryScript.Instance.OnItemCountChanged(Items.Pop());
         }
     }
 
@@ -175,9 +175,23 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable
     {
         if (Items.Count > 0)
         {
+            InventoryScript.Instance.OnItemCountChanged(Items.Pop());
             Items.Clear();
         }
     }
 
     private void UpdateSlot() => UIManager.Instance.UpdateStackSize(this);
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!IsEmpty)
+        {
+            UIManager.Instance.ShowToolTip(transform.position, Item);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UIManager.Instance.HideToolTip();
+    }
 }

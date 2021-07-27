@@ -4,6 +4,7 @@ using UnityEngine;
 public class HealthPotion : Item, IUsable
 {
     [SerializeField] private int health;
+
     public void Use()
     {
         if (Player.Instance.Health.CurrentValue < Player.Instance.Health.MaxValue)
@@ -11,5 +12,11 @@ public class HealthPotion : Item, IUsable
             Remove();
             Player.Instance.Health.CurrentValue += health;
         }
+    }
+
+    public override string GetDescription()
+    {
+        return base.GetDescription() +
+            string.Format("\n<color=#00ff00>Use to restore {0} health</color>", health);
     }
 }

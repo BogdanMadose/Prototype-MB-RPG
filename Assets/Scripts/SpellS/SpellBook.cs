@@ -18,11 +18,17 @@ public class SpellBook : MonoBehaviour
         }
     }
 
+    [Tooltip("Number of spells")]
     [SerializeField] private Spell[] spells;
+    [Tooltip("Casting bar UI sprite")]
     [SerializeField] private Image castingBar;
+    [Tooltip("Currently casted spell text display")]
     [SerializeField] private Text currentSpell;
+    [Tooltip("Currently casted spell sprite display")]
     [SerializeField] private Image icon;
+    [Tooltip("Currently casted spell cast time text display")]
     [SerializeField] private Text castTime;
+    [Tooltip("Casting bar UI object")]
     [SerializeField] private CanvasGroup canvasGroup;
     private Coroutine _spellRoutine;
     private Coroutine _fadeRoutine;
@@ -109,6 +115,11 @@ public class SpellBook : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get spell from spellbook
+    /// </summary>
+    /// <param name="spellName">Name of the spell</param>
+    /// <returns>Usable spell in action bar</returns>
     public Spell GetSpell(string spellName)
     {
         Spell spell = Array.Find(spells, x => x.Name == spellName);

@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPointerEnterHandler, IPointerExitHandler
 {
+    [Tooltip("Icon under action button")]
     [SerializeField] private Image icon;
+    [Tooltip("Stack size text under the action button")]
     [SerializeField] private Text stackSize;
     private Stack<IUsable> _usables = new Stack<IUsable>();
     private int _count;
@@ -50,6 +52,11 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         }
     }
 
+
+    /// <summary>
+    /// Connects the item from inventory to the action bar and makes it usable
+    /// </summary>
+    /// <param name="usable">Usable item</param>
     public void SetUsable(IUsable usable)
     {
         if (usable is Item)
@@ -66,6 +73,10 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         UpdateVisual();
     }
 
+
+    /// <summary>
+    /// Update the visuals of the item/spell that is dragged into the action bar
+    /// </summary>
     public void UpdateVisual()
     {
         Icon.sprite = HandScript.Instance.PutItem().Icon;
@@ -76,6 +87,11 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         }
     }
 
+
+    /// <summary>
+    /// Update the stack number of an item
+    /// </summary>
+    /// <param name="item">Stackable item</param>
     public void UpdateItemCount(Item item)
     {
         if (item is IUsable && _usables.Count > 0)

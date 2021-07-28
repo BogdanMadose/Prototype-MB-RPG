@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HealthPotion", menuName = "Items/Potion", order = 1)]
 public class HealthPotion : Item, IUsable
 {
+    [Tooltip("Health restored")]
     [SerializeField] private int health;
 
     public void Use()

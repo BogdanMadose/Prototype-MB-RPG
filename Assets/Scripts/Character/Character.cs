@@ -5,40 +5,17 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour
 {
     #region Variables
-    /// <summary>
-    /// Variable to hold the speed at which every character moves
-    /// </summary>
     [Tooltip("Character movement speed (float value)")]
     [SerializeField] private float speed;
-
-    /// <summary>
-    /// Initial allowed character health
-    /// </summary>
     [Tooltip("Character initial health (float value)")]
     [SerializeField] private float initHealth;
-
-    /// <summary>
-    /// Character health stat reference
-    /// </summary>
     [Tooltip("Character health stat script")]
     [SerializeField] private Stat health;
-
-    /// <summary>
-    /// Character physics reference
-    /// </summary>
     private Rigidbody2D _rb;
 
     [Tooltip("Character HitBox")]
     [SerializeField] protected Transform hitBox;
-
-    /// <summary>
-    /// Variable to hold the animator component of each character
-    /// </summary>
     private Animator _animator;
-
-    /// <summary>
-    /// Reference to attack coroutine
-    /// </summary>
     protected Coroutine _attackRoutine;
     #endregion
 

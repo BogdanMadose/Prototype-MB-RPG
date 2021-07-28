@@ -15,6 +15,7 @@ public class NPC : Character
     public event HealthChanged healthChangedEvent;
     public event NPCRemoved npcRemovedEvent;
 
+    [Tooltip("Character portrait sprite")]
     [SerializeField] private Sprite portrait;
 
     public Sprite Portrait => portrait;

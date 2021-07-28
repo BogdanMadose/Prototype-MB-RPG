@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPointerEnterHandler, IPointerExitHandler
 {
+    [Tooltip("Slot icon sprite")]
     [SerializeField] private Image icon;
+    [Tooltip("Slot stack size text")]
     [SerializeField] private Text stackText;
     private ObservableStack<Item> _items = new ObservableStack<Item>();
 
@@ -24,6 +26,11 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         Items.OnClear += new UpdateStackEvent(UpdateSlot);
     }
 
+    /// <summary>
+    /// Handles adding an item to slot
+    /// </summary>
+    /// <param name="item">Desired item</param>
+    /// <returns></returns>
     public bool AddItemToSlot(Item item)
     {
         Items.Push(item);
@@ -33,6 +40,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return true;
     }
 
+    /// <summary>
+    /// Handles adding multiple stackable items to slot
+    /// </summary>
+    /// <param name="newItems">Desired item stack</param>
     public bool AddItemsToSlot(ObservableStack<Item> newItems)
     {
         if (IsEmpty || newItems.Peek().GetType() == Item.GetType())
@@ -51,6 +62,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return false;
     }
 
+    /// <summary>
+    /// Handles removing of an item from slot
+    /// </summary>
+    /// <param name="item">Desired item</param>
     public void RemoveItemFromSlot(Item item)
     {
         if (!IsEmpty)
@@ -106,6 +121,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         }
     }
 
+    /// <summary>
+    /// Handles using of items from slot
+    /// </summary>
     public void UseItemInSlot()
     {
         if (Item is IUsable)
@@ -114,6 +132,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         }
     }
 
+    /// <summary>
+    /// Handles stacking items in one slot
+    /// </summary>
+    /// <param name="item">Desired stackable items</param>
     public bool StackItemInSlot(Item item)
     {
         if (!IsEmpty && item.name == Item.name && Items.Count < Item.StackSize)
@@ -125,6 +147,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return false;
     }
 
+    /// <summary>
+    /// Returns item to original slot
+    /// </summary>
     private bool PutItemBack()
     {
         if (InventoryScript.Instance.FromSlot == this)
@@ -135,6 +160,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return false;
     }
 
+    /// <summary>
+    /// Handles item switching
+    /// </summary>
+    /// <param name="from">Original item</param>
     private bool SwapItems(SlotScript from)
     {
         if (IsEmpty)
@@ -153,6 +182,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return false;
     }
 
+    /// <summary>
+    /// Handles merging stackable items
+    /// </summary>
+    /// <param name="from">Original item</param>
     private bool MergeItems(SlotScript from)
     {
         if (IsEmpty)
@@ -171,6 +204,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         return false;
     }
 
+    /// <summary>
+    /// Handles destroying of item(s) from slot
+    /// </summary>
     public void TrashItem()
     {
         if (Items.Count > 0)
@@ -180,6 +216,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         }
     }
 
+    /// <summary>
+    /// Handles updating stack size in slot
+    /// </summary>
     private void UpdateSlot() => UIManager.Instance.UpdateStackSize(this);
 
     public void OnPointerEnter(PointerEventData eventData)

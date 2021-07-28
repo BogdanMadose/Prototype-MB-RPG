@@ -17,11 +17,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Tooltip("Targeted NPC portratit frame UI object")]
     [SerializeField] private GameObject targetFrame;
+    [Tooltip("Number of action buttons")]
     [SerializeField] private ActionButton[] actionButtons;
+    [Tooltip("Portrait image sprite")]
     [SerializeField] private Image portraitFrame;
+    [Tooltip("Keybinding menu UI object")]
     [SerializeField] private CanvasGroup keyBindMenu;
+    [Tooltip("Spellbook menu UI object")]
     [SerializeField] private CanvasGroup spellBook;
+    [Tooltip("Tooltip UI object")]
     [SerializeField] private GameObject toolTip;
     private Text _toolTipText;
     private GameObject[] _keyBindButtons;
@@ -77,20 +83,37 @@ public class UIManager : MonoBehaviour
     /// <param name="health">Health value</param>
     public void UpdateTargetFrame(float health) => _healthStat.CurrentValue = health;
 
+    /// <summary>
+    /// Handles updating the text in keybinding menu
+    /// </summary>
+    /// <param name="key">New key</param>
+    /// <param name="keyCode">New keyboard Key</param>
     public void UpdateKeyText(string key, KeyCode keyCode)
     {
         Text tmp = Array.Find(_keyBindButtons, x => x.name == key).GetComponentInChildren<Text>();
         tmp.text = keyCode.ToString();
     }
 
+    /// <summary>
+    /// Handles clicking / using action bar buttons
+    /// </summary>
+    /// <param name="buttonName">Name of the action button</param>
     public void UseActionButton(string buttonName) => Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
 
+    /// <summary>
+    /// Handles the display of Keybind and Spellbook menu objects
+    /// </summary>
+    /// <param name="canvasGroup">Desired menu object</param>
     public void OpenClose(CanvasGroup canvasGroup)
     {
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
         canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts != true;
     }
 
+    /// <summary>
+    /// Update stack size functionality
+    /// </summary>
+    /// <param name="clickable">Clickable object</param>
     public void UpdateStackSize(IClickable clickable)
     {
         if (clickable.Count > 1)

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Enemy : NPC
 {
+    [Tooltip("Healthbar UI object")]
     [SerializeField] private CanvasGroup healthGroup;
+    [Tooltip("Initial aggro range")]
     [SerializeField] private float initAggroRange;
     private IState _currentState;
 

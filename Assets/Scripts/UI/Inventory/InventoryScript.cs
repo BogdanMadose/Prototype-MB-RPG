@@ -19,7 +19,9 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    [Tooltip("Items in all inventory")]
     [SerializeField] private Item[] items;
+    [Tooltip("Number of bag button bar buttons")]
     [SerializeField] private BagButton[] bagButtons;
     private List<Bag> _bags = new List<Bag>();
     private SlotScript _fromSlot;
@@ -96,6 +98,10 @@ public class InventoryScript : MonoBehaviour
     }
     //============================================
 
+    /// <summary>
+    /// Handles adding a bag to a bag bar slot
+    /// </summary>
+    /// <param name="bag">Bag to be added</param>
     public void AddBagToBar(Bag bag)
     {
         foreach (BagButton bagButton in bagButtons)
@@ -110,18 +116,32 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles adding a bag to a bag bar slot
+    /// </summary>
+    /// <param name="bag">Bag to be added</param>
+    /// <param name="bagButton">Specific bag bar button</param>
     public void AddBagToBar(Bag bag, BagButton bagButton)
     {
         _bags.Add(bag);
         bagButton.Bag = bag;
     }
 
+    /// <summary>
+    /// Handles removing bag from bag bar
+    /// </summary>
+    /// <param name="bag">Bag to be removed</param>
     public void RemoveBagFromBar(Bag bag)
     {
         _bags.Remove(bag);
         Destroy(bag.BagScript.gameObject);
     }
 
+    /// <summary>
+    /// Handles switching bag items from inventory to bag bar
+    /// </summary>
+    /// <param name="oldBag">Bag to be switched</param>
+    /// <param name="newBag">Bag to be switched with</param>
     public void SwapBagsFromBar(Bag oldBag, Bag newBag)
     {
         int newSlotCount = (TotalSlotCount - oldBag.Slots) + newBag.Slots;
@@ -144,6 +164,10 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles adding items to inventory slot
+    /// </summary>
+    /// <param name="item">Desired item</param>
     public void PlaceInEmptySlot(Item item)
     {
         foreach (Bag bag in _bags)
@@ -156,6 +180,14 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles stackable items in slots
+    /// </summary>
+    /// <param name="item">Desired item</param>
+    /// <returns>
+    /// <para>TRUE - item is stackable / can be placed in stack</para>
+    /// <para>FALSE - item is not stackable / cannot be placed in stack</para>
+    /// </returns>
     private bool PlaceInStack(Item item)
     {
         foreach (Bag bag in _bags)
@@ -172,6 +204,10 @@ public class InventoryScript : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Handles adding item to whole inventory
+    /// </summary>
+    /// <param name="item">Desired item</param>
     public void AddItemToInventory(Item item)
     {
         if (item.StackSize > 0)
@@ -184,6 +220,9 @@ public class InventoryScript : MonoBehaviour
         PlaceInEmptySlot(item);
     }
 
+    /// <summary>
+    /// Handles display of full inventory
+    /// </summary>
     public void OpenCloseInventory()
     {
         bool closedBag = _bags.Find(x => !x.BagScript.IsOpen);
@@ -196,6 +235,11 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles decreasing and increasing stack size of usable items
+    /// </summary>
+    /// <param name="type">Type of usable item</param>
+    /// <returns>All usable items</returns>
     public Stack<IUsable> GetUsables(IUsable type)
     {
         Stack<IUsable> usables = new Stack<IUsable>();

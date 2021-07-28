@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+    [Tooltip("Player object")]
     [SerializeField] private Player player;
     private NPC _currentTarget;
 

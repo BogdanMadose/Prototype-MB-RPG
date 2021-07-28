@@ -40,6 +40,11 @@ public class KeyBindManager : MonoBehaviour
         BindKey("ACT5", KeyCode.Alpha5);
     }
 
+    /// <summary>
+    /// Handles keybind changes menu
+    /// </summary>
+    /// <param name="key">Unity and game key</param>
+    /// <param name="keyBind">Keyboard key</param>
     public void BindKey(string key, KeyCode keyBind)
     {
         Dictionary<string, KeyCode> currentDict = Keybinds;

@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class SpellButton : MonoBehaviour, IPointerClickHandler
 {
+    [Tooltip("Name of the spell")]
     [SerializeField] private string spellName;
     public void OnPointerClick(PointerEventData eventData)
     {

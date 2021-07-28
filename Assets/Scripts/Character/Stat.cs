@@ -4,41 +4,18 @@ using UnityEngine.UI;
 public class Stat : MonoBehaviour
 {
     #region Variables
-    /// <summary>
-    /// Reference to the text component under image object
-    /// </summary>
+    [Tooltip("Stat value text under image")]
     [SerializeField] private Text statValue;
-
-    /// <summary>
-    /// Lerp speed for display purposes, can be changed in editor
-    /// </summary>
+    [Tooltip("Prefferd lerp speed")]
     [SerializeField] private float lerpSpeed;
-
-    /// <summary>
-    /// Variable to hold the fill amount
-    /// </summary>
     private float _currentFill;
-
-    /// <summary>
-    /// Variable to hold the current value (eg.: health, mana)
-    /// </summary>
     private float _currentValue;
-
-    /// <summary>
-    /// Reference to the (mana, health bar ) image component in editor
-    /// </summary>
     private Image _content;
     #endregion
 
     #region Properties
-    /// <summary>
-    /// Property to get and set the max allowed value (eg.: maxHealth, maxMana)
-    /// </summary>
     public float MaxValue { get; set; }
 
-    /// <summary>
-    /// Property to get and set the current vallue of both current and fill values accordingly
-    /// </summary>
     public float CurrentValue
     {
         get => _currentValue;

@@ -17,30 +17,14 @@ public class Player : Character
     }
 
     #region Variables
-    /// <summary>
-    /// Component reference to player mana
-    /// </summary>
-    [Tooltip("Player mana")]
+    [Tooltip("Player set mana")]
     [SerializeField] private Stat mana;
-
-    /// <summary>
-    /// Initial allowed player mana
-    /// </summary>
+    [Tooltip("Player inital mana")]
     [SerializeField] private float initMana;
-
-    /// <summary>
-    /// Array that holds the exact points from where casted spells start
-    /// </summary>
+    [Tooltip("Spell exit points")]
     [SerializeField] private Transform[] exitPoints;
-
-    /// <summary>
-    /// Holds the physical invisible raycaster objects
-    /// </summary>
+    [Tooltip("Raycaster blocker array")]
     [SerializeField] private Block[] blocks;
-
-    /// <summary>
-    /// exitPoints array index (Default = 2 ( facing down [South])) (cardinal directions)
-    /// </summary>
     private int _exitIndex = 2;
     private Vector3 _min, _max;
     #endregion

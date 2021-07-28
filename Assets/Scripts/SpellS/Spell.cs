@@ -34,13 +34,13 @@ public class Spell : IUsable, IMovable, IDescribable
         Color color = barColor;
         if (castTime == 1)
         {
-            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>", 
+            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>",
                 name, castTime, description.Replace("#", Environment.NewLine), damage, ColorUtility.ToHtmlStringRGB(barColor));
 
         }
         else
         {
-            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>", 
+            return string.Format("<color=#{4}>{0}</color>\n<color=#00ff00>Cast time: {1} second\nDamage: {3}\n{2}</color>",
                 name, castTime, description.Replace("#", Environment.NewLine), damage, ColorUtility.ToHtmlStringRGB(barColor));
         }
     }

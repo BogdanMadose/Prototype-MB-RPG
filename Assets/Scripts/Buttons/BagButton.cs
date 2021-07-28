@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class BagButton : MonoBehaviour, IPointerClickHandler
 {
+    [Tooltip("Sprites used for empty and full bag bar slots")]
     [SerializeField] private Sprite full, empty;
     private Bag _bag;
 
@@ -48,6 +49,9 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    /// <summary>
+    /// Remove bag from bag slot bar
+    /// </summary>
     public void RemoveBag()
     {
         InventoryScript.Instance.RemoveBagFromBar(Bag);

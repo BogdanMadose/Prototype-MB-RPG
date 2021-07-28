@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SpellScript : MonoBehaviour
 {
+    [Tooltip("Spell projectile speed")]
     [SerializeField] private float speed;
     private Rigidbody2D _rb;
     private int _damage;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BagScript : MonoBehaviour
 {
+    [Tooltip("Slot prefab")]
     [SerializeField] private GameObject slotPrefab;
     private CanvasGroup _canvasGroup;
     private List<SlotScript> _slots = new List<SlotScript>();
@@ -26,6 +27,10 @@ public class BagScript : MonoBehaviour
     public List<SlotScript> Slots => _slots;
     private void Awake() => _canvasGroup = GetComponent<CanvasGroup>();
 
+    /// <summary>
+    /// Handles adding slots to bag
+    /// </summary>
+    /// <param name="slotCount">Number of slots</param>
     public void AddSlots(int slotCount)
     {
         for (int i = 0; i < slotCount; i++)
@@ -36,6 +41,14 @@ public class BagScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles adding items to bag
+    /// </summary>
+    /// <param name="item">Desired item(s)</param>
+    /// <returns>
+    /// <para>TRUE - Item can be added / Slot empty</para>
+    /// <para>FALSE - Item cannot be added / Slot filled</para>
+    /// </returns>
     public bool AddItemToBag(Item item)
     {
         foreach (SlotScript slot in Slots)
@@ -50,12 +63,19 @@ public class BagScript : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Handles displaying of specific bag
+    /// </summary>
     public void OpenClose()
     {
         _canvasGroup.alpha = _canvasGroup.alpha > 0 ? 0 : 1;
         _canvasGroup.blocksRaycasts = _canvasGroup.blocksRaycasts != true;
     }
 
+    /// <summary>
+    /// Handles filling empty slots of original bag if bag destroyed
+    /// </summary>
+    /// <returns>Transfer items</returns>
     public List<Item> GetItems()
     {
         List<Item> items = new List<Item>();

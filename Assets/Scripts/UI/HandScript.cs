@@ -17,6 +17,7 @@ public class HandScript : MonoBehaviour
         }
     }
 
+    [Tooltip("Desired icon display offset")]
     [SerializeField] private Vector3 offset;
     private Image _icon;
 
@@ -30,6 +31,10 @@ public class HandScript : MonoBehaviour
         DeleteItem();
     }
 
+    /// <summary>
+    /// Handles picking up the object
+    /// </summary>
+    /// <param name="movable">Object to be moved</param>
     public void TakeMovable(IMovable movable)
     {
         this.Movable = movable;
@@ -37,6 +42,9 @@ public class HandScript : MonoBehaviour
         _icon.color = Color.white;
     }
 
+    /// <summary>
+    /// Handlles diplaying object on pointer location ( drag simulation )
+    /// </summary>
     public IMovable PutItem()
     {
         IMovable tmp = Movable;
@@ -45,12 +53,18 @@ public class HandScript : MonoBehaviour
         return tmp;
     }
 
+    /// <summary>
+    /// Handles placing of object
+    /// </summary>
     public void DropItem()
     {
         Movable = null;
         _icon.color = new Color(0, 0, 0, 0);
     }
 
+    /// <summary>
+    /// Handles deleting / destroying the picked up object if outside of UI
+    /// </summary>
     private void DeleteItem()
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && Instance.Movable != null)

@@ -10,13 +10,9 @@ using UnityEngine;
 public class Block
 {
     #region Variables
-    /// <summary>
-    /// Invisible raycast blocker top
-    /// </summary>
+    [Tooltip("First blocking object")]
     [SerializeField] private GameObject first;
-    /// <summary>
-    /// Invisible raycast blocker bottom
-    /// </summary>
+    [Tooltip("Second blocking object")]
     [SerializeField] private GameObject second;
     #endregion
 

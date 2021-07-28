@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Tooltip("Tile layer on which character can move")]
     [SerializeField] private Tilemap tilemap;
     private Transform _target;
     private float _xMax, _xMin, _yMin, _yMax;

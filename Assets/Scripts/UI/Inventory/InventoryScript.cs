@@ -95,6 +95,17 @@ public class InventoryScript : MonoBehaviour
             HealthPotion potion = (HealthPotion)Instantiate(items[1]);
             AddItemToInventory(potion);
         }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            AddItemToInventory((Armors)Instantiate(items[2]));
+            AddItemToInventory((Armors)Instantiate(items[3]));
+            AddItemToInventory((Armors)Instantiate(items[4]));
+            AddItemToInventory((Armors)Instantiate(items[5]));
+            AddItemToInventory((Armors)Instantiate(items[6]));
+            AddItemToInventory((Armors)Instantiate(items[7]));
+            AddItemToInventory((Armors)Instantiate(items[8]));
+            AddItemToInventory((Armors)Instantiate(items[9]));
+        }
     }
     //============================================
 

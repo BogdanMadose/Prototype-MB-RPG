@@ -179,16 +179,17 @@ public class InventoryScript : MonoBehaviour
     /// Handles adding items to inventory slot
     /// </summary>
     /// <param name="item">Desired item</param>
-    public void PlaceInEmptySlot(Item item)
+    public bool PlaceInEmptySlot(Item item)
     {
         foreach (Bag bag in _bags)
         {
             if (bag.BagScript.AddItemToBag(item))
             {
                 OnItemCountChanged(item);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     /// <summary>
@@ -219,16 +220,16 @@ public class InventoryScript : MonoBehaviour
     /// Handles adding item to whole inventory
     /// </summary>
     /// <param name="item">Desired item</param>
-    public void AddItemToInventory(Item item)
+    public bool AddItemToInventory(Item item)
     {
         if (item.StackSize > 0)
         {
             if (PlaceInStack(item))
             {
-                return;
+                return true;
             }
         }
-        PlaceInEmptySlot(item);
+        return PlaceInEmptySlot(item);
     }
 
     /// <summary>

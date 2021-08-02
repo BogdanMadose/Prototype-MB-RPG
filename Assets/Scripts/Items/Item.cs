@@ -18,7 +18,7 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
     public string Title => title;
 
     public virtual string GetDescription()
-    {      
+    {
         return string.Format("<color={0}>{1}</color>", QualityColor.Colors[Quality], Title);
     }
 

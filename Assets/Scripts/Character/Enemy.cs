@@ -6,6 +6,8 @@ public class Enemy : NPC
     [SerializeField] private CanvasGroup healthGroup;
     [Tooltip("Initial aggro range")]
     [SerializeField] private float initAggroRange;
+    [Tooltip("Possible items to drop")]
+    [SerializeField] private LootTable lootTable;
     private IState _currentState;
 
     public float AttackRange { get; set; }
@@ -94,5 +96,13 @@ public class Enemy : NPC
         this.AggroRange = initAggroRange;
         this.Health.CurrentValue = this.Health.MaxValue;
         OnHealthChanged(Health.CurrentValue);
+    }
+
+    public override void Interact()
+    {
+        if (!IsAlive)
+        {
+            lootTable.ShowLoot();
+        }
     }
 }

@@ -49,4 +49,9 @@ public class NPC : Character
         npcRemovedEvent?.Invoke();
         Destroy(gameObject);
     }
+
+    public virtual void Interact()
+    {
+        Debug.Log("open dialogue");
+    }
 }

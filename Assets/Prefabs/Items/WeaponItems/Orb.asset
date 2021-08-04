@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75c962f68c41d044a6b77c692698ab0, type: 3}
-  m_Name: Bag
+  m_Script: {fileID: 11500000, guid: 52934ca7fde1e4a4d90dc437b2805e43, type: 3}
+  m_Name: Orb
   m_EditorClassIdentifier: 
   stackSize: 0
-  icon: {fileID: 21300000, guid: 7ec1aab63411bb04fb8cb16ef4b2c738, type: 3}
-  title: Bag
-  quality: 1
-  bagPrefab: {fileID: 2718008957673788947, guid: f2993ab9aee0f0043b8900fabd4d40a4, type: 3}
+  icon: {fileID: 21300000, guid: 88948a175ee26b843bfbe65429502ef7, type: 3}
+  title: Obsidian Orb
+  quality: 2
+  itemPlacement: 7
+  intellect: 35
+  strength: 6
+  dexterity: 4

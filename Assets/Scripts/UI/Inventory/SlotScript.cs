@@ -80,12 +80,24 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         {
             if (InventoryScript.Instance.FromSlot == null && !IsEmpty)
             {
-                if (HandScript.Instance.Movable != null && (HandScript.Instance.Movable is Bag))
+                if (HandScript.Instance.Movable != null)
                 {
-                    if (Item is Bag)
+                    if (HandScript.Instance.Movable is Bag)
                     {
-                        InventoryScript.Instance.SwapBagsFromBar(HandScript.Instance.Movable as Bag, Item as Bag);
+                        if (Item is Bag)
+                        {
+                            InventoryScript.Instance.SwapBagsFromBar(HandScript.Instance.Movable as Bag, Item as Bag);
+                        }
                     }
+                    else if (HandScript.Instance.Movable is Equipment)
+                    {
+                        if (Item is Equipment && (Item as Equipment).ItemPlacement == (HandScript.Instance.Movable as Equipment).ItemPlacement)
+                        {
+                            (Item as Equipment).Equip();
+                            HandScript.Instance.DropItem();
+                        }
+                    }
+
                 }
                 else
                 {
@@ -93,13 +105,23 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
                     InventoryScript.Instance.FromSlot = this;
                 }
             }
-            else if (InventoryScript.Instance.FromSlot == null && IsEmpty && (HandScript.Instance.Movable is Bag))
+            else if (InventoryScript.Instance.FromSlot == null && IsEmpty)
             {
-                Bag bag = (Bag)HandScript.Instance.Movable;
-                if (bag.BagScript != BagInSlot && (InventoryScript.Instance.EmptySlotCount - bag.Slots) > 0)
+                if (HandScript.Instance.Movable is Bag)
                 {
-                    AddItemToSlot(bag);
-                    bag.BagButton.RemoveBag();
+                    Bag bag = (Bag)HandScript.Instance.Movable;
+                    if (bag.BagScript != BagInSlot && (InventoryScript.Instance.EmptySlotCount - bag.Slots) > 0)
+                    {
+                        AddItemToSlot(bag);
+                        bag.BagButton.RemoveBag();
+                        HandScript.Instance.DropItem();
+                    }
+                }
+                else if (HandScript.Instance.Movable is Equipment)
+                {
+                    Equipment equipment = (Equipment)HandScript.Instance.Movable;
+                    AddItemToSlot(equipment);
+                    CharacterPannel.Instance.SelectedButton.DequipItem();
                     HandScript.Instance.DropItem();
                 }
             }
@@ -115,7 +137,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
                 }
             }
         }
-        if (eventData.button == PointerEventData.InputButton.Right)
+        if (eventData.button == PointerEventData.InputButton.Right && HandScript.Instance.Movable == null)
         {
             UseItemInSlot();
         }
@@ -129,6 +151,10 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         if (Item is IUsable)
         {
             (Item as IUsable).Use();
+        }
+        else if (Item is Equipment)
+        {
+            (Item as Equipment).Equip();
         }
     }
 
@@ -225,7 +251,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     {
         if (!IsEmpty)
         {
-            UIManager.Instance.ShowToolTip(transform.position, Item);
+            UIManager.Instance.ShowToolTip(new Vector2(1, 0.5f), transform.position, Item);
         }
     }
 

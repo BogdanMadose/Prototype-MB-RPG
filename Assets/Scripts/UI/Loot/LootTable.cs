@@ -25,7 +25,7 @@ public class LootTable : MonoBehaviour
     /// </summary>
     private void RollLoot()
     {
-        foreach(Loot lootedItem in loot)
+        foreach (Loot lootedItem in loot)
         {
             int roll = Random.Range(0, 100);
             if (roll <= lootedItem.DropChance)

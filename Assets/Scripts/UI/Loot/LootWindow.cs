@@ -4,16 +4,17 @@ using UnityEngine.UI;
 
 public class LootWindow : MonoBehaviour
 {
-    private  static LootWindow _instance;
-    public static LootWindow Instance { 
-        get 
+    private static LootWindow _instance;
+    public static LootWindow Instance
+    {
+        get
         {
             if (_instance == null)
             {
                 _instance = GameObject.FindObjectOfType<LootWindow>();
             }
             return _instance;
-        } 
+        }
     }
 
     [Tooltip("Loot game objects")]

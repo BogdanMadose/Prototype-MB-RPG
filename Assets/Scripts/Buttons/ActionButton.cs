@@ -124,7 +124,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         }
         if (tmp != null)
         {
-            UIManager.Instance.ShowToolTip(transform.position, tmp);
+            UIManager.Instance.ShowToolTip(new Vector2(1, 0.5f), transform.position, tmp);
         }
     }
 }

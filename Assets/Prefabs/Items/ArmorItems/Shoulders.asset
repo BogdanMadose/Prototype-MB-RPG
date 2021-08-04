@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3114b651f808ace48bd2ccc9ad1271b6, type: 3}
-  m_Name: Gloves
+  m_Script: {fileID: 11500000, guid: 52934ca7fde1e4a4d90dc437b2805e43, type: 3}
+  m_Name: Shoulders
   m_EditorClassIdentifier: 
   stackSize: 0
-  icon: {fileID: 21300000, guid: afccc797b9d56bf4fb3a372fc6a42cd3, type: 3}
-  title: Leather Gloves
-  quality: 0
-  armorType: 3
-  intellect: 2
+  icon: {fileID: 21300000, guid: e72ee46b112fcfe4e94db2977fe95c5c, type: 3}
+  title: Iron Shoulders
+  quality: 1
+  itemPlacement: 1
+  intellect: 4
   strength: 5
-  dexterity: 10
+  dexterity: 13

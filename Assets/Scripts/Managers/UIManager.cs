@@ -29,9 +29,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup spellBook;
     [Tooltip("Tooltip UI object")]
     [SerializeField] private GameObject toolTip;
+    [Tooltip("Character pannel UI object")]
+    [SerializeField] private CharacterPannel _characterPannel;
+    [Tooltip("Tooltip pivot point reference")]
+    [SerializeField] private RectTransform tooltipRect;
     private Text _toolTipText;
     private GameObject[] _keyBindButtons;
     private Stat _healthStat;
+
 
     private void Awake()
     {
@@ -47,15 +52,19 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OpenClose(keyBindMenu);
+            OpenCloseMenuUIItem(keyBindMenu);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            OpenClose(spellBook);
+            OpenCloseMenuUIItem(spellBook);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             InventoryScript.Instance.OpenCloseInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _characterPannel.OpenCloseCharacterPannel();
         }
     }
 
@@ -104,7 +113,7 @@ public class UIManager : MonoBehaviour
     /// Handles the display of Keybind and Spellbook menu objects
     /// </summary>
     /// <param name="canvasGroup">Desired menu object</param>
-    public void OpenClose(CanvasGroup canvasGroup)
+    public void OpenCloseMenuUIItem(CanvasGroup canvasGroup)
     {
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
         canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts != true;
@@ -134,15 +143,34 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowToolTip(Vector3 position, IDescribable description)
+    /// <summary>
+    /// Handles showing tooltips
+    /// </summary>
+    /// <param name="pivot">Pivot point of tooltip</param>
+    /// <param name="position">Position of tooltip</param>
+    /// <param name="description">Description that needs to be displayed</param>
+    public void ShowToolTip(Vector2 pivot, Vector3 position, IDescribable description)
     {
+        tooltipRect.pivot = pivot;
         toolTip.SetActive(true);
         toolTip.transform.position = position;
         _toolTipText.text = description.GetDescription();
     }
 
+    /// <summary>
+    /// Handles hiding tooltips
+    /// </summary>
     public void HideToolTip()
     {
         toolTip.SetActive(false);
+    }
+
+    /// <summary>
+    /// Handles refreshing tooltips (Eg.: on item swaps)
+    /// </summary>
+    /// <param name="describable">New description that needs to be displayed</param>
+    public void RefreshToolTip(IDescribable describable)
+    {
+        _toolTipText.text = describable.GetDescription();
     }
 }

@@ -124,6 +124,7 @@ public class InventoryScript : MonoBehaviour
                 bagButton.Bag = bag;
                 _bags.Add(bag);
                 bag.BagButton = bagButton;
+                bag.BagScript.transform.SetSiblingIndex(bagButton.BagIndex);
                 break;
             }
         }
@@ -138,6 +139,7 @@ public class InventoryScript : MonoBehaviour
     {
         _bags.Add(bag);
         bagButton.Bag = bag;
+        bag.BagScript.transform.SetSiblingIndex(bagButton.BagIndex);
     }
 
     /// <summary>

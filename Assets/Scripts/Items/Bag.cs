@@ -5,17 +5,18 @@ public class Bag : Item, IUsable
 {
     [Tooltip("Bag prefab")]
     [SerializeField] private GameObject bagPrefab;
-    private int _slots;
+    [Tooltip("No. of slots")]
+    [SerializeField] private int slots;
 
     public BagScript BagScript { get; set; }
     public BagButton BagButton { get; set; }
-    public int Slots => _slots;
+    public int Slots => slots;
 
     /// <summary>
     /// Initialize number of slots in a bag
     /// </summary>
     /// <param name="slots">Number of slots</param>
-    public void Initialize(int slots) => this._slots = slots;
+    public void Initialize(int slots) => this.slots = slots;
 
     public void Use()
     {
@@ -23,7 +24,7 @@ public class Bag : Item, IUsable
         {
             Remove();
             BagScript = Instantiate(bagPrefab, InventoryScript.Instance.transform).GetComponent<BagScript>();
-            BagScript.AddSlots(_slots);
+            BagScript.AddSlots(slots);
             if (BagButton == null)
             {
                 InventoryScript.Instance.AddBagToBar(this);
@@ -38,6 +39,6 @@ public class Bag : Item, IUsable
     public override string GetDescription()
     {
         return base.GetDescription() +
-            string.Format("\n<color=#00ff00>Use to gain an extra {0} slot bag</color>", _slots);
+            string.Format("\n<color=#00ff00>Use to gain an extra {0} slot bag</color>", slots);
     }
 }

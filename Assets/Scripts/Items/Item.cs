@@ -11,6 +11,7 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
     [Tooltip("Item quality/rarity")]
     [SerializeField] private Quality quality;
 
+    public CharacterButton CharacterButton {get; set;}
     public int StackSize => stackSize;
     public Sprite Icon => icon;
     public SlotScript Slot { get; set; }
@@ -30,6 +31,7 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
         if (Slot != null)
         {
             Slot.RemoveItemFromSlot(this);
+            Slot = null;
         }
     }
 }

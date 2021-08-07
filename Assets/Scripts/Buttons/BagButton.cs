@@ -6,6 +6,8 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
 {
     [Tooltip("Sprites used for empty and full bag bar slots")]
     [SerializeField] private Sprite full, empty;
+    [Tooltip("Bag order in hierarchy")]
+    [SerializeField] private int bagIndex;
     private Bag _bag;
 
     public Bag Bag
@@ -17,6 +19,8 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
             _bag = value;
         }
     }
+
+    public int BagIndex { get => bagIndex; set => bagIndex = value; }
 
     public void OnPointerClick(PointerEventData eventData)
     {

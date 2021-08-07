@@ -57,6 +57,7 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
         icon.sprite = equipment.Icon;
         icon.color = Color.white;
         this._equipment = equipment;
+        this._equipment.CharacterButton = this;
         if (HandScript.Instance.Movable == (equipment as IMovable))
         {
             HandScript.Instance.DropItem();
@@ -78,6 +79,7 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
         {
             equipmentSocket.AnimateDequip();
         }
+        _equipment.CharacterButton = null;
         _equipment = null;
     }
 

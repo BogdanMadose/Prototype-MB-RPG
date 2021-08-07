@@ -8,6 +8,8 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     [SerializeField] private ItemPlacement itemPlacement;
     [Tooltip("Icon of equipped item")]
     [SerializeField] private Image icon;
+    [Tooltip("Specific equipment socket animation reference")]
+    [SerializeField] private EquipmentSocket equipmentSocket;
     private Equipment _equipment;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -59,6 +61,10 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
         {
             HandScript.Instance.DropItem();
         }
+        if (equipmentSocket != null && _equipment.AnimationClips != null)
+        {
+            equipmentSocket.AnimateEquip(_equipment.AnimationClips);
+        }
     }
 
     /// <summary>
@@ -68,6 +74,10 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     {
         icon.color = Color.white;
         icon.enabled = false;
+        if (equipmentSocket != null && _equipment.AnimationClips != null)
+        {
+            equipmentSocket.AnimateDequip();
+        }
         _equipment = null;
     }
 

@@ -8,8 +8,10 @@ public class Equipment : Item
     [SerializeField] private int intellect;
     [SerializeField] private int strength;
     [SerializeField] private int dexterity;
+    [SerializeField] private AnimationClip[] animationClips;
 
     public ItemPlacement ItemPlacement => itemPlacement;
+    public AnimationClip[] AnimationClips => animationClips;
 
     public override string GetDescription()
     {

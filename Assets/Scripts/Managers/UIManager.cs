@@ -122,7 +122,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Update stack size functionality
     /// </summary>
-    /// <param name="clickable">Clickable object</param>
+    /// <param name="clickable">Object in stack</param>
     public void UpdateStackSize(IClickable clickable)
     {
         if (clickable.Count > 1)
@@ -133,14 +133,23 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            clickable.StackText.color = new Color(0, 0, 0, 0);
-            clickable.Icon.color = Color.white;
+            ClearStackSizeCount(clickable);
         }
         if (clickable.Count == 0)
         {
             clickable.Icon.color = new Color(0, 0, 0, 0);
             clickable.StackText.color = new Color(0, 0, 0, 0);
         }
+    }
+
+    /// <summary>
+    /// Clear stack size functionality
+    /// </summary>
+    /// <param name="clickable">Object in stack</param>
+    public void ClearStackSizeCount(IClickable clickable)
+    {
+        clickable.StackText.color = new Color(0, 0, 0, 0);
+        clickable.Icon.color = Color.white;
     }
 
     /// <summary>

@@ -59,7 +59,7 @@ public abstract class Character : MonoBehaviour
     /// <summary>
     /// Handles animation transitions
     /// </summary>
-    public void HandleLayers()
+    public virtual void HandleLayers()
     {
         if (IsAlive)
         {
@@ -89,7 +89,7 @@ public abstract class Character : MonoBehaviour
     /// Handles animation state layers 
     /// </summary>
     /// <param name="layerName">layer that needs to be activated</param>
-    public void ActivateLayer(string layerName)
+    public virtual void ActivateLayer(string layerName)
     {
         for (int i = 0; i < Animator.layerCount; i++)
         {

@@ -20,3 +20,16 @@ MonoBehaviour:
   intellect: 5
   strength: 20
   dexterity: 10
+  animationClips:
+  - {fileID: 7400000, guid: c758b9d0ea6406946b67dbbb81e02c41, type: 2}
+  - {fileID: 7400000, guid: 5d763bf528cc45f49b0b49debf256c5c, type: 2}
+  - {fileID: 7400000, guid: 42984b64cf16e514e8c13350ad39b378, type: 2}
+  - {fileID: 7400000, guid: 9671fe8df31c395499cd0d34866ff20f, type: 2}
+  - {fileID: 7400000, guid: 620252d4bffdbe44089748b2ff57da49, type: 2}
+  - {fileID: 7400000, guid: d4d29e8613453994ca7dddff618be896, type: 2}
+  - {fileID: 7400000, guid: 7f614ce0ade4eea40b81c780e546d578, type: 2}
+  - {fileID: 7400000, guid: 2ed4f223868194d46906bc5845d4c762, type: 2}
+  - {fileID: 7400000, guid: a0fc40ae56c136449ad3b20c302d0a59, type: 2}
+  - {fileID: 7400000, guid: aeed51d6d9d1ef84db76ab2181548e1a, type: 2}
+  - {fileID: 7400000, guid: 5b5b950674f56fb4287995e04dbbec75, type: 2}
+  - {fileID: 7400000, guid: afcea330e27139b498e225d4e166dd7c, type: 2}

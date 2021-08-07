@@ -25,6 +25,8 @@ public class Player : Character
     [SerializeField] private Transform[] exitPoints;
     [Tooltip("Raycaster blocker array")]
     [SerializeField] private Block[] blocks;
+    [Tooltip("Animated equipment reference on player")]
+    [SerializeField] private EquipmentSocket[] equipmentSockets;
     private int _exitIndex = 2;
     private Vector3 _min, _max;
     #endregion
@@ -133,6 +135,10 @@ public class Player : Character
         Spell newSpell = SpellBook.Instance.CastSpell(spellName);
         IsAttacking = true;
         Animator.SetBool("attack", IsAttacking);
+        foreach (EquipmentSocket e in equipmentSockets)
+        {
+            e.Animator.SetBool("attack", IsAttacking);
+        }
         yield return new WaitForSeconds(newSpell.CastTime);
 
         if (currentTarget != null && InLineOfSight())
@@ -203,10 +209,34 @@ public class Player : Character
         SpellBook.Instance.StopCasting();
         IsAttacking = false;
         Animator.SetBool("attack", IsAttacking);
-
+        foreach (EquipmentSocket e in equipmentSockets)
+        {
+            e.Animator.SetBool("attack", IsAttacking);
+        }
         if (_attackRoutine != null)
         {
             StopCoroutine(_attackRoutine);
+        }
+    }
+
+    public override void HandleLayers()
+    {
+        base.HandleLayers();
+        if (IsMoving)
+        {
+            foreach (EquipmentSocket e in equipmentSockets)
+            {
+                e.SetDirection(Direction.x, Direction.y);
+            }
+        }
+    }
+
+    public override void ActivateLayer(string layerName)
+    {
+        base.ActivateLayer(layerName);
+        foreach (EquipmentSocket e in equipmentSockets)
+        {
+            e.HandleEquipmentAnimLayer(layerName);
         }
     }
 }

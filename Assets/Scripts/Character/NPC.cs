@@ -57,6 +57,6 @@ public class NPC : Character, IInteractable
 
     public virtual void StopInteracting()
     {
-        
+
     }
 }

@@ -76,7 +76,7 @@ public class HandScript : MonoBehaviour
             Item item = (Item)Movable;
             if (item.Slot != null)
             {
-                item.Slot.TrashItem();
+                item.Slot.TrashItems();
             }
             else if (item.CharacterButton != null)
             {

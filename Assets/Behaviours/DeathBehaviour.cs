@@ -7,17 +7,18 @@ public class DeathBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Destroy(animator.transform.GetChild(0).gameObject);
+        animator.transform.GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        timePassed += Time.deltaTime;
-        if (timePassed >= 4)
-        {
-            animator.GetComponent<NPC>().OnNPCRemoved();
-        }
-    }
+    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    timePassed += Time.deltaTime;
+    //    if (timePassed >= 4)
+    //    {
+    //        animator.GetComponent<NPC>().OnNPCRemoved();
+    //    }
+    //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

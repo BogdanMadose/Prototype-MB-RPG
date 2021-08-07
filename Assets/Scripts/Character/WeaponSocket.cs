@@ -5,7 +5,7 @@ class WeaponSocket : EquipmentSocket
     [Tooltip("Player sprite reference")]
     [SerializeField] private SpriteRenderer playerSR;
     private float _y;
-    
+
     public override void SetDirection(float x, float y)
     {
         base.SetDirection(x, y);

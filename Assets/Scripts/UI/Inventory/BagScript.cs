@@ -92,4 +92,12 @@ public class BagScript : MonoBehaviour
         }
         return items;
     }
+
+    public void ClearBag()
+    {
+        foreach (SlotScript slot in _slots)
+        {
+            slot.TrashItems();
+        }
+    }
 }

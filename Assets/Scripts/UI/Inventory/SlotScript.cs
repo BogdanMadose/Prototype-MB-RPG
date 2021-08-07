@@ -233,7 +233,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     /// <summary>
     /// Handles destroying of item(s) from slot
     /// </summary>
-    public void TrashItem()
+    public void TrashItems()
     {
         if (Items.Count > 0)
         {

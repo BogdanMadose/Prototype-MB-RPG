@@ -105,4 +105,9 @@ public class Enemy : NPC
             lootTable.ShowLoot();
         }
     }
+
+    public override void StopInteracting()
+    {
+        LootWindow.Instance.CloseLootWindow();
+    }
 }

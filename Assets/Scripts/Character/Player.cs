@@ -27,6 +27,7 @@ public class Player : Character
     [SerializeField] private Block[] blocks;
     [Tooltip("Animated equipment reference on player")]
     [SerializeField] private EquipmentSocket[] equipmentSockets;
+    private IInteractable _interactable;
     private int _exitIndex = 2;
     private Vector3 _min, _max;
     #endregion
@@ -237,6 +238,34 @@ public class Player : Character
         foreach (EquipmentSocket e in equipmentSockets)
         {
             e.HandleEquipmentAnimLayer(layerName);
+        }
+    }
+
+    public void Interact()
+    {
+        if (_interactable != null)
+        {
+            _interactable.Interact();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ( collision.tag == "Enemy")
+        {
+            _interactable = collision.GetComponent<IInteractable>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            if (_interactable != null)
+            {
+                _interactable.StopInteracting();
+                _interactable = null;
+            }
         }
     }
 }

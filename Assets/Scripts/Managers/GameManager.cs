@@ -17,14 +17,12 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 512);
-
             if (hit.collider != null)
             {
                 if (_currentTarget != null)
                 {
                     _currentTarget.Deselect();
                 }
-
                 _currentTarget = hit.collider.GetComponent<NPC>();
                 player.Target = _currentTarget.Select();
                 UIManager.Instance.ShowTargetFrame(_currentTarget);
@@ -32,12 +30,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 UIManager.Instance.HideTargetFrame();
-
                 if (_currentTarget != null)
                 {
                     _currentTarget.Deselect();
                 }
-
                 _currentTarget = null;
                 player.Target = null;
             }
@@ -47,7 +43,7 @@ public class GameManager : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, 512);
             if (hit.collider != null && hit.collider.tag == "Enemy")
             {
-                hit.collider.GetComponent<NPC>().Interact();
+                player.Interact();
             }
         }
     }

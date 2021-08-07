@@ -10,7 +10,7 @@ public delegate void HealthChanged(float health);
 /// NPC untargeted event
 /// </summary>
 public delegate void NPCRemoved();
-public class NPC : Character
+public class NPC : Character, IInteractable
 {
     public event HealthChanged healthChangedEvent;
     public event NPCRemoved npcRemovedEvent;
@@ -53,5 +53,10 @@ public class NPC : Character
     public virtual void Interact()
     {
         Debug.Log("open dialogue");
+    }
+
+    public virtual void StopInteracting()
+    {
+        
     }
 }

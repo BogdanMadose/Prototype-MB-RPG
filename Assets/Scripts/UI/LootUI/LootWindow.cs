@@ -37,7 +37,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Create the loot window
+    /// Create the loot window items
     /// </summary>
     /// <param name="items">List of items to be looted</param>
     public void CreatePages(List<Item> items)

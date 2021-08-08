@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class DeathBehaviour : StateMachineBehaviour
 {
-    private float timePassed;
+    private float _timePassed;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Destroy(animator.transform.GetChild(0).gameObject);
         animator.transform.GetComponent<BoxCollider2D>().isTrigger = true;
@@ -13,8 +13,8 @@ public class DeathBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //    timePassed += Time.deltaTime;
-    //    if (timePassed >= 4)
+    //    _timePassed += Time.deltaTime;
+    //    if (_timePassed >= 4)
     //    {
     //        animator.GetComponent<NPC>().OnNPCRemoved();
     //    }

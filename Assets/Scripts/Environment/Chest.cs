@@ -21,7 +21,7 @@ public class Chest : MonoBehaviour, IInteractable
         if (_isOpened)
         {
             StopInteracting();
-        }    
+        }
         else
         {
             AddItemsToChest();
@@ -52,7 +52,7 @@ public class Chest : MonoBehaviour, IInteractable
     {
         if (_items != null)
         {
-            foreach(Item item in _items)
+            foreach (Item item in _items)
             {
                 item.Slot.AddItemToSlot(item);
             }

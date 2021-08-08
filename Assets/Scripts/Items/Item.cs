@@ -10,13 +10,23 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
     [SerializeField] private string title;
     [Tooltip("Item quality/rarity")]
     [SerializeField] private Quality quality;
+    private SlotScript _slot;
+    private CharacterButton _characterButton;
 
-    public CharacterButton CharacterButton { get; set; }
     public int StackSize => stackSize;
     public Sprite Icon => icon;
-    public SlotScript Slot { get; set; }
     public Quality Quality => quality;
     public string Title => title;
+    public SlotScript Slot { get => _slot; set => _slot = value; }
+    public CharacterButton CharacterButton
+    {
+        get => _characterButton;
+        set
+        {
+            Slot = null;
+            _characterButton = value;
+        }
+    }
 
     public virtual string GetDescription()
     {
@@ -31,7 +41,6 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
         if (Slot != null)
         {
             Slot.RemoveItemFromSlot(this);
-            Slot = null;
         }
     }
 }

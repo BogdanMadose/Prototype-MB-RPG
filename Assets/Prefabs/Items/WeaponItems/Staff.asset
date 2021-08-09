@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 8ac930bf5befa80498e23d0313334e36, type: 3}
   title: Heirbranch
   quality: 4
+  price: 1000
   itemPlacement: 6
   intellect: 50
   strength: 20

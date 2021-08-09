@@ -32,8 +32,11 @@ public class Player : Character
     private Vector3 _min, _max;
     #endregion
 
+    public int Gold { get; set; }
+
     protected override void Start()
     {
+        Gold = 100;
         mana.Initialize(initMana, initMana);
         base.Start();
     }

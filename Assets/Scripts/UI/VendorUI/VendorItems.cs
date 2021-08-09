@@ -9,9 +9,9 @@ public class VendorItems
     [Tooltip("Item quantity")]
     [SerializeField] private int quantity;
     [Tooltip("Is always on stock")]
-    [SerializeField] private bool IsUnlimited;
+    [SerializeField] private bool isUnlimited;
 
     public Item Item => item;
     public int Quantity { get => quantity; set => quantity = value; }
-    public bool IsUnlimited1 => IsUnlimited;
+    public bool IsUnlimited => isUnlimited;
 }

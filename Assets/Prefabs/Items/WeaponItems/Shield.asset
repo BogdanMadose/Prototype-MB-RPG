@@ -16,7 +16,9 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 4182d16852e20ad41976ab2d4e88d55a, type: 3}
   title: Reinforced Shield
   quality: 2
+  price: 30
   itemPlacement: 7
   intellect: 0
   strength: 15
   dexterity: 15
+  animationClips: []

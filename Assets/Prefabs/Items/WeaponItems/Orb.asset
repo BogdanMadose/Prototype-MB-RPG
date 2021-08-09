@@ -16,7 +16,9 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 88948a175ee26b843bfbe65429502ef7, type: 3}
   title: Obsidian Orb
   quality: 2
+  price: 30
   itemPlacement: 7
   intellect: 35
   strength: 6
   dexterity: 4
+  animationClips: []

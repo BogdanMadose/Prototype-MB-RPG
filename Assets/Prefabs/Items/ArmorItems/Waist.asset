@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a03b71b0eedc19349b6eed94a20a469c, type: 3}
   title: Leather Pants
   quality: 0
+  price: 22
   itemPlacement: 4
   intellect: 4
   strength: 5

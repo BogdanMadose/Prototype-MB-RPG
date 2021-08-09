@@ -86,7 +86,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Refreshes page
+    /// Refreshes page on loot window
     /// </summary>
     public void RefreshPage()
     {
@@ -97,9 +97,9 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Next button functionality
+    /// Loot window Next button functionality
     /// </summary>
-    public void NextPage()
+    public void LootWNextPage()
     {
         if (_pageIndex < _lootPages.Count - 1)
         {
@@ -110,9 +110,9 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Previous button functionality
+    /// Loot window Previous button functionality
     /// </summary>
-    public void PrevPage()
+    public void LootWPrevPage()
     {
         if (_pageIndex > 0)
         {

@@ -10,6 +10,8 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
     [SerializeField] private string title;
     [Tooltip("Item quality/rarity")]
     [SerializeField] private Quality quality;
+    [Tooltip("Item vendoring price")]
+    [SerializeField] private int price;
     private SlotScript _slot;
     private CharacterButton _characterButton;
 
@@ -27,6 +29,7 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
             _characterButton = value;
         }
     }
+    public int Price => price;
 
     public virtual string GetDescription()
     {

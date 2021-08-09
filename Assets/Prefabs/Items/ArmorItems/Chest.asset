@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 836c93cb17b26654e9a770b92be7da83, type: 3}
   title: Iron Cuiras
   quality: 1
+  price: 22
   itemPlacement: 2
   intellect: 5
   strength: 20

@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 80bc489cf7394f84e924dc055712daf5, type: 3}
   title: Iron Helmet
   quality: 0
+  price: 26
   itemPlacement: 0
   intellect: 2
   strength: 15

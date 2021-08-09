@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: b5c89c12f83fdfb4a8f9d6442002e1ee, type: 3}
   title: Leather Boots
   quality: 0
+  price: 22
   itemPlacement: 5
   intellect: 3
   strength: 8

@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e72ee46b112fcfe4e94db2977fe95c5c, type: 3}
   title: Iron Shoulders
   quality: 1
+  price: 26
   itemPlacement: 1
   intellect: 4
   strength: 5

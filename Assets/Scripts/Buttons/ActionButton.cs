@@ -11,11 +11,21 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
     [SerializeField] private Text stackSize;
     private Stack<IUsable> _usables = new Stack<IUsable>();
     private int _count;
+
     public Button Button { get; private set; }
     public IUsable Usable { get; set; }
     public Image Icon { get => icon; set => icon = value; }
     public int Count => _count;
     public Text StackText => stackSize;
+    public Stack<IUsable> Usables
+    {
+        get => _usables;
+        set
+        {
+            Usable = value.Peek();
+            _usables = value;
+        }
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -45,9 +55,9 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
             {
                 Usable.Use();
             }
-            if (_usables != null && _usables.Count > 0)
+            if (Usables != null && Usables.Count > 0)
             {
-                _usables.Peek().Use();
+                Usables.Peek().Use();
             }
         }
     }
@@ -61,17 +71,18 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
     {
         if (usable is Item)
         {
-            _usables = InventoryScript.Instance.GetUsables(usable);
+            Usables = InventoryScript.Instance.GetUsables(usable);
             InventoryScript.Instance.FromSlot.Icon.color = Color.white;
             InventoryScript.Instance.FromSlot = null;
         }
         else
         {
-            _usables.Clear();
+            Usables.Clear();
             this.Usable = usable;
         }
-        _count = _usables.Count;
+        _count = Usables.Count;
         UpdateVisual();
+        UIManager.Instance.RefreshToolTip(Usable as IDescribable);
     }
 
 
@@ -99,12 +110,12 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
     /// <param name="item">Stackable item</param>
     public void UpdateItemCount(Item item)
     {
-        if (item is IUsable && _usables.Count > 0)
+        if (item is IUsable && Usables.Count > 0)
         {
-            if (_usables.Peek().GetType() == item.GetType())
+            if (Usables.Peek().GetType() == item.GetType())
             {
-                _usables = InventoryScript.Instance.GetUsables(item as IUsable);
-                _count = _usables.Count;
+                Usables = InventoryScript.Instance.GetUsables(item as IUsable);
+                _count = Usables.Count;
                 UIManager.Instance.UpdateStackSize(this);
             }
         }
@@ -121,11 +132,11 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         if (Usable != null && Usable is IDescribable)
         {
             tmp = (IDescribable)Usable;
-            //UIManager.Instance.ShowToolTip(transform.position);
+            UIManager.Instance.ShowToolTip(new Vector2(1, 0.5f), transform.position, tmp);
         }
-        else if (_usables.Count > 0)
+        else if (Usables.Count > 0)
         {
-            //UIManager.Instance.ShowToolTip(transform.position);
+            UIManager.Instance.ShowToolTip(new Vector2(1, 0.5f), transform.position, tmp);
         }
         if (tmp != null)
         {

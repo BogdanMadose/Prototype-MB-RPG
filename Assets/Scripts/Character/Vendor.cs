@@ -7,15 +7,25 @@ public class Vendor : MonoBehaviour, IInteractable
     [Tooltip("Items the vendor can have")]
     [SerializeField] private VendorItems[] items;
 
+    public bool IsOpened { get; set; }
+
     public void Interact()
     {
-        vendorWindow.CreatePages(items);
-        vendorWindow.OpenVendorWindow();
+        if (!IsOpened)
+        {
+            IsOpened = true;
+            vendorWindow.CreatePages(items);
+            vendorWindow.OpenVendorWindow(this);
+        }
     }
 
     public void StopInteracting()
     {
-        vendorWindow.CloseVendorWindow();
+        if (IsOpened)
+        {
+            IsOpened = false;
+            vendorWindow.CloseVendorWindow();
+        }
     }
 
 

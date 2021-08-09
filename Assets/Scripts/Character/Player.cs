@@ -33,6 +33,7 @@ public class Player : Character
     #endregion
 
     public int Gold { get; set; }
+    public IInteractable Interactable { get; set; }
 
     protected override void Start()
     {
@@ -246,9 +247,9 @@ public class Player : Character
 
     public void Interact()
     {
-        if (_interactable != null)
+        if (Interactable != null)
         {
-            _interactable.Interact();
+            Interactable.Interact();
         }
     }
 
@@ -256,7 +257,7 @@ public class Player : Character
     {
         if (collision.tag == "Enemy" || collision.tag == "Interactable")
         {
-            _interactable = collision.GetComponent<IInteractable>();
+            Interactable = collision.GetComponent<IInteractable>();
         }
     }
 
@@ -264,10 +265,10 @@ public class Player : Character
     {
         if (collision.tag == "Enemy" || collision.tag == "Interactable")
         {
-            if (_interactable != null)
+            if (Interactable != null)
             {
-                _interactable.StopInteracting();
-                _interactable = null;
+                Interactable.StopInteracting();
+                Interactable = null;
             }
         }
     }

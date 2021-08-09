@@ -12,6 +12,7 @@ public class VendorWindow : MonoBehaviour
     [SerializeField] private Text vendorPageNo;
     [Tooltip("Vendor window previous and next buttons")]
     [SerializeField] private GameObject prevBtn, nextBtn;
+    private Vendor _vendor;
     private List<List<VendorItems>> _vendorPages = new List<List<VendorItems>>();
     private int _pageIndex = 0;
 
@@ -20,15 +21,18 @@ public class VendorWindow : MonoBehaviour
     /// </summary>
     public void CloseVendorWindow()
     {
+        _vendor.IsOpened = false;
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;
+        _vendor = null;
     }
 
     /// <summary>
     /// Opening vendor window functionality
     /// </summary>
-    public void OpenVendorWindow()
+    public void OpenVendorWindow(Vendor vendor)
     {
+        this._vendor = vendor;
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
     }
@@ -39,6 +43,7 @@ public class VendorWindow : MonoBehaviour
     /// <param name="vendorItems">List of items to be added</param>
     public void CreatePages(VendorItems[] vendorItems)
     {
+        _vendorPages.Clear();
         List<VendorItems> tmpPage = new List<VendorItems>();
         for ( int i = 0; i < vendorItems.Length; i++)
         {

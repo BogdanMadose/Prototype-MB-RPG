@@ -45,7 +45,7 @@ public class VendorWindow : MonoBehaviour
     {
         _vendorPages.Clear();
         List<VendorItems> tmpPage = new List<VendorItems>();
-        for ( int i = 0; i < vendorItems.Length; i++)
+        for (int i = 0; i < vendorItems.Length; i++)
         {
             tmpPage.Add(vendorItems[i]);
             if (tmpPage.Count == 10 || i == vendorItems.Length - 1)

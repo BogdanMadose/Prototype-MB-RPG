@@ -24,7 +24,7 @@ public class VendorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (vendorItem.Quantity > 0 || (vendorItem.Quantity == 0 && vendorItem.IsUnlimited))
         {
             icon.sprite = vendorItem.Item.Icon;
-            itemName.text = string.Format("<color={0}>{1}</color>", QualityColor.Colors[vendorItem.Item.Quality], vendorItem.Item.Title);       
+            itemName.text = string.Format("<color={0}>{1}</color>", QualityColor.Colors[vendorItem.Item.Quality], vendorItem.Item.Title);
             if (!vendorItem.IsUnlimited && vendorItem.Quantity > 1)
             {
                 quantity.text = vendorItem.Quantity.ToString();
@@ -42,12 +42,12 @@ public class VendorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 price.text = "Free";
             }
             gameObject.SetActive(true);
-        }    
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Player.Instance.Gold >= _vendorItem.Item.Price && InventoryScript.Instance.AddItemToInventory(_vendorItem.Item))
+        if ((Player.Instance.Gold >= _vendorItem.Item.Price) && InventoryScript.Instance.AddItemToInventory(Instantiate(_vendorItem.Item)))
         {
             BuyItem();
         }
@@ -62,7 +62,7 @@ public class VendorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         UIManager.Instance.HideToolTip();
     }
-    
+
     /// <summary>
     /// Item buying functionality
     /// </summary>

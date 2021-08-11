@@ -7,6 +7,7 @@ public class InventoryScript : MonoBehaviour
 {
     public event ItemCountChanged itemCountChangedEvent;
     private static InventoryScript _instance;
+
     public static InventoryScript Instance
     {
         get
@@ -281,5 +282,21 @@ public class InventoryScript : MonoBehaviour
         {
             itemCountChangedEvent.Invoke(item);
         }
+    }
+
+    public int GetItemCount(string type)
+    {
+        int itemCount = 0;
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript ss in bag.BagScript.Slots)
+            {
+                if (!ss.IsEmpty && ss.Item.Title == type)
+                {
+                    itemCount += ss.Items.Count;
+                }
+            }
+        }
+        return itemCount;
     }
 }

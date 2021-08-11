@@ -120,8 +120,8 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
                 else if (HandScript.Instance.Movable is Equipment)
                 {
                     Equipment equipment = (Equipment)HandScript.Instance.Movable;
-                    AddItemToSlot(equipment);
                     CharacterPannel.Instance.SelectedButton.DequipItem();
+                    AddItemToSlot(equipment);
                     HandScript.Instance.DropItem();
                 }
             }
@@ -235,10 +235,13 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     /// </summary>
     public void TrashItems()
     {
-        if (Items.Count > 0)
+        int count = Items.Count;
+        if (count > 0)
         {
-            InventoryScript.Instance.OnItemCountChanged(Items.Pop());
-            Items.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                InventoryScript.Instance.OnItemCountChanged(Items.Pop());
+            }
         }
     }
 

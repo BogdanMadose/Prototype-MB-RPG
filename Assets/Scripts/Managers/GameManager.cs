@@ -5,12 +5,12 @@ public class GameManager : MonoBehaviour
 {
     [Tooltip("Player object")]
     [SerializeField] private Player player;
-    private NPC _currentTarget;
+    private Enemy _currentTarget;
 
     void Update() => ClickTarget();
 
     /// <summary>
-    /// Handles selecting and deselecting of gameObjects
+    /// Select / deselect interactable objects
     /// </summary>
     private void ClickTarget()
     {
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
                 {
                     _currentTarget.Deselect();
                 }
-                _currentTarget = hit.collider.GetComponent<NPC>();
+                _currentTarget = hit.collider.GetComponent<Enemy>();
                 player.Target = _currentTarget.Select();
                 UIManager.Instance.ShowTargetFrame(_currentTarget);
             }

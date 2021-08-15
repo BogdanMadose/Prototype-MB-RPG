@@ -35,7 +35,7 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     }
 
     /// <summary>
-    /// Handles adding item sprites and stats to the character pannel slots
+    /// Add item sprites and stats to the character pannel slots
     /// </summary>
     /// <param name="equipment">Item to be equipped</param>
     public void EquipItem(Equipment equipment)
@@ -69,7 +69,7 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     }
 
     /// <summary>
-    /// Handles removing item sprites and stats from the character pannel slots
+    /// Remove item sprites and stats from the character pannel slots
     /// </summary>
     public void DequipItem()
     {

@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 5405940538297494442}
   - component: {fileID: 5405940538297494440}
   - component: {fileID: 5405940538297494441}
-  - component: {fileID: 8949976386442251281}
   - component: {fileID: -7986461838686173959}
   - component: {fileID: -4698496927947326483}
+  - component: {fileID: -6333955670773497466}
   m_Layer: 5
-  m_Name: Quest
+  m_Name: QuestGiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,18 +82,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Test Quest
---- !u!114 &8949976386442251281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5405940538297494443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f39e5357d1f32d4458de27f0c6bca939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7986461838686173959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,9 +141,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8949976386442251281}
-        m_TargetAssemblyTypeName: QuestScript, Assembly-CSharp
-        m_MethodName: HighlightQuest
+      - m_Target: {fileID: -6333955670773497466}
+        m_TargetAssemblyTypeName: QuestHandlerScript, Assembly-CSharp
+        m_MethodName: Select
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -165,3 +153,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-6333955670773497466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5405940538297494443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5dd77fd763cd5f459b8eae620214963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

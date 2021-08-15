@@ -27,10 +27,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles adding an item to slot
+    /// Add item to slot
     /// </summary>
-    /// <param name="item">Desired item</param>
-    /// <returns></returns>
+    /// <param name="item">Added item</param>
     public bool AddItemToSlot(Item item)
     {
         Items.Push(item);
@@ -41,9 +40,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles adding multiple stackable items to slot
+    /// Add multiple items to slots
     /// </summary>
-    /// <param name="newItems">Desired item stack</param>
+    /// <param name="newItems">Stack of items</param>
     public bool AddItemsToSlot(ObservableStack<Item> newItems)
     {
         if (IsEmpty || newItems.Peek().GetType() == Item.GetType())
@@ -63,9 +62,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles removing of an item from slot
+    /// Remove item from slot
     /// </summary>
-    /// <param name="item">Desired item</param>
+    /// <param name="item">Removed item</param>
     public void RemoveItemFromSlot(Item item)
     {
         if (!IsEmpty)
@@ -144,7 +143,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles using of items from slot
+    /// Use item in slot
     /// </summary>
     public void UseItemInSlot()
     {
@@ -159,9 +158,9 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles stacking items in one slot
+    /// Stack in slot
     /// </summary>
-    /// <param name="item">Desired stackable items</param>
+    /// <param name="item">Stackable items</param>
     public bool StackItemInSlot(Item item)
     {
         if (!IsEmpty && item.name == Item.name && Items.Count < Item.StackSize)
@@ -174,7 +173,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Returns item to original slot
+    /// Return item to original slot
     /// </summary>
     private bool PutItemBack()
     {
@@ -187,7 +186,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles item switching
+    /// Swap items
     /// </summary>
     /// <param name="from">Original item</param>
     private bool SwapItems(SlotScript from)
@@ -209,7 +208,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles merging stackable items
+    /// Merge stacks
     /// </summary>
     /// <param name="from">Original item</param>
     private bool MergeItems(SlotScript from)
@@ -231,7 +230,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles destroying of item(s) from slot
+    /// Delete item(s)
     /// </summary>
     public void TrashItems()
     {
@@ -246,7 +245,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     }
 
     /// <summary>
-    /// Handles updating stack size in slot
+    /// Update stack size
     /// </summary>
     private void UpdateSlot() => UIManager.Instance.UpdateStackSize(this);
 

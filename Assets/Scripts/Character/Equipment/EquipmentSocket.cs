@@ -17,6 +17,11 @@ public class EquipmentSocket : MonoBehaviour
         Animator.runtimeAnimatorController = _overrideController;
     }
 
+    /// <summary>
+    /// Set animation facing direction
+    /// </summary>
+    /// <param name="x">Direction on X</param>
+    /// <param name="y">Direction on Y</param>
     public virtual void SetDirection(float x, float y)
     {
         Animator.SetFloat("X", x);
@@ -24,9 +29,9 @@ public class EquipmentSocket : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles animation state layers on the equipment 
+    /// Activate equipment animation layers 
     /// </summary>
-    /// <param name="layerName">Layer that needs to be activated</param>
+    /// <param name="layerName">Layer active</param>
     public void HandleEquipmentAnimLayer(string layerName)
     {
         for (int i = 0; i < Animator.layerCount; i++)
@@ -37,7 +42,7 @@ public class EquipmentSocket : MonoBehaviour
     }
 
     /// <summary>
-    /// Overrides player animations once equipment is on
+    /// Override player animation with equipment animation
     /// </summary>
     /// <param name="animations">Overridden animation</param>
     public void AnimateEquip(AnimationClip[] animations)
@@ -58,7 +63,7 @@ public class EquipmentSocket : MonoBehaviour
     }
 
     /// <summary>
-    /// Reverts player animations to default once equipment is off
+    /// Revert player animations to default
     /// </summary>
     public void AnimateDequip()
     {

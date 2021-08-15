@@ -32,7 +32,7 @@ public class Equipment : Item
     }
 
     /// <summary>
-    /// Handles equipping an item
+    /// Equip item
     /// </summary>
     public void Equip()
     {

@@ -25,8 +25,8 @@ public class CameraFollow : MonoBehaviour
     /// <summary>
     /// Calculate boundry limits for camera
     /// </summary>
-    /// <param name="minTile">Tile 1 of the game world</param>
-    /// <param name="maxTile">Last tile of the game world</param>
+    /// <param name="minTile">Tile 1 of the game world (Bottom left corner)</param>
+    /// <param name="maxTile">Last tile of the game world (Top right corner)</param>
     private void SetCameraLimits(Vector3 minTile, Vector3 maxTile)
     {
         Camera camera = Camera.main;

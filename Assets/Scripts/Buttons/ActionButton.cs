@@ -34,7 +34,6 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         }
     }
 
-    // Start is called before the first frame update
     void Awake()
     {
         Button = GetComponent<Button>();
@@ -54,6 +53,9 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
         }
     }
 
+    /// <summary>
+    /// Call on click
+    /// </summary>
     public void OnClick()
     {
         if (HandScript.Instance.Movable == null)
@@ -71,7 +73,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
 
 
     /// <summary>
-    /// Connects the item from inventory to the action bar and makes it usable
+    /// Connect the item from inventory to the action bar and makes it usable
     /// </summary>
     /// <param name="usable">Usable item</param>
     public void SetUsable(IUsable usable)

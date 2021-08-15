@@ -28,7 +28,7 @@ public class BagScript : MonoBehaviour
     private void Awake() => _canvasGroup = GetComponent<CanvasGroup>();
 
     /// <summary>
-    /// Handles adding slots to bag
+    /// Add slots to bag
     /// </summary>
     /// <param name="slotCount">Number of slots</param>
     public void AddSlots(int slotCount)
@@ -42,9 +42,9 @@ public class BagScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles adding items to bag
+    /// Add items to bag
     /// </summary>
-    /// <param name="item">Desired item(s)</param>
+    /// <param name="item">Item(s)</param>
     /// <returns>
     /// <para>TRUE - Item can be added / Slot empty</para>
     /// <para>FALSE - Item cannot be added / Slot filled</para>
@@ -64,7 +64,7 @@ public class BagScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles displaying of specific bag
+    /// Open / close 1 bag
     /// </summary>
     public void OpenClose()
     {
@@ -73,7 +73,7 @@ public class BagScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles filling empty slots of original bag if bag destroyed
+    /// Fill empty slots
     /// </summary>
     /// <returns>Transfer items</returns>
     public List<Item> GetItems()
@@ -93,6 +93,9 @@ public class BagScript : MonoBehaviour
         return items;
     }
 
+    /// <summary>
+    /// Delete all items
+    /// </summary>
     public void ClearBag()
     {
         foreach (SlotScript slot in _slots)

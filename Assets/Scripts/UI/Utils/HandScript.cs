@@ -35,9 +35,9 @@ public class HandScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles picking up the object
+    /// Pick up object
     /// </summary>
-    /// <param name="movable">Object to be moved</param>
+    /// <param name="movable">Object</param>
     public void TakeMovable(IMovable movable)
     {
         this.Movable = movable;
@@ -46,7 +46,7 @@ public class HandScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handlles diplaying object on pointer location ( drag simulation )
+    /// Show object on cursor 
     /// </summary>
     public IMovable PutItem()
     {
@@ -57,7 +57,7 @@ public class HandScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles placing of object
+    /// Place object
     /// </summary>
     public void DropItem()
     {
@@ -67,7 +67,7 @@ public class HandScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles deleting / destroying the picked up object if outside of UI
+    /// Delete object
     /// </summary>
     public void DeleteItem()
     {

@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public abstract class Character : MonoBehaviour
 {
-    #region Variables
     [Tooltip("Character movement speed (float value)")]
     [SerializeField] private float speed;
     [Tooltip("Character initial health (float value)")]
@@ -17,11 +16,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected Transform hitBox;
     private Animator _animator;
     protected Coroutine _attackRoutine;
-    #endregion
 
-    /// <summary>
-    /// Returns 0 if character is not moving, 1 if character moves
-    /// </summary>
     public bool IsMoving => Direction.x != 0 || Direction.y != 0;
 
     public Transform Target { get; set; }
@@ -45,7 +40,7 @@ public abstract class Character : MonoBehaviour
     private void FixedUpdate() => Move();
 
     /// <summary>
-    /// Handles all character's movements
+    /// Move character
     /// </summary>
     public void Move()
     {
@@ -55,9 +50,8 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    #region Animation Handlers
     /// <summary>
-    /// Handles animation transitions
+    /// Make animation layer transitions
     /// </summary>
     public virtual void HandleLayers()
     {
@@ -86,9 +80,9 @@ public abstract class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles animation state layers 
+    /// Activate animation layer
     /// </summary>
-    /// <param name="layerName">layer that needs to be activated</param>
+    /// <param name="layerName">Layer active</param>
     public virtual void ActivateLayer(string layerName)
     {
         for (int i = 0; i < Animator.layerCount; i++)
@@ -98,13 +92,12 @@ public abstract class Character : MonoBehaviour
 
         Animator.SetLayerWeight(Animator.GetLayerIndex(layerName), 1);
     }
-    #endregion
 
     /// <summary>
-    /// Handles damaging characters
+    /// Damage Character
     /// </summary>
-    /// <param name="damage">Damage amount value</param>
-    /// <param name="damageSource">Object that deals damage</param>
+    /// <param name="damage">Damage amount</param>
+    /// <param name="damageSource">Damage source</param>
     public virtual void TakeDamage(float damage, Transform damageSource)
     {
         Health.CurrentValue -= damage;

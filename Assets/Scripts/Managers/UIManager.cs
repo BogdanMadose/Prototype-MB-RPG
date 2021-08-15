@@ -69,10 +69,10 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Shows portrait frame of target
+    /// Show target frame
     /// </summary>
     /// <param name="target">Selected NPC</param>
-    public void ShowTargetFrame(NPC target)
+    public void ShowTargetFrame(Enemy target)
     {
         targetFrame.SetActive(true);
         _healthStat.Initialize(target.Health.CurrentValue, target.Health.MaxValue);
@@ -82,18 +82,18 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Hides portrait frame of target
+    /// Hide target frame
     /// </summary>
     public void HideTargetFrame() => targetFrame.SetActive(false);
 
     /// <summary>
-    /// Update portrait health text of target
+    /// Update target health
     /// </summary>
     /// <param name="health">Health value</param>
     public void UpdateTargetFrame(float health) => _healthStat.CurrentValue = health;
 
     /// <summary>
-    /// Handles updating the text in keybinding menu
+    /// Update key-bind menu text
     /// </summary>
     /// <param name="key">New key</param>
     /// <param name="keyCode">New keyboard Key</param>
@@ -104,13 +104,13 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles clicking / using action bar buttons
+    /// Click / Use Action buttons
     /// </summary>
-    /// <param name="buttonName">Name of the action button</param>
+    /// <param name="buttonName">Action button</param>
     public void UseActionButton(string buttonName) => Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
 
     /// <summary>
-    /// Handles the display of Keybind and Spellbook menu objects
+    /// Open / Close Menu UI
     /// </summary>
     /// <param name="canvasGroup">Desired menu object</param>
     public void OpenCloseMenuUIItem(CanvasGroup canvasGroup)
@@ -120,9 +120,9 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update stack size functionality
+    /// Update Stack
     /// </summary>
-    /// <param name="clickable">Object in stack</param>
+    /// <param name="clickable">Stackable item</param>
     public void UpdateStackSize(IClickable clickable)
     {
         if (clickable.Count > 1)
@@ -143,9 +143,9 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Clear stack size functionality
+    /// Reset stack
     /// </summary>
-    /// <param name="clickable">Object in stack</param>
+    /// <param name="clickable">Stackable item</param>
     public void ClearStackSizeCount(IClickable clickable)
     {
         clickable.StackText.color = new Color(0, 0, 0, 0);
@@ -153,11 +153,11 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles showing tooltips
+    /// Display item tooltips
     /// </summary>
-    /// <param name="pivot">Pivot point of tooltip</param>
-    /// <param name="position">Position of tooltip</param>
-    /// <param name="description">Description that needs to be displayed</param>
+    /// <param name="pivot">Pivot point</param>
+    /// <param name="position">Position</param>
+    /// <param name="description">Item description</param>
     public void ShowToolTip(Vector2 pivot, Vector3 position, IDescribable description)
     {
         tooltipRect.pivot = pivot;
@@ -167,7 +167,7 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles hiding tooltips
+    /// Hide Tooltips
     /// </summary>
     public void HideToolTip()
     {
@@ -175,9 +175,9 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles refreshing tooltips (Eg.: on item swaps)
+    /// Refresh tooltip (Eg.: on item swaps)
     /// </summary>
-    /// <param name="describable">New description that needs to be displayed</param>
+    /// <param name="describable">New item description</param>
     public void RefreshToolTip(IDescribable describable)
     {
         _toolTipText.text = describable.GetDescription();

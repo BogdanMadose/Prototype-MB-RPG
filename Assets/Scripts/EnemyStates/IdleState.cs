@@ -1,8 +1,4 @@
-﻿
-/// <summary>
-/// Idle State Machine
-/// </summary>
-class IdleState : IState
+﻿class IdleState : IState
 {
     private Enemy _parent;
     public void Enter(Enemy parent)

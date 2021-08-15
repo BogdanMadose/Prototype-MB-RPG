@@ -79,12 +79,12 @@ public class InventoryScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Bag bag = (Bag)Instantiate(items[0]);
-            bag.Initialize(20);
-            bag.Use();
-        }
+        //if (Input.GetKeyDown(KeyCode.J))
+        //{
+        //    Bag bag = (Bag)Instantiate(items[0]);
+        //    bag.Initialize(20);
+        //    bag.Use();
+        //}
         if (Input.GetKeyDown(KeyCode.H))
         {
             Bag bag = (Bag)Instantiate(items[0]);
@@ -113,9 +113,9 @@ public class InventoryScript : MonoBehaviour
     //============================================
 
     /// <summary>
-    /// Handles adding a bag to a bag bar slot
+    /// Add bag to bag bar
     /// </summary>
-    /// <param name="bag">Bag to be added</param>
+    /// <param name="bag">Added bag</param>
     public void AddBagToBar(Bag bag)
     {
         foreach (BagButton bagButton in bagButtons)
@@ -132,10 +132,10 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles adding a bag to a bag bar slot
+    /// Add bag to bag bar
     /// </summary>
-    /// <param name="bag">Bag to be added</param>
-    /// <param name="bagButton">Specific bag bar button</param>
+    /// <param name="bag">Added bag</param>
+    /// <param name="bagButton">Bag bar button/param>
     public void AddBagToBar(Bag bag, BagButton bagButton)
     {
         _bags.Add(bag);
@@ -144,9 +144,9 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles removing bag from bag bar
+    /// Remove bag from bag bar
     /// </summary>
-    /// <param name="bag">Bag to be removed</param>
+    /// <param name="bag">Bag removed</param>
     public void RemoveBagFromBar(Bag bag)
     {
         _bags.Remove(bag);
@@ -154,10 +154,10 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles switching bag items from inventory to bag bar
+    /// Switch bags
     /// </summary>
-    /// <param name="oldBag">Bag to be switched</param>
-    /// <param name="newBag">Bag to be switched with</param>
+    /// <param name="oldBag">Bag in slot</param>
+    /// <param name="newBag">Bag in inventory</param>
     public void SwapBagsFromBar(Bag oldBag, Bag newBag)
     {
         int newSlotCount = (TotalSlotCount - oldBag.Slots) + newBag.Slots;
@@ -181,9 +181,9 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles adding items to inventory slot
+    /// Place item in empty bag slots
     /// </summary>
-    /// <param name="item">Desired item</param>
+    /// <param name="item">Item added</param>
     public bool PlaceInEmptySlot(Item item)
     {
         foreach (Bag bag in _bags)
@@ -198,9 +198,9 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles stackable items in slots
+    /// Stack items
     /// </summary>
-    /// <param name="item">Desired item</param>
+    /// <param name="item">Item added</param>
     /// <returns>
     /// <para>TRUE - item is stackable / can be placed in stack</para>
     /// <para>FALSE - item is not stackable / cannot be placed in stack</para>
@@ -222,7 +222,7 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles adding item to whole inventory
+    /// Add item to empty inventory slots
     /// </summary>
     /// <param name="item">Desired item</param>
     public bool AddItemToInventory(Item item)
@@ -238,7 +238,7 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles display of full inventory
+    /// Open / close all bags
     /// </summary>
     public void OpenCloseInventory()
     {
@@ -253,7 +253,7 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles decreasing and increasing stack size of usable items
+    /// Update stack size
     /// </summary>
     /// <param name="type">Type of usable item</param>
     /// <returns>All usable items</returns>

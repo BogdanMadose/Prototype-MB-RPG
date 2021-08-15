@@ -7,17 +7,26 @@ public class QuestScript : MonoBehaviour
 
     public Quest Quest { get; set; }
 
-    public void SelectQuest()
+    /// <summary>
+    /// Quest selected
+    /// </summary>
+    public void HighlightQuest()
     {
         GetComponent<Text>().color = Color.green;
         QuestLog.Instance.ShowQuestDescription(Quest);
     }
 
-    public void DeselectQuest()
+    /// <summary>
+    /// Quest deselected
+    /// </summary>
+    public void UnHighlightQuest()
     {
         GetComponent<Text>().color = Color.white;
     }
 
+    /// <summary>
+    /// Check if quest is completed
+    /// </summary>
     public void IsComplete()
     {
         if (Quest.IsComplete && !_complete)

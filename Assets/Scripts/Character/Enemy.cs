@@ -1,15 +1,24 @@
 using UnityEngine;
 
-public class Enemy : NPC
+public delegate void HealthChanged(float health);
+public delegate void NPCRemoved();
+
+public class Enemy : Character, IInteractable
 {
+    public event HealthChanged healthChangedEvent;
+    public event NPCRemoved npcRemovedEvent;
+
     [Tooltip("Healthbar UI object")]
     [SerializeField] private CanvasGroup healthGroup;
     [Tooltip("Initial aggro range")]
     [SerializeField] private float initAggroRange;
     [Tooltip("Possible items to drop")]
     [SerializeField] private LootTable lootTable;
+    [Tooltip("Character portrait sprite")]
+    [SerializeField] private Sprite portrait;
     private IState _currentState;
 
+    public Sprite Portrait => portrait;
     public float AttackRange { get; set; }
     public float AttackTime { get; set; }
     public float AggroRange { get; set; }
@@ -38,16 +47,24 @@ public class Enemy : NPC
         base.Update();
     }
 
-    public override Transform Select()
+    /// <summary>
+    /// Select targeted Enemy
+    /// </summary>
+    /// <returns>Hitbox of the targeted NPC</returns>
+    public Transform Select()
     {
         healthGroup.alpha = 1;
-        return base.Select();
+        return hitBox;
     }
 
-    public override void Deselect()
+    /// <summary>
+    /// Deselect targeted Enemy
+    /// </summary>
+    public void Deselect()
     {
         healthGroup.alpha = 0;
-        base.Deselect();
+        healthChangedEvent -= new HealthChanged(UIManager.Instance.UpdateTargetFrame);
+        npcRemovedEvent -= new NPCRemoved(UIManager.Instance.HideTargetFrame);
     }
 
     public override void TakeDamage(float damage, Transform damageSource)
@@ -60,10 +77,12 @@ public class Enemy : NPC
         }
     }
 
+    public void OnHealthChanged(float health) => healthChangedEvent?.Invoke(health);
+
     /// <summary>
-    /// Transition between states
+    /// Active state transitions
     /// </summary>
-    /// <param name="newState">State to be transitioned into</param>
+    /// <param name="newState">New state</param>
     public void ChangeState(IState newState)
     {
         if (_currentState != null)
@@ -78,7 +97,7 @@ public class Enemy : NPC
     /// <summary>
     /// Set aggro target
     /// </summary>
-    /// <param name="target">Target which will take aggro</param>
+    /// <param name="target">Aggroed targed</param>
     public void SetTarget(Transform target)
     {
         if (Target == null && !(_currentState is EvadeState))
@@ -98,7 +117,7 @@ public class Enemy : NPC
         OnHealthChanged(Health.CurrentValue);
     }
 
-    public override void Interact()
+    public void Interact()
     {
         if (!IsAlive)
         {
@@ -106,8 +125,14 @@ public class Enemy : NPC
         }
     }
 
-    public override void StopInteracting()
+    public void StopInteracting()
     {
         LootWindow.Instance.CloseLootWindow();
+    }
+
+    public void OnNPCRemoved()
+    {
+        npcRemovedEvent?.Invoke();
+        Destroy(gameObject);
     }
 }

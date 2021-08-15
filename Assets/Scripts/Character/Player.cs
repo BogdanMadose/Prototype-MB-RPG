@@ -129,10 +129,9 @@ public class Player : Character
     }
 
     /// <summary>
-    /// Starts an attack or cast event
+    /// Start an attack or cast event
     /// </summary>
-    /// /// <param name="spellName">Name of the spell selected</param>
-    /// <returns>After x seconds casts spell / attacks then ends coroutine</returns>
+    /// <param name="spellName">Selected spell name</param>
     private IEnumerator Attack(string spellName)
     {
         Transform currentTarget = Target;
@@ -158,7 +157,7 @@ public class Player : Character
     /// <summary>
     /// Cast Spell ( Instantiate spell projectile prefab )
     /// </summary>
-    /// /// <param name="spellName">Name of the spell selected</param>
+    /// <param name="spellName">Name of the spell selected</param>
     public void CastSpell(string spellName)
     {
         BlockView();
@@ -192,7 +191,7 @@ public class Player : Character
     }
 
     /// <summary>
-    /// Function which deactivates all raycast blockers, then activates them according to the direction the player is facing
+    /// Deactivate all raycast blockers, then activates them according to the direction the player is facing
     /// </summary>
     private void BlockView()
     {
@@ -205,7 +204,7 @@ public class Player : Character
     }
 
     /// <summary>
-    /// Function to stop attacking.
+    /// Stop attacking
     /// 
     /// <para>Sets both animator bool and isAttacking to false and stops the attack coroutine</para>
     /// </summary>

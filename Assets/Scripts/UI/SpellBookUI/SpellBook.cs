@@ -34,10 +34,9 @@ public class SpellBook : MonoBehaviour
     private Coroutine _fadeRoutine;
 
     /// <summary>
-    /// Handles casting of spells functionality
+    /// Cast spell
     /// </summary>
     /// <param name="spellName">Spell name</param>
-    /// <returns>Type of spell at given number</returns>
     public Spell CastSpell(string spellName)
     {
         Spell spell = Array.Find(spells, x => x.Name == spellName);
@@ -52,10 +51,9 @@ public class SpellBook : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles cast time bar fill amount progress
+    /// Update casting bar
     /// </summary>
     /// <param name="spellIndex">Spell number</param>
-    /// <returns>null - instant</returns>
     private IEnumerator BarProgress(Spell spell)
     {
         float timePassed = Time.deltaTime;
@@ -81,9 +79,8 @@ public class SpellBook : MonoBehaviour
     }
 
     /// <summary>
-    /// Casting bar fade in function
+    /// Fade in cast bar
     /// </summary>
-    /// <returns>null - instant</returns>
     private IEnumerator FadeBar()
     {
         float rate = 1.0f / 0.25f;
@@ -98,7 +95,7 @@ public class SpellBook : MonoBehaviour
     }
 
     /// <summary>
-    /// Hides casting bar when finished casting, or interrupted
+    /// Stop cast / hide cast bar
     /// </summary>
     public void StopCasting()
     {
@@ -118,8 +115,7 @@ public class SpellBook : MonoBehaviour
     /// <summary>
     /// Get spell from spellbook
     /// </summary>
-    /// <param name="spellName">Name of the spell</param>
-    /// <returns>Usable spell in action bar</returns>
+    /// <param name="spellName">Spell name</param>
     public Spell GetSpell(string spellName)
     {
         Spell spell = Array.Find(spells, x => x.Name == spellName);

@@ -21,6 +21,9 @@ public class CharacterPannel : MonoBehaviour
 
     public CharacterButton SelectedButton { get; set; }
 
+    /// <summary>
+    /// Open / Close character panel
+    /// </summary>
     public void OpenCloseCharacterPannel()
     {
         if (canvasGroup.alpha <= 0)
@@ -36,9 +39,9 @@ public class CharacterPannel : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles atuomatic character pannel slot designation
+    /// Designate character panel slots
     /// </summary>
-    /// <param name="equipment">Item to be equipped</param>
+    /// <param name="equipment">Equiped item</param>
     public void DesignateSlot(Equipment equipment)
     {
         switch (equipment.ItemPlacement)

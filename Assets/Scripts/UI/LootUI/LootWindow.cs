@@ -37,7 +37,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Create the loot window items
+    /// Create the loot window pages
     /// </summary>
     /// <param name="items">List of items to be looted</param>
     public void CreatePages(List<Item> items)
@@ -61,7 +61,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds loot to the loot window
+    /// Add loot
     /// </summary>
     private void AddLoot()
     {
@@ -86,7 +86,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Refreshes page on loot window
+    /// Refresh loot items
     /// </summary>
     public void RefreshPage()
     {
@@ -97,7 +97,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Loot window Next button functionality
+    /// Next loot page
     /// </summary>
     public void LootWNextPage()
     {
@@ -110,7 +110,7 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Loot window Previous button functionality
+    /// Previous loot page
     /// </summary>
     public void LootWPrevPage()
     {
@@ -123,9 +123,9 @@ public class LootWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Find item and remove it from loot window
+    /// Transfer to bag
     /// </summary>
-    /// <param name="item">Item to be removed</param>
+    /// <param name="item">Looted item</param>
     public void TakeLoot(Item item)
     {
         _lootPages[_pageIndex].Remove(item);
@@ -141,6 +141,9 @@ public class LootWindow : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Close loot window
+    /// </summary>
     public void CloseLootWindow()
     {
         _lootPages.Clear();
@@ -149,6 +152,9 @@ public class LootWindow : MonoBehaviour
         RefreshPage();
     }
 
+    /// <summary>
+    /// Open up loot windpow
+    /// </summary>
     public void OpenLootWindow()
     {
         _canvasGroup.alpha = 1;

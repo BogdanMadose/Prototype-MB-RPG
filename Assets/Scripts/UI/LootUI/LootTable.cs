@@ -9,7 +9,7 @@ public class LootTable : MonoBehaviour
     private bool _rolled = false;
 
     /// <summary>
-    /// Handles displaying looted items
+    /// Display loot items
     /// </summary>
     public void ShowLoot()
     {
@@ -21,7 +21,7 @@ public class LootTable : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles drop chances
+    /// Set items to drop
     /// </summary>
     private void RollLoot()
     {

@@ -37,7 +37,7 @@ public abstract class Item : ScriptableObject, IMovable, IDescribable
     }
 
     /// <summary>
-    /// Removes item
+    /// Remove item
     /// </summary>
     public void Remove()
     {

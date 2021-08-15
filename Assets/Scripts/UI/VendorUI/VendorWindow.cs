@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VendorWindow : MonoBehaviour
+public class VendorWindow : Window
 {
-    [Tooltip("Vendor window UI object")]
-    [SerializeField] private CanvasGroup canvasGroup;
+
     [Tooltip("Interactable items in vendor window")]
     [SerializeField] private VendorButton[] vendorButtons;
     [Tooltip("Vendor window page number")]
@@ -16,31 +15,12 @@ public class VendorWindow : MonoBehaviour
     private List<List<VendorItems>> _vendorPages = new List<List<VendorItems>>();
     private int _pageIndex = 0;
 
-    /// <summary>
-    /// Closing vendor window functionality
-    /// </summary>
-    public void CloseVendorWindow()
-    {
-        _vendor.IsOpened = false;
-        canvasGroup.alpha = 0;
-        canvasGroup.blocksRaycasts = false;
-        _vendor = null;
-    }
 
-    /// <summary>
-    /// Opening vendor window functionality
-    /// </summary>
-    public void OpenVendorWindow(Vendor vendor)
-    {
-        this._vendor = vendor;
-        canvasGroup.alpha = 1;
-        canvasGroup.blocksRaycasts = true;
-    }
 
     /// <summary>
     /// Create vendor window pages
     /// </summary>
-    /// <param name="vendorItems">List of items to be added</param>
+    /// <param name="vendorItems">Added items</param>
     public void CreatePages(VendorItems[] vendorItems)
     {
         _vendorPages.Clear();
@@ -78,7 +58,7 @@ public class VendorWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Vendor window Next button functionality
+    /// Vendor window Next button
     /// </summary>
     public void VendorWNextPage()
     {
@@ -91,7 +71,7 @@ public class VendorWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Vendor window Previous button functionality
+    /// Vendor window Previous button
     /// </summary>
     public void VendorWPrevPage()
     {
@@ -104,7 +84,7 @@ public class VendorWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// Refreshes pages on vendor window
+    /// Refresh vendor window
     /// </summary>
     public void RefreshPage()
     {
@@ -112,5 +92,11 @@ public class VendorWindow : MonoBehaviour
         {
             btn.gameObject.SetActive(false);
         }
+    }
+
+    public override void OpenWindow(NPC npc)
+    {
+        CreatePages((npc as Vendor).Items);
+        base.OpenWindow(npc);
     }
 }

@@ -15,9 +15,9 @@ public class VendorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private VendorItems _vendorItem;
 
     /// <summary>
-    /// Adds an item on page
+    /// Add an item on page
     /// </summary>
-    /// <param name="vendorItem">Item to be added</param>
+    /// <param name="vendorItem">Item added</param>
     public void AddItemToVendorPage(VendorItems vendorItem)
     {
         this._vendorItem = vendorItem;
@@ -64,7 +64,7 @@ public class VendorButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     /// <summary>
-    /// Item buying functionality
+    /// Buy item
     /// </summary>
     private void BuyItem()
     {

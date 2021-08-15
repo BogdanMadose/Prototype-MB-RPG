@@ -1,9 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Attack state Machine
-/// </summary>
 public class AttackState : IState
 {
     private Enemy _parent;
@@ -38,9 +35,8 @@ public class AttackState : IState
     }
 
     /// <summary>
-    /// Attack function
+    /// Start attack
     /// </summary>
-    /// <returns>Waits for current animation exit time then stops attack animation</returns>
     public IEnumerator Attack()
     {
         _parent.IsAttacking = true;

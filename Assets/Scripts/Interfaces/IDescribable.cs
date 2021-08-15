@@ -1,6 +1,3 @@
-/// <summary>
-/// Interface for Objects that can have a description tooltip
-/// </summary>
 public interface IDescribable
 {
     /// <summary>

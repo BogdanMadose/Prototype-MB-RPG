@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Follow State Machine
-/// </summary>
 class FollowState : IState
 {
     private Enemy _parent;

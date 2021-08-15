@@ -41,7 +41,7 @@ public class KeyBindManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles keybind changes menu
+    /// Change key-binds
     /// </summary>
     /// <param name="key">Unity and game key</param>
     /// <param name="keyBind">Keyboard key</param>

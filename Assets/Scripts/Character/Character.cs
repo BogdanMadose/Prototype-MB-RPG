@@ -10,6 +10,8 @@ public abstract class Character : MonoBehaviour
     [SerializeField] private float initHealth;
     [Tooltip("Character health stat script")]
     [SerializeField] private Stat health;
+    [Tooltip("Character type")]
+    [SerializeField] private string type;
     private Rigidbody2D _rb;
 
     [Tooltip("Character HitBox")]
@@ -25,8 +27,8 @@ public abstract class Character : MonoBehaviour
     public float Speed { get => speed; set => speed = value; }
     public bool IsAttacking { get; set; }
     public Animator Animator { get => _animator; set => _animator = value; }
-
     public bool IsAlive => health.CurrentValue > 0;
+    public string Type => type;
 
     protected virtual void Start()
     {
@@ -106,6 +108,7 @@ public abstract class Character : MonoBehaviour
         {
             Direction = Vector2.zero;
             _rb.velocity = Direction;
+            GameManager.Instance.OnKillConfirmed(this);
             Animator.SetTrigger("die");
         }
     }

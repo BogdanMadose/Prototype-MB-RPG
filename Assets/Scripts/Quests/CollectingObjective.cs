@@ -4,7 +4,7 @@
 public class CollectingObjective : Objective
 {
     /// <summary>
-    /// Update item count
+    /// Update item count objective
     /// </summary>
     /// <param name="item">Quest item</param>
     public void UpdateItemCount(Item item)
@@ -18,7 +18,7 @@ public class CollectingObjective : Objective
     }
 
     /// <summary>
-    /// Update item count
+    /// Update item count objective
     /// </summary>
     public void UpdateItemCount()
     {

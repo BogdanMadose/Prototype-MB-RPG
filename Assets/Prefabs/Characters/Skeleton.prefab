@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 6406564570194500479}
   - component: {fileID: 2078716091}
   m_Layer: 9
-  m_Name: Enemy
+  m_Name: Skeleton
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,10 +496,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.03212726}
+  m_Offset: {x: 0.014070988, y: -0.012950897}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -510,7 +510,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.69, y: 1.4290788}
+  m_Size: {x: 0.74628353, y: 1.5345497}
   m_EdgeRadius: 0
 --- !u!50 &6406564570194500473
 Rigidbody2D:
@@ -567,11 +567,12 @@ MonoBehaviour:
   speed: 1
   initHealth: 15
   health: {fileID: 6406564569991401330}
+  type: 
   hitBox: {fileID: 6406564568147422972}
-  portrait: {fileID: 21300000, guid: 457f7fcf8d4d8f04a83433887db073df, type: 3}
   healthGroup: {fileID: 6406564568824927739}
   initAggroRange: 3
   lootTable: {fileID: 2078716091}
+  portrait: {fileID: 21300000, guid: 457f7fcf8d4d8f04a83433887db073df, type: 3}
 --- !u!114 &2078716091
 MonoBehaviour:
   m_ObjectHideFlags: 0

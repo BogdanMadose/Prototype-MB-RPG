@@ -49,6 +49,10 @@ public class QuestLog : MonoBehaviour
             InventoryScript.Instance.itemCountChangedEvent += new ItemCountChanged(co.UpdateItemCount);
             co.UpdateItemCount();
         }
+        foreach (KillingObjective ko in quest.KillingObjectives)
+        {
+            GameManager.Instance.killConfirmedEvent += new KillConfirmed(ko.UpdateKillCount);
+        }
         _quests.Add(quest);
         GameObject go = Instantiate(questPrefab, questList);
         QuestScript qs = go.GetComponent<QuestScript>();
@@ -95,6 +99,10 @@ public class QuestLog : MonoBehaviour
             string title = quest.Title;
             string description = quest.Description;
             foreach (Objective ob in quest.CollectingObjectives)
+            {
+                objective += ob.Type + ": " + ob.CurrentAmmount + " / " + ob.Ammount + "\n";
+            }
+            foreach (Objective ob in quest.KillingObjectives)
             {
                 objective += ob.Type + ": " + ob.CurrentAmmount + " / " + ob.Ammount + "\n";
             }

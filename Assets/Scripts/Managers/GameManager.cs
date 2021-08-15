@@ -1,8 +1,25 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public delegate void KillConfirmed(Character character);
+
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+            }
+            return _instance;
+        }
+    }
+
+    public event KillConfirmed killConfirmedEvent;
+
     [Tooltip("Player object")]
     [SerializeField] private Player player;
     private Enemy _currentTarget;
@@ -47,4 +64,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void OnKillConfirmed(Character character) => killConfirmedEvent?.Invoke(character);
 }

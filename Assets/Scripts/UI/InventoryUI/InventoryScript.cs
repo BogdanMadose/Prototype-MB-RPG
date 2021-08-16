@@ -284,6 +284,11 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update item stack count
+    /// </summary>
+    /// <param name="type">Item type</param>
+    /// <returns>Item count</returns>
     public int GetItemCount(string type)
     {
         int itemCount = 0;
@@ -298,5 +303,34 @@ public class InventoryScript : MonoBehaviour
             }
         }
         return itemCount;
+    }
+
+    /// <summary>
+    /// Check if more quest items are needed
+    /// </summary>
+    /// <param name="type">Item type</param>
+    /// <param name="count">Item count</param>
+    /// <returns>Items</returns>
+    public Stack<Item> GetItemsCount(string type, int count)
+    {
+        Stack<Item> tmpItems = new Stack<Item>();
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript ss in bag.BagScript.Slots)
+            {
+                if (!ss.IsEmpty && ss.Item.Title == type)
+                {
+                    foreach (Item item in ss.Items)
+                    {
+                        tmpItems.Push(item);
+                        if (tmpItems.Count == count)
+                        {
+                            return tmpItems;
+                        }
+                    }
+                }
+            }
+        }
+        return tmpItems;
     }
 }

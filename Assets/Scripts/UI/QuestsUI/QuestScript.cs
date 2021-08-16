@@ -33,6 +33,7 @@ public class QuestScript : MonoBehaviour
         {
             _complete = true;
             GetComponent<Text>().text += "(Complete)";
+            MessageFeedManager.Instance.WriteMessage(string.Format("{0} (Complete)", Quest.Title));
         }
         else if (!Quest.IsComplete)
         {

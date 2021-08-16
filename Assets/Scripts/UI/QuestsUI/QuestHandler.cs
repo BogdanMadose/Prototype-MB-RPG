@@ -143,6 +143,16 @@ public class QuestHandler : Window
                     _questGiver.Quests[i] = null;
                 }
             }
+            foreach (CollectingObjective co in _selected.CollectingObjectives)
+            {
+                InventoryScript.Instance.itemCountChangedEvent -= new ItemCountChanged(co.UpdateItemCount);
+                co.CollectingComplete();
+            }
+            foreach (KillingObjective ko in _selected.KillingObjectives)
+            {
+                GameManager.Instance.killConfirmedEvent -= new KillConfirmed(ko.UpdateKillCount);
+            }
+            QuestLog.Instance.RemoveQuest(_selected.QuestScript);
             Back();
         }
     }

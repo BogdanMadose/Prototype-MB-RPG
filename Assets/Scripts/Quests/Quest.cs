@@ -17,6 +17,7 @@ public class Quest
     public QuestScript QuestScript { get; set; }
     public string Description { get => description; set => description = value; }
     public CollectingObjective[] CollectingObjectives { get => collectingObjectives; set => collectingObjectives = value; }
+    public QuestGiver QuestGiver { get; set; }
     public KillingObjective[] KillingObjectives => killingObjectives;
     public bool IsComplete
     {

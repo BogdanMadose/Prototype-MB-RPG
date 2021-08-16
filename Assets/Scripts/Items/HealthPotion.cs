@@ -11,7 +11,7 @@ public class HealthPotion : Item, IUsable
         if (Player.Instance.Health.CurrentValue < Player.Instance.Health.MaxValue)
         {
             Remove();
-            Player.Instance.Health.CurrentValue += health;
+            Player.Instance.GetHealth(health);
         }
     }
 

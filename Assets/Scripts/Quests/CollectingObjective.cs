@@ -16,7 +16,7 @@ public class CollectingObjective : Objective
             if (CurrentAmmount <= Ammount)
             {
                 MessageFeedManager.Instance.WriteMessage(string.Format("{0}: {1} / {2}", item.Title, CurrentAmmount, Ammount));
-            }       
+            }
             QuestLog.Instance.UpdateSelectedQuest();
             QuestLog.Instance.CheckCompletion();
         }

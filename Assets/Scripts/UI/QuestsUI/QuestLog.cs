@@ -150,7 +150,7 @@ public class QuestLog : MonoBehaviour
     /// Remove quest
     /// </summary>
     /// <param name="qScript">Quest</param>
-    public void RemoveQuest(QuestScript qScript) 
+    public void RemoveQuest(QuestScript qScript)
     {
         _questScripts.Remove(qScript);
         Destroy(qScript.gameObject);

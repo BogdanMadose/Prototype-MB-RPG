@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -16,11 +17,14 @@ public class Player : Character
         }
     }
 
-    #region Variables
-    [Tooltip("Player set mana")]
-    [SerializeField] private Stat mana;
     [Tooltip("Player inital mana")]
     [SerializeField] private float initMana;
+    [Tooltip("Player set mana")]
+    [SerializeField] private Stat mana;
+    [Tooltip("Player set XP")]
+    [SerializeField] private Stat xp;
+    [Tooltip("Level indicator")]
+    [SerializeField] private Text levelText;
     [Tooltip("Spell exit points")]
     [SerializeField] private Transform[] exitPoints;
     [Tooltip("Raycaster blocker array")]
@@ -30,7 +34,6 @@ public class Player : Character
     private IInteractable _interactable;
     private int _exitIndex = 2;
     private Vector3 _min, _max;
-    #endregion
 
     public int Gold { get; set; }
     public IInteractable Interactable { get; set; }
@@ -39,6 +42,13 @@ public class Player : Character
     {
         Gold = 100;
         mana.Initialize(initMana, initMana);
+        /// Can google "experience gain formulas"
+        /// 0 - current XP;
+        /// 100 - required XP for lvl 1;
+        /// 0.4 - XP gain difficulty (decrease = easier, increase = harder)
+        /// Formula used: 100 * x * x^0.4;
+        xp.Initialize(0, Mathf.Floor(100 * Level * Mathf.Pow(Level, 0.4f)));
+        levelText.text = Level.ToString();
         base.Start();
     }
 
@@ -71,6 +81,10 @@ public class Player : Character
             Health.CurrentValue += 10;
             mana.CurrentValue += 10;
 
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            GainXP(10);
         }
 
         // -----------------------------------------
@@ -270,5 +284,36 @@ public class Player : Character
                 Interactable = null;
             }
         }
+    }
+
+    /// <summary>
+    /// Gain experience
+    /// </summary>
+    /// <param name="xp">XP value</param>
+    public void GainXP(int xp)
+    {
+        this.xp.CurrentValue += xp;
+        CombatTextManager.Instance.GenerateText(transform.position, xp.ToString(), ScrollTextType.XP, false);
+        if (this.xp.CurrentValue >= this.xp.MaxValue)
+        {
+            StartCoroutine("LevelUp");
+        }
+    }
+
+    /// <summary>
+    /// Level up
+    /// </summary>
+    private IEnumerator LevelUp()
+    {
+        while (!xp.IsFull)
+        {
+            yield return null;
+        }
+        Level++;
+        levelText.text = Level.ToString();
+        xp.MaxValue = 100 * Level * Mathf.Pow(Level, 0.4f);
+        xp.MaxValue = Mathf.Floor(xp.MaxValue);
+        xp.CurrentValue = xp.XPOverflow;
+        xp.Reset();
     }
 }

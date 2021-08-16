@@ -29,7 +29,7 @@ public class Quest
                 {
                     return false;
                 }
-            }         
+            }
             foreach (Objective ob in KillingObjectives)
             {
                 if (!ob.IsComplete)
@@ -39,5 +39,5 @@ public class Quest
             }
             return true;
         }
-    }    
+    }
 }

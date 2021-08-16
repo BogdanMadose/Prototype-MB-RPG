@@ -24,6 +24,7 @@ public class QuestGiver : NPC
     /// </summary>
     public void UpdateQuestStatus()
     {
+        int count = 0;
         foreach (Quest q in quests)
         {
             if (q != null)
@@ -41,7 +42,14 @@ public class QuestGiver : NPC
                 else if (!q.IsComplete && QuestLog.Instance.IsAccepted(q))
                 {
                     qsRenderer.sprite = questInProgress;
-                    break;
+                }
+            }
+            else
+            {
+                count++;
+                if (count == quests.Length)
+                {
+                    qsRenderer.enabled = false;
                 }
             }
         }

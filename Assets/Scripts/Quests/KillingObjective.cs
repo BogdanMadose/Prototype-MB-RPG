@@ -1,4 +1,4 @@
-﻿using System;          
+﻿using System;
 
 [Serializable]
 public class KillingObjective : Objective
@@ -10,10 +10,13 @@ public class KillingObjective : Objective
     {
         if (Type == character.Type)
         {
-            CurrentAmmount++;
-            MessageFeedManager.Instance.WriteMessage(string.Format("{0}: {1} / {2}", character.Type, CurrentAmmount, Ammount));
-            QuestLog.Instance.UpdateSelectedQuest();
-            QuestLog.Instance.CheckCompletion();
+            if (CurrentAmmount < Ammount)
+            {
+                CurrentAmmount++;
+                MessageFeedManager.Instance.WriteMessage(string.Format("{0}: {1} / {2}", character.Type, CurrentAmmount, Ammount));
+                QuestLog.Instance.UpdateSelectedQuest();
+                QuestLog.Instance.CheckCompletion();
+            }
         }
     }
 }

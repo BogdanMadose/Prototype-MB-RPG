@@ -49,6 +49,9 @@ TagManager:
   - name: TopLayer
     uniqueID: 3012761759
     locked: 0
+  - name: ScrollText
+    uniqueID: 2841010023
+    locked: 0
   - name: UI
     uniqueID: 3884719835
     locked: 0

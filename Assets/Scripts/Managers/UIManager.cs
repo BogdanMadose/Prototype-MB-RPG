@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CharacterPannel _characterPannel;
     [Tooltip("Tooltip pivot point reference")]
     [SerializeField] private RectTransform tooltipRect;
+    [Tooltip("Target level text disply")]
+    [SerializeField] private Text levelText;
     private Text _toolTipText;
     private GameObject[] _keyBindButtons;
     private Stat _healthStat;
@@ -77,8 +79,16 @@ public class UIManager : MonoBehaviour
         targetFrame.SetActive(true);
         _healthStat.Initialize(target.Health.CurrentValue, target.Health.MaxValue);
         portraitFrame.sprite = target.Portrait;
+        levelText.text = target.Level.ToString();
         target.healthChangedEvent += new HealthChanged(UpdateTargetFrame);
         target.npcRemovedEvent += new NPCRemoved(HideTargetFrame);
+        levelText.color = target.Level >= Player.Instance.Level + 5
+            ? Color.red
+            : target.Level == Player.Instance.Level + 3 || target.Level == Player.Instance.Level + 4
+                ? (Color)new Color32(255, 124, 0, 255)
+                : target.Level >= Player.Instance.Level - 2 && target.Level <= Player.Instance.Level + 2
+                            ? Color.yellow
+                            : target.Level <= Player.Instance.Level - 3 && target.Level > XPManager.CalulateGrayLevel() ? Color.green : Color.grey;
     }
 
     /// <summary>
@@ -169,17 +179,11 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Hide Tooltips
     /// </summary>
-    public void HideToolTip()
-    {
-        toolTip.SetActive(false);
-    }
+    public void HideToolTip() => toolTip.SetActive(false);
 
     /// <summary>
     /// Refresh tooltip (Eg.: on item swaps)
     /// </summary>
     /// <param name="describable">New item description</param>
-    public void RefreshToolTip(IDescribable describable)
-    {
-        _toolTipText.text = describable.GetDescription();
-    }
+    public void RefreshToolTip(IDescribable describable) => _toolTipText.text = describable.GetDescription();
 }

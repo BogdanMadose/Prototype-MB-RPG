@@ -8,6 +8,8 @@ public abstract class Character : MonoBehaviour
     [SerializeField] private float speed;
     [Tooltip("Character initial health (float value)")]
     [SerializeField] private float initHealth;
+    [Tooltip("Character level")]
+    [SerializeField] private int level;
     [Tooltip("Character health stat script")]
     [SerializeField] private Stat health;
     [Tooltip("Character type")]
@@ -29,6 +31,7 @@ public abstract class Character : MonoBehaviour
     public Animator Animator { get => _animator; set => _animator = value; }
     public bool IsAlive => health.CurrentValue > 0;
     public string Type => type;
+    public int Level { get => level; set => level = value; }
 
     protected virtual void Start()
     {
@@ -103,13 +106,27 @@ public abstract class Character : MonoBehaviour
     public virtual void TakeDamage(float damage, Transform damageSource)
     {
         Health.CurrentValue -= damage;
-
+        CombatTextManager.Instance.GenerateText(transform.position, damage.ToString(), ScrollTextType.Damage, false);
         if (Health.CurrentValue <= 0)
         {
             Direction = Vector2.zero;
             _rb.velocity = Direction;
             GameManager.Instance.OnKillConfirmed(this);
             Animator.SetTrigger("die");
+            if (this is Enemy)
+            {
+                Player.Instance.GainXP(XPManager.CalculateXP(this as Enemy));
+            }
         }
+    }
+
+    /// <summary>
+    /// Manipulate health value
+    /// </summary>
+    /// <param name="health">Health value</param>
+    public void GetHealth(int health)
+    {
+        Health.CurrentValue += health;
+        CombatTextManager.Instance.GenerateText(transform.position, health.ToString(), ScrollTextType.Heal, true);
     }
 }

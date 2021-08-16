@@ -175,7 +175,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: -410247461
+  m_SortingLayerID: -1282205537
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &6406564568824927737
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statValue: {fileID: 0}
-  lerpSpeed: 1
+  lerpSpeed: 0.6
 --- !u!1 &6406564570194500419
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ MonoBehaviour:
   speed: 1
   initHealth: 15
   health: {fileID: 6406564569991401330}
-  type: 
+  type: Skeleton
   hitBox: {fileID: 6406564568147422972}
   healthGroup: {fileID: 6406564568824927739}
   initAggroRange: 3

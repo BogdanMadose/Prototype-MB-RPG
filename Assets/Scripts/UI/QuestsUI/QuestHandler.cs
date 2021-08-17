@@ -51,19 +51,21 @@ public class QuestHandler : Window
             if (quest != null)
             {
                 GameObject go = Instantiate(questGiverPrefab, questArea);
-                go.GetComponent<Text>().text = quest.Title;
                 go.GetComponent<QuestHandlerScript>().Quest = quest;
                 _quests.Add(go);
-                if (QuestLog.Instance.IsAccepted(quest) && quest.IsComplete)
-                {
-                    go.GetComponent<Text>().text += "(Complete)";
-                }
+                go.GetComponent<Text>().text = "<color=#ffbb0f><size=18>! </size></color>" + quest.Title;
                 if (QuestLog.Instance.IsAccepted(quest))
                 {
                     Color c = go.GetComponent<Text>().color;
                     c.a = 0.5f;
                     go.GetComponent<Text>().color = c;
+                    go.GetComponent<Text>().text = "<color=#c0c0c0ff><size=18>? </size></color>" + quest.Title;
                 }
+                if (QuestLog.Instance.IsAccepted(quest) && quest.IsComplete)
+                {
+                    go.GetComponent<Text>().text = "<color=#ffbb0f><size=18>? </size></color>" + quest.Title;
+                }
+
             }
         }
     }
@@ -152,6 +154,7 @@ public class QuestHandler : Window
             {
                 GameManager.Instance.killConfirmedEvent -= new KillConfirmed(ko.UpdateKillCount);
             }
+            Player.Instance.GainXP(XPManager.CalculateXP(_selected));
             QuestLog.Instance.RemoveQuest(_selected.QuestScript);
             Back();
         }

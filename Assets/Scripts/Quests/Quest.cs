@@ -12,12 +12,18 @@ public class Quest
     [SerializeField] private CollectingObjective[] collectingObjectives;
     [Tooltip("Type: Killing")]
     [SerializeField] private KillingObjective[] killingObjectives;
+    [Tooltip("Quest level")]
+    [SerializeField] private int lvl;
+    [Tooltip("Quest xp")]
+    [SerializeField] private int xp;
 
     public string Title { get => title; set => title = value; }
     public QuestScript QuestScript { get; set; }
     public string Description { get => description; set => description = value; }
     public CollectingObjective[] CollectingObjectives { get => collectingObjectives; set => collectingObjectives = value; }
     public QuestGiver QuestGiver { get; set; }
+    public int Level { get => lvl; set => lvl = value; }
+    public int Xp => xp;
     public KillingObjective[] KillingObjectives => killingObjectives;
     public bool IsComplete
     {
@@ -40,4 +46,6 @@ public class Quest
             return true;
         }
     }
+
+
 }

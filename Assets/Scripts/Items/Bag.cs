@@ -34,6 +34,7 @@ public class Bag : Item, IUsable
                 InventoryScript.Instance.AddBagToBar(this, BagButton);
             }
         }
+        BagScript.OpenClose();
     }
 
     public override string GetDescription()

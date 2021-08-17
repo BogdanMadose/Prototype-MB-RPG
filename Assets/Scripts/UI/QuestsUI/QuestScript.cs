@@ -32,13 +32,13 @@ public class QuestScript : MonoBehaviour
         if (Quest.IsComplete && !_complete)
         {
             _complete = true;
-            GetComponent<Text>().text += "(Complete)";
+            GetComponent<Text>().text = "<color=#ffbb0f><size=18>? </size></color>" + Quest.Title;
             MessageFeedManager.Instance.WriteMessage(string.Format("{0} (Complete)", Quest.Title));
         }
         else if (!Quest.IsComplete)
         {
             _complete = false;
-            GetComponent<Text>().text = Quest.Title;
+            GetComponent<Text>().text = "<color=#c0c0c0ff><size=18>? </size></color>" + Quest.Title;
         }
     }
 }

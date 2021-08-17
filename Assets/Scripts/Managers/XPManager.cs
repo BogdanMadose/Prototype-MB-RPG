@@ -6,7 +6,7 @@ public class XPManager
     /// <param name="e">Enemy killed</param>
     public static int CalculateXP(Enemy e)
     {
-        int baseXP = (Player.Instance.Level * 5) + 60;
+        int baseXP = (Player.Instance.Level * 5) + 45;
         int grayLevel = CalulateGrayLevel();
         int totalXP = 0;
         if (e.Level >= Player.Instance.Level)
@@ -18,6 +18,39 @@ public class XPManager
             totalXP = baseXP * (1 - ((Player.Instance.Level - e.Level) / ZeroDifference()));
         }
         return totalXP;
+    }
+
+    /// <summary>
+    /// Calculate experience points
+    /// </summary>
+    /// <param name="q">Quest completted</param>
+    public static int CalculateXP(Quest q)
+    {
+        if (Player.Instance.Level <= q.Level + 5)
+        {
+            return q.Xp;
+        }
+        if (Player.Instance.Level == q.Level + 6)
+        {
+            return (int)((q.Xp * 0.8f / 5) * 5);
+        }
+        if (Player.Instance.Level == q.Level + 7)
+        {
+            return (int)((q.Xp * 0.6f / 5) * 5);
+        }
+        if (Player.Instance.Level == q.Level + 8)
+        {
+            return (int)((q.Xp * 0.4f / 5) * 5);
+        }
+        if (Player.Instance.Level == q.Level + 9)
+        {
+            return (int)((q.Xp * 0.2f / 5) * 5);
+        }
+        if (Player.Instance.Level >= q.Level + 10)
+        {
+            return (int)((q.Xp * 0.1f / 5) * 5);
+        }
+        return 0;
     }
 
     /// <summary>

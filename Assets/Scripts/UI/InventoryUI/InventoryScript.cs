@@ -85,17 +85,17 @@ public class InventoryScript : MonoBehaviour
         //    bag.Initialize(20);
         //    bag.Use();
         //}
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Bag bag = (Bag)Instantiate(items[0]);
-            bag.Initialize(20);
-            AddItemToInventory(bag);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            HealthPotion potion = (HealthPotion)Instantiate(items[1]);
-            AddItemToInventory(potion);
-        }
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    Bag bag = (Bag)Instantiate(items[0]);
+        //    bag.Initialize(10);
+        //    AddItemToInventory(bag);
+        //}
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    HealthPotion potion = (HealthPotion)Instantiate(items[1]);
+        //    AddItemToInventory(potion);
+        //}
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             AddItemToInventory((Equipment)Instantiate(items[2]));
@@ -107,7 +107,7 @@ public class InventoryScript : MonoBehaviour
             AddItemToInventory((Equipment)Instantiate(items[8]));
             AddItemToInventory((Equipment)Instantiate(items[9]));
             AddItemToInventory((Equipment)Instantiate(items[10]));
-            AddItemToInventory((Equipment)Instantiate(items[11]));
+            //AddItemToInventory((Equipment)Instantiate(items[11]));
         }
     }
     //============================================

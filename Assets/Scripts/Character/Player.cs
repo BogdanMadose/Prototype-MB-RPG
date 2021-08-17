@@ -25,6 +25,8 @@ public class Player : Character
     [SerializeField] private Stat xp;
     [Tooltip("Level indicator")]
     [SerializeField] private Text levelText;
+    [Tooltip("Level up effect")]
+    [SerializeField] private Animator levelUp;
     [Tooltip("Spell exit points")]
     [SerializeField] private Transform[] exitPoints;
     [Tooltip("Raycaster blocker array")]
@@ -310,10 +312,15 @@ public class Player : Character
             yield return null;
         }
         Level++;
+        levelUp.SetTrigger("LevelUp");
         levelText.text = Level.ToString();
         xp.MaxValue = 100 * Level * Mathf.Pow(Level, 0.4f);
         xp.MaxValue = Mathf.Floor(xp.MaxValue);
         xp.CurrentValue = xp.XPOverflow;
         xp.Reset();
+        if (this.xp.CurrentValue >= this.xp.MaxValue)
+        {
+            StartCoroutine("LevelUp");
+        }
     }
 }

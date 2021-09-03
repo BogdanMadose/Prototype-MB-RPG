@@ -10,7 +10,7 @@ public class Bag : Item, IUsable
 
     public BagScript BagScript { get; set; }
     public BagButton BagButton { get; set; }
-    public int Slots => slots;
+    public int SlotCount => slots;
 
     /// <summary>
     /// Initialize number of slots in a bag
@@ -33,8 +33,18 @@ public class Bag : Item, IUsable
             {
                 InventoryScript.Instance.AddBagToBar(this, BagButton);
             }
+            BagScript.BagIndex = BagButton.BagIndex;
         }
         BagScript.OpenClose();
+    }
+
+    /// <summary>
+    /// Create physical bag slots
+    /// </summary>
+    public void SetupScript()
+    {
+        BagScript = Instantiate(bagPrefab, InventoryScript.Instance.transform).GetComponent<BagScript>();
+        BagScript.AddSlots(slots);
     }
 
     public override string GetDescription()

@@ -96,7 +96,7 @@ MonoBehaviour:
     m_Right: 3
     m_Top: 3
     m_Bottom: 3
-  m_ChildAlignment: 8
+  m_ChildAlignment: 6
   m_StartCorner: 3
   m_StartAxis: 0
   m_CellSize: {x: 23, y: 23}

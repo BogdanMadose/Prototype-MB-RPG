@@ -12,6 +12,7 @@ public class CharacterButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     [SerializeField] private EquipmentSocket equipmentSocket;
     private Equipment _equipment;
 
+    public Equipment Equipment => _equipment;
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)

@@ -14,6 +14,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     public Item Item => !IsEmpty ? Items.Peek() : null;
     public Image Icon { get => icon; set => icon = value; }
     public int Count => Items.Count;
+    public int Index { get; set; }
     public Text StackText => stackText;
     public bool IsSlotFull => !IsEmpty && Count >= Item.StackSize;
     public BagScript BagInSlot { get; set; }
@@ -109,7 +110,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
                 if (HandScript.Instance.Movable is Bag)
                 {
                     Bag bag = (Bag)HandScript.Instance.Movable;
-                    if (bag.BagScript != BagInSlot && (InventoryScript.Instance.EmptySlotCount - bag.Slots) > 0)
+                    if (bag.BagScript != BagInSlot && (InventoryScript.Instance.EmptySlotCount - bag.SlotCount) > 0)
                     {
                         AddItemToSlot(bag);
                         bag.BagButton.RemoveBag();

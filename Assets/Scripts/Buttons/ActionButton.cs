@@ -90,7 +90,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
             this.Usable = usable;
         }
         _count = Usables.Count;
-        UpdateVisual();
+        UpdateVisual(usable as IMovable);
         UIManager.Instance.RefreshToolTip(Usable as IDescribable);
     }
 
@@ -98,9 +98,13 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler, IClickable, IPo
     /// <summary>
     /// Update the visuals of the item/spell that is dragged into the action bar
     /// </summary>
-    public void UpdateVisual()
+    public void UpdateVisual(IMovable movable)
     {
-        Icon.sprite = HandScript.Instance.PutItem().Icon;
+        if (HandScript.Instance.Movable != null)
+        {
+            HandScript.Instance.DropItem();
+        }
+        Icon.sprite = movable.Icon;
         Icon.color = Color.white;
         if (_count > 1)
         {

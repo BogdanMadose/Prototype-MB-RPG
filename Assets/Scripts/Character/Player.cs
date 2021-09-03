@@ -39,17 +39,19 @@ public class Player : Character
 
     public int Gold { get; set; }
     public IInteractable Interactable { get; set; }
+    public Stat Xp { get => xp; set => xp = value; }
+    public Stat Mana { get => mana; set => mana = value; }
 
     protected override void Start()
     {
         Gold = 100;
-        mana.Initialize(initMana, initMana);
+        Mana.Initialize(initMana, initMana);
         /// Can google "experience gain formulas"
         /// 0 - current XP;
         /// 100 - required XP for lvl 1;
         /// 0.4 - XP gain difficulty (decrease = easier, increase = harder)
         /// Formula used: 100 * x * x^0.4;
-        xp.Initialize(0, Mathf.Floor(100 * Level * Mathf.Pow(Level, 0.4f)));
+        Xp.Initialize(0, Mathf.Floor(100 * Level * Mathf.Pow(Level, 0.4f)));
         levelText.text = Level.ToString();
         base.Start();
     }
@@ -74,14 +76,14 @@ public class Player : Character
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Health.CurrentValue -= 10;
-            mana.CurrentValue -= 10;
+            Mana.CurrentValue -= 10;
 
         }
         // increase health and mana
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Health.CurrentValue += 10;
-            mana.CurrentValue += 10;
+            Mana.CurrentValue += 10;
 
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -294,9 +296,9 @@ public class Player : Character
     /// <param name="xp">XP value</param>
     public void GainXP(int xp)
     {
-        this.xp.CurrentValue += xp;
+        this.Xp.CurrentValue += xp;
         CombatTextManager.Instance.GenerateText(transform.position, xp.ToString(), ScrollTextType.XP, false);
-        if (this.xp.CurrentValue >= this.xp.MaxValue)
+        if (this.Xp.CurrentValue >= this.Xp.MaxValue)
         {
             StartCoroutine("LevelUp");
         }
@@ -307,20 +309,28 @@ public class Player : Character
     /// </summary>
     private IEnumerator LevelUp()
     {
-        while (!xp.IsFull)
+        while (!Xp.IsFull)
         {
             yield return null;
         }
         Level++;
         levelUp.SetTrigger("LevelUp");
         levelText.text = Level.ToString();
-        xp.MaxValue = 100 * Level * Mathf.Pow(Level, 0.4f);
-        xp.MaxValue = Mathf.Floor(xp.MaxValue);
-        xp.CurrentValue = xp.XPOverflow;
-        xp.Reset();
-        if (this.xp.CurrentValue >= this.xp.MaxValue)
+        Xp.MaxValue = 100 * Level * Mathf.Pow(Level, 0.4f);
+        Xp.MaxValue = Mathf.Floor(Xp.MaxValue);
+        Xp.CurrentValue = Xp.XPOverflow;
+        Xp.Reset();
+        if (this.Xp.CurrentValue >= this.Xp.MaxValue)
         {
             StartCoroutine("LevelUp");
         }
+    }
+
+    /// <summary>
+    /// Refresh the level display after load
+    /// </summary>
+    public void UpdateLevel()
+    {
+        levelText.text = Level.ToString();
     }
 }

@@ -68,6 +68,7 @@ public class InventoryScript : MonoBehaviour
     }
 
     public int FullSlotCount => TotalSlotCount - EmptySlotCount;
+    public List<Bag> Bags => _bags;
 
     //==============DEBUGGING=====================
     private void Awake()
@@ -79,18 +80,18 @@ public class InventoryScript : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.J))
+        //if (Input.GetKeyDown(KeyCode.P))
         //{
         //    Bag bag = (Bag)Instantiate(items[0]);
         //    bag.Initialize(20);
         //    bag.Use();
         //}
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    Bag bag = (Bag)Instantiate(items[0]);
-        //    bag.Initialize(10);
-        //    AddItemToInventory(bag);
-        //}
+        if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            Bag bag = (Bag)Instantiate(items[0]);
+            bag.Initialize(12);
+            AddItemToInventory(bag);
+        }
         //if (Input.GetKeyDown(KeyCode.L))
         //{
         //    HealthPotion potion = (HealthPotion)Instantiate(items[1]);
@@ -135,12 +136,25 @@ public class InventoryScript : MonoBehaviour
     /// Add bag to bag bar
     /// </summary>
     /// <param name="bag">Added bag</param>
-    /// <param name="bagButton">Bag bar button/param>
+    /// <param name="bagButton">Bag bar button</param>
     public void AddBagToBar(Bag bag, BagButton bagButton)
     {
         _bags.Add(bag);
         bagButton.Bag = bag;
         bag.BagScript.transform.SetSiblingIndex(bagButton.BagIndex);
+    }
+
+    /// <summary>
+    /// Add bag to bag bar
+    /// </summary>
+    /// <param name="bag">Added bag</param>
+    /// <param name="bagIndex">Bag bar button index</param>
+    public void AddBagToBar(Bag bag, int bagIndex)
+    {
+        bag.SetupScript();
+        _bags.Add(bag);
+        bag.BagButton = bagButtons[bagIndex];
+        bagButtons[bagIndex].Bag = bag;
     }
 
     /// <summary>
@@ -160,7 +174,7 @@ public class InventoryScript : MonoBehaviour
     /// <param name="newBag">Bag in inventory</param>
     public void SwapBagsFromBar(Bag oldBag, Bag newBag)
     {
-        int newSlotCount = (TotalSlotCount - oldBag.Slots) + newBag.Slots;
+        int newSlotCount = (TotalSlotCount - oldBag.SlotCount) + newBag.SlotCount;
         if (newSlotCount - FullSlotCount >= 0)
         {
             List<Item> bagItems = oldBag.BagScript.GetItems();
@@ -195,6 +209,17 @@ public class InventoryScript : MonoBehaviour
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Place item in specific bag slot
+    /// </summary>
+    /// <param name="item">Item added</param>
+    /// <param name="slotIndex">Slot number</param>
+    /// <param name="bagIndex">Bag number</param>
+    public void PlaceInSpecificSlot(Item item, int slotIndex, int bagIndex)
+    {
+        _bags[bagIndex].BagScript.Slots[slotIndex].AddItemToSlot(item);
     }
 
     /// <summary>
@@ -253,9 +278,9 @@ public class InventoryScript : MonoBehaviour
     }
 
     /// <summary>
-    /// Update stack size
+    /// Get usable items in stack
     /// </summary>
-    /// <param name="type">Type of usable item</param>
+    /// <param name="type">Type of usable items</param>
     /// <returns>All usable items</returns>
     public Stack<IUsable> GetUsables(IUsable type)
     {
@@ -274,6 +299,26 @@ public class InventoryScript : MonoBehaviour
             }
         }
         return usables;
+    }
+
+    /// <summary>
+    /// Get single usable item
+    /// </summary>
+    /// <param name="type">Type of usable item</param>
+    /// <returns>Always null</returns>
+    public IUsable GetUsable(string type)
+    {
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript slot in bag.BagScript.Slots)
+            {
+                if (!slot.IsEmpty && slot.Item.Title == type)
+                {
+                    return slot.Item as IUsable;
+                }
+            }
+        }
+        return null;
     }
 
     public void OnItemCountChanged(Item item)
@@ -332,5 +377,25 @@ public class InventoryScript : MonoBehaviour
             }
         }
         return tmpItems;
+    }
+
+    /// <summary>
+    /// Get all items in inventory
+    /// </summary>
+    /// <returns>All items</returns>
+    public List<SlotScript> GetAllItems()
+    {
+        List<SlotScript> items = new List<SlotScript>();
+        foreach (Bag bag in _bags)
+        {
+            foreach (SlotScript slot in bag.BagScript.Slots)
+            {
+                if (!slot.IsEmpty)
+                {
+                    items.Add(slot);
+                }
+            }
+        }
+        return items;
     }
 }

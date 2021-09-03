@@ -16,6 +16,13 @@ public class Chest : MonoBehaviour, IInteractable
     private List<Item> _items;
     private bool _isOpened;
 
+    public List<Item> Items { get => _items; set => _items = value; }
+    public BagScript BagScriptC { get => bagScriptC; set => bagScriptC = value; }
+    private void Awake()
+    {
+        _items = new List<Item>();
+    }
+
     public void Interact()
     {
         if (_isOpened)
@@ -38,7 +45,7 @@ public class Chest : MonoBehaviour, IInteractable
         {
             StoreItemsInChest();
         }
-        bagScriptC.ClearBag();
+        BagScriptC.ClearBag();
         _isOpened = false;
         chestSR.sprite = chestClosed;
         canvasGroup.alpha = 0;
@@ -50,9 +57,9 @@ public class Chest : MonoBehaviour, IInteractable
     /// </summary>
     public void AddItemsToChest()
     {
-        if (_items != null)
+        if (Items != null)
         {
-            foreach (Item item in _items)
+            foreach (Item item in Items)
             {
                 item.Slot.AddItemToSlot(item);
             }
@@ -64,6 +71,6 @@ public class Chest : MonoBehaviour, IInteractable
     /// </summary>
     public void StoreItemsInChest()
     {
-        _items = bagScriptC.GetItems();
+        Items = BagScriptC.GetItems();
     }
 }

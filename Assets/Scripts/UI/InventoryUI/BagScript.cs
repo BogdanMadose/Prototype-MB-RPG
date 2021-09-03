@@ -25,6 +25,8 @@ public class BagScript : MonoBehaviour
         }
     }
     public List<SlotScript> Slots => _slots;
+    public int BagIndex { get; set; }
+
     private void Awake() => _canvasGroup = GetComponent<CanvasGroup>();
 
     /// <summary>
@@ -36,6 +38,7 @@ public class BagScript : MonoBehaviour
         for (int i = 0; i < slotCount; i++)
         {
             SlotScript slot = Instantiate(slotPrefab, transform).GetComponent<SlotScript>();
+            slot.Index = i;
             slot.BagInSlot = this;
             Slots.Add(slot);
         }

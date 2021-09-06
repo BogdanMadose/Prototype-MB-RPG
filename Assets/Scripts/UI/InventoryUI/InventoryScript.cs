@@ -92,11 +92,11 @@ public class InventoryScript : MonoBehaviour
             bag.Initialize(12);
             AddItemToInventory(bag);
         }
-        //if (Input.GetKeyDown(KeyCode.L))
-        //{
-        //    HealthPotion potion = (HealthPotion)Instantiate(items[1]);
-        //    AddItemToInventory(potion);
-        //}
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            HealthPotion potion = (HealthPotion)Instantiate(items[1]);
+            AddItemToInventory(potion);
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             AddItemToInventory((Equipment)Instantiate(items[2]));

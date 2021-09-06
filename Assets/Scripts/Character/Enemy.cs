@@ -28,6 +28,7 @@ public class Enemy : Character, IInteractable
 
     protected void Awake()
     {
+        Health.Initialize(initHealth, initHealth);
         StartPosition = transform.position;
         AggroRange = initAggroRange;
         AttackRange = 1;

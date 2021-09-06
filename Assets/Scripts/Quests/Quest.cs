@@ -24,7 +24,7 @@ public class Quest
     public QuestGiver QuestGiver { get; set; }
     public int Level { get => lvl; set => lvl = value; }
     public int Xp => xp;
-    public KillingObjective[] KillingObjectives => killingObjectives;
+    public KillingObjective[] KillingObjectives { get => killingObjectives; set => killingObjectives = value; }
     public bool IsComplete
     {
         get

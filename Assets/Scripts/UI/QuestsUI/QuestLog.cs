@@ -35,18 +35,9 @@ public class QuestLog : MonoBehaviour
     private List<QuestScript> _questScripts = new List<QuestScript>();
     private List<Quest> _quests = new List<Quest>();
 
-    private void Start()
-    {
-        countText.text = _currentQCount + "/" + questCount;
-    }
+    public List<Quest> Quests { get => _quests; set => _quests = value; }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            OpenCloseQuestLog();
-        }
-    }
+    private void Start() => countText.text = _currentQCount + "/" + questCount;
 
     /// <summary>
     /// Accept quest

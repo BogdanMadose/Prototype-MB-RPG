@@ -142,7 +142,9 @@ public class QuestHandler : Window
             {
                 if (_selected == _questGiver.Quests[i])
                 {
+                    _questGiver.Completed.Add(_selected.Title);
                     _questGiver.Quests[i] = null;
+                    _selected.QuestGiver.UpdateQuestStatus();
                 }
             }
             foreach (CollectingObjective co in _selected.CollectingObjectives)

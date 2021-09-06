@@ -7,7 +7,7 @@ public abstract class Character : MonoBehaviour
     [Tooltip("Character movement speed (float value)")]
     [SerializeField] private float speed;
     [Tooltip("Character initial health (float value)")]
-    [SerializeField] private float initHealth;
+    [SerializeField] protected float initHealth;
     [Tooltip("Character level")]
     [SerializeField] private int level;
     [Tooltip("Character health stat script")]
@@ -35,7 +35,6 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start()
     {
-        Health.Initialize(initHealth, initHealth);
         _rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
     }

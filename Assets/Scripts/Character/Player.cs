@@ -42,25 +42,23 @@ public class Player : Character
     public Stat Xp { get => xp; set => xp = value; }
     public Stat Mana { get => mana; set => mana = value; }
 
-    protected override void Start()
-    {
-        Gold = 100;
-        Mana.Initialize(initMana, initMana);
-        /// Can google "experience gain formulas"
-        /// 0 - current XP;
-        /// 100 - required XP for lvl 1;
-        /// 0.4 - XP gain difficulty (decrease = easier, increase = harder)
-        /// Formula used: 100 * x * x^0.4;
-        Xp.Initialize(0, Mathf.Floor(100 * Level * Mathf.Pow(Level, 0.4f)));
-        levelText.text = Level.ToString();
-        base.Start();
-    }
-
     protected override void Update()
     {
         GetInput();
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, _min.x, _max.x), Mathf.Clamp(transform.position.y, _min.y, _max.y), transform.position.z);
         base.Update();
+    }
+
+    /// <summary>
+    /// Set player default stat values
+    /// </summary>
+    public void SetDefaults()
+    {
+        Gold = 100;
+        Health.Initialize(initHealth, initHealth);
+        Mana.Initialize(initMana, initMana);
+        Xp.Initialize(0, Mathf.Floor(100 * Level * Mathf.Pow(Level, 0.4f)));
+        levelText.text = Level.ToString();
     }
 
     /// <summary>

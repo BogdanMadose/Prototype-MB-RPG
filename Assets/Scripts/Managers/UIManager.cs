@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject targetFrame;
     [Tooltip("Number of action buttons")]
     [SerializeField] private ActionButton[] actionButtons;
+    [Tooltip("Manin menu objects")]
+    [SerializeField] private CanvasGroup[] menus;
     [Tooltip("Portrait image sprite")]
     [SerializeField] private Image portraitFrame;
     [Tooltip("Keybinding menu UI object")]
@@ -39,7 +41,6 @@ public class UIManager : MonoBehaviour
     private GameObject[] _keyBindButtons;
     private Stat _healthStat;
 
-
     private void Awake()
     {
         _keyBindButtons = GameObject.FindGameObjectsWithTag("Keybind");
@@ -52,21 +53,25 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OpenCloseMenuUIItem(keyBindMenu);
+            OpenCloseMenuUIItem(menus[0]);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            OpenCloseMenuUIItem(spellBook);
+            OpenCloseMenuUIItem(menus[1]);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            OpenCloseMenuUIItem(menus[2]);
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            OpenCloseMenuUIItem(menus[3]);
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             InventoryScript.Instance.OpenCloseInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            _characterPannel.OpenCloseCharacterPannel();
         }
     }
 
@@ -120,13 +125,37 @@ public class UIManager : MonoBehaviour
     public void UseActionButton(string buttonName) => Array.Find(actionButtons, x => x.gameObject.name == buttonName).Button.onClick.Invoke();
 
     /// <summary>
-    /// Open / Close Menu UI
+    /// Open / Close Menu UI item
     /// </summary>
-    /// <param name="canvasGroup">Desired menu object</param>
+    /// <param name="canvasGroup">Menu display</param>
     public void OpenCloseMenuUIItem(CanvasGroup canvasGroup)
     {
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
         canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts != true;
+    }
+
+    /// <summary>
+    /// Open single menu item
+    /// </summary>
+    /// <param name="canvasGroup">Menu display</param>
+    public void OpenMenuUIItem(CanvasGroup canvasGroup)
+    {
+        foreach (CanvasGroup cg in menus)
+        {
+            CloseMenuUIItem(cg);
+        }
+        canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
+        canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts != true;
+    }
+
+    /// <summary>
+    /// Close single menu item
+    /// </summary>
+    /// <param name="canvasGroup">Menu display</param>
+    public void CloseMenuUIItem(CanvasGroup canvasGroup)
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
     }
 
     /// <summary>

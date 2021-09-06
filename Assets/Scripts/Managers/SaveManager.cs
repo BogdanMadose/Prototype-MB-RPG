@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveManager : MonoBehaviour
 {
@@ -10,43 +12,140 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private Item[] items;
     [Tooltip("Action bar buttons")]
     [SerializeField] private ActionButton[] actionButtons;
+    [Tooltip("Save game slots")]
+    [SerializeField] private SaveGame[] saveGameSlots;
+    [Tooltip("Pop up window")]
+    [SerializeField] private GameObject dialogue;
+    [Tooltip("Pop up message")]
+    [SerializeField] private Text dialogueText;
+    private SaveGame _current;
     private CharacterButton[] _eq;
     private Chest[] _chests;
+    private string _act;
 
     private void Awake()
     {
         _chests = FindObjectsOfType<Chest>();
         _eq = FindObjectsOfType<CharacterButton>();
+        foreach (SaveGame sg in saveGameSlots)
+        {
+            ShowSavedFiles(sg);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (PlayerPrefs.HasKey("Load"))
         {
-            Save();
+            Load(saveGameSlots[PlayerPrefs.GetInt("Load")]);
+            PlayerPrefs.DeleteKey("Load");
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        else
         {
-            Load();
+            Player.Instance.SetDefaults();
         }
     }
 
-    private void Save()
+    /// <summary>
+    /// Show save game slots
+    /// </summary>
+    /// <param name="savedGame">Saved game file</param>
+    private void ShowSavedFiles(SaveGame savedGame)
+    {
+        if (File.Exists(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat", FileMode.Open);
+            SaveData data = (SaveData)bf.Deserialize(file);
+            file.Close();
+            savedGame.ShowInfo(data);
+        }
+    }
+
+    /// <summary>
+    /// Show confirmation dialogue
+    /// </summary>
+    /// <param name="go">Save game slot</param>
+    public void ShowDialogue(GameObject go)
+    {
+        _act = go.name;
+        switch (_act)
+        {
+            case "Load":
+                dialogueText.text = "Do you want to load this save game?";
+                break;
+            case "Save":
+                dialogueText.text = "Do you want to save your game in this slot?\n(Override if not empty)";
+                break;
+            case "Delete":
+                dialogueText.text = "Are you sure you want to delete this save game?";
+                break;
+        }
+        _current = go.GetComponentInParent<SaveGame>();
+        dialogue.SetActive(true);
+    }
+
+    /// <summary>
+    /// Execute confirmed action
+    /// </summary>
+    public void ExecuteAction()
+    {
+        switch (_act)
+        {
+            case "Load":
+                LoadScene(_current);
+                break;
+            case "Save":
+                Save(_current);
+                break;
+            case "Delete":
+                Delete(_current);
+                break;
+        }
+        CloseDialogue();
+    }
+
+    /// <summary>
+    /// Close confirmation dialogue
+    /// </summary>
+    public void CloseDialogue()
+    {
+        dialogue.SetActive(false);
+    }
+
+    /// <summary>
+    /// Delete save game
+    /// </summary>
+    /// <param name="savedGame">Save game file</param>
+    private void Delete(SaveGame savedGame)
+    {
+        File.Delete(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat");
+        savedGame.HideVisuals();
+    }
+
+    /// <summary>
+    /// Save game state
+    /// </summary>
+    /// <param name="savedGame">Save game file</param>
+    private void Save(SaveGame savedGame)
     {
         try
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/" + "SaveTest.dat", FileMode.Create);
+            FileStream file = File.Open(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat", FileMode.Create);
             SaveData data = new SaveData();
+            data.Scene = SceneManager.GetActiveScene().name;
             SaveEquipment(data);
             SaveBags(data);
             SaveInventory(data);
             SavePlayer(data);
             SaveChests(data);
             SaveAction(data);
+            SaveQuestGiver(data);
+            SaveQuests(data);
             bf.Serialize(file, data);
             file.Close();
+            ShowSavedFiles(savedGame);
         }
         catch (Exception)
         {
@@ -54,6 +153,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save player data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SavePlayer(SaveData data)
     {
         data.PlayerData = new PlayerData(Player.Instance.Level,
@@ -66,6 +169,10 @@ public class SaveManager : MonoBehaviour
             Player.Instance.transform.position);
     }
 
+    /// <summary>
+    /// Save chest data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SaveChests(SaveData data)
     {
         for (int i = 0; i < _chests.Length; i++)
@@ -81,6 +188,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save bags data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SaveBags(SaveData data)
     {
         for (int i = 1; i < InventoryScript.Instance.Bags.Count; i++)
@@ -89,6 +200,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save equipped items data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SaveEquipment(SaveData data)
     {
         foreach (CharacterButton characterButton in _eq)
@@ -100,6 +215,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save action bar items
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SaveAction(SaveData data)
     {
         for (int i = 0; i < actionButtons.Length; i++)
@@ -120,6 +239,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Save inventory items
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void SaveInventory(SaveData data)
     {
         List<SlotScript> slots = InventoryScript.Instance.GetAllItems();
@@ -129,12 +252,41 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    private void Load()
+    /// <summary>
+    /// Save quests
+    /// </summary>
+    /// <param name="data">Save game data</param>
+    private void SaveQuests(SaveData data)
+    {
+        foreach (Quest q in QuestLog.Instance.Quests)
+        {
+            data.QuestData.Add(new QuestData(q.Title, q.Description, q.CollectingObjectives, q.KillingObjectives, q.QuestGiver.QuestGiverID));
+        }
+    }
+
+    /// <summary>
+    /// Save quest activity
+    /// </summary>
+    /// <param name="data">Save game data</param>
+    private void SaveQuestGiver(SaveData data)
+    {
+        QuestGiver[] questGivers = FindObjectsOfType<QuestGiver>();
+        foreach (QuestGiver qg in questGivers)
+        {
+            data.QuestGiverData.Add(new QuestGiverData(qg.Completed, qg.QuestGiverID));
+        }
+    }
+
+    /// <summary>
+    /// Load game state
+    /// </summary>
+    /// <param name="savedGame">Save game file</param>
+    private void Load(SaveGame savedGame)
     {
         try
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/" + "SaveTest.dat", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat", FileMode.Open);
             SaveData data = (SaveData)bf.Deserialize(file);
             file.Close();
             LoadEquipment(data);
@@ -143,13 +295,20 @@ public class SaveManager : MonoBehaviour
             LoadPlayer(data);
             LoadChests(data);
             LoadAction(data);
+            LoadQuestGiver(data);
+            LoadQuests(data);
         }
         catch (Exception)
         {
-            throw;
+            Delete(savedGame);
+            PlayerPrefs.DeleteKey("Load");
         }
     }
 
+    /// <summary>
+    /// Load player data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadPlayer(SaveData data)
     {
         Player.Instance.Level = data.PlayerData.Level;
@@ -160,6 +319,10 @@ public class SaveManager : MonoBehaviour
         Player.Instance.transform.position = new Vector2(data.PlayerData.X, data.PlayerData.Y);
     }
 
+    /// <summary>
+    /// Load chests data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadChests(SaveData data)
     {
         foreach (ChestsData chests in data.ChestsData)
@@ -174,6 +337,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Load bags data
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadBags(SaveData data)
     {
         foreach (BagData bagData in data.InventoryData.Bags)
@@ -186,6 +353,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Load equipped items
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadEquipment(SaveData data)
     {
         foreach (EquipmentData equipmentData in data.EquipmentData)
@@ -195,6 +366,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Load action bar items
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadAction(SaveData data)
     {
         foreach (ActionButtonData abd in data.ActionButtonData)
@@ -210,6 +385,10 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Load inventory items
+    /// </summary>
+    /// <param name="data">Save game data</param>
     private void LoadInventory(SaveData data)
     {
         foreach (ItemData itemData in data.InventoryData.Items)
@@ -219,6 +398,51 @@ public class SaveManager : MonoBehaviour
             {
                 InventoryScript.Instance.PlaceInSpecificSlot(item, itemData.SlotIndex, itemData.BagIndex);
             }
+        }
+    }
+
+    /// <summary>
+    /// Load quests
+    /// </summary>
+    /// <param name="data">Save game data</param>
+    private void LoadQuests(SaveData data)
+    {
+        QuestGiver[] questGivers = FindObjectsOfType<QuestGiver>();
+        foreach (QuestData questData in data.QuestData)
+        {
+            QuestGiver qg = Array.Find(questGivers, x => x.QuestGiverID == questData.QuestGiverID);
+            Quest q = Array.Find(qg.Quests, x => x.Title == questData.Title);
+            q.QuestGiver = qg;
+            q.KillingObjectives = questData.KillingObjectives;
+            QuestLog.Instance.AcceptQuest(q);
+        }
+    }
+
+    /// <summary>
+    /// Load quest activity
+    /// </summary>
+    /// <param name="data">Save game data</param>
+    private void LoadQuestGiver(SaveData data)
+    {
+        QuestGiver[] questGivers = FindObjectsOfType<QuestGiver>();
+        foreach (QuestGiverData qgd in data.QuestGiverData)
+        {
+            QuestGiver qg = Array.Find(questGivers, x => x.QuestGiverID == qgd.QuestGiverID);
+            qg.Completed = qgd.CompletedQuests;
+            qg.UpdateQuestStatus();
+        }
+    }
+
+    private void LoadScene(SaveGame savedGame)
+    {
+        if (File.Exists(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/" + savedGame.gameObject.name + ".dat", FileMode.Open);
+            SaveData data = (SaveData)bf.Deserialize(file);
+            file.Close();
+            PlayerPrefs.SetInt("Load", savedGame.Index);
+            SceneManager.LoadScene(data.Scene);
         }
     }
 }
